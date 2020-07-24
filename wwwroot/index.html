@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Состояние сервиса MTSService</title>
+</head>
+<body>
+    <table id="sensorslist" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <th>Сенсор</th>
+                <th>Значение</th>
+            </tr>
+        </tbody>
+    </table>
+    <script src="js/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        // Подключение к хабу MTSHub
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/MTSHub")
+            .build();
+
+        // Обработка сообщения от сервера (callback-функция)
+        hubConnection.on("send", function (data) {
+            // Разбираем строку ответа от сервера
+            let sensors = JSON.parse(data).Sensors;
+            for (let sensor of sensors) {
+                setSensorValue(sensor.id, sensor.val);
+            }
+        });
+
+        message = "getMeData";
+        if (this._timer) clearInterval(this._timer);
+        if (!this._timer) {
+            this._timer = setInterval(() => {
+                hubConnection.invoke("Send", message);
+            }, 5000);
+        } 
+
+        // Запуск цикла обработки событий
+        hubConnection.start();
+
+        // Функция добавления строки в таблицу для каждого сенсора
+        function setSensorValue(name, value) {
+            // Ищем строку для сенсора по ID
+            let sensor = document.getElementById(name);
+            if (!sensor) {
+                // Такого сенсора нет, создаем для него строку в таблице
+                var tbody = document.getElementById('sensorslist').getElementsByTagName("TBODY")[0];
+                var row = document.createElement("TR");
+                row.id = name;
+                var td1 = document.createElement("TD");
+                td1.appendChild(document.createTextNode(name));
+                var td2 = document.createElement("TD");
+                td2.appendChild(document.createTextNode(value));
+                row.appendChild(td1);
+                row.appendChild(td2);
+                tbody.appendChild(row);
+            }
+            else {
+                // Строка для этого сенсора найдена, обновляем значения
+                sensor.getElementsByTagName("td")[1].innerHTML = value;
+            }
+        }
+    </script>
+</body>
+</html>

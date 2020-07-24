@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>MTSMonitoring.Program</StartupObject>
+    <Authors>Верютин Алексей &lt;veryutin.a.p@abinmetall.ru&gt;</Authors>
+    <Company>ООО "АЭМЗ"</Company>
+    <Product>MTS Monitoring</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MtsConnectStd">
+      <HintPath>libs\MtsConnectStd.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
