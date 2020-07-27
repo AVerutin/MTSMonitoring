@@ -21,21 +21,26 @@
             .build();
 
         // Обработка сообщения от сервера (callback-функция)
-        hubConnection.on("send", function (data) {
+        hubConnection.on("receive", function (data) {
             // Разбираем строку ответа от сервера
-            let sensors = JSON.parse(data).Sensors;
-            for (let sensor of sensors) {
-                setSensorValue(sensor.id, sensor.val);
+            if (data) {
+                let sensors = JSON.parse(data).Sensors;
+                for (let sensor of sensors) {
+                    setSensorValue(sensor.id, sensor.value);
+                }
             }
         });
 
-        message = "getMeData";
-        if (this._timer) clearInterval(this._timer);
-        if (!this._timer) {
-            this._timer = setInterval(() => {
-                hubConnection.invoke("Send", message);
-            }, 5000);
-        } 
+        // Метод, вызываемый сервером при получении нового значения от сенсора
+
+
+        //message = "getMeData";
+        //if (this._timer) clearInterval(this._timer);
+        //if (!this._timer) {
+        //    this._timer = setInterval(() => {
+        //        hubConnection.invoke("Send", message);
+        //    }, 100);
+        //} 
 
         // Запуск цикла обработки событий
         hubConnection.start();

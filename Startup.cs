@@ -84,6 +84,7 @@ namespace MTSMonitoring
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<MTSHub>("/MTSHub");
+                endpoints.MapFallbackToFile("/index.html");
             });
         }
     }
