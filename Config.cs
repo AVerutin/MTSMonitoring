@@ -8,30 +8,21 @@ namespace MTSMonitoring
     public class Config
     {
         private static string filePath;
-        private static Dictionary<string, ushort> pars;
+        private static Dictionary<string, string> pars;
 
         public Config()
         {
-            filePath = System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @".\config.txt";
-            pars = new Dictionary<string, ushort>();
+            filePath = @"c:\mts\Config\config.txt";
+            pars = new Dictionary<string, string>();
             try
             {
                 using (StreamReader sr = new StreamReader(filePath, System.Text.Encoding.Default))
                 {
                     string line;
-                    ushort key;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        string[] par = line.Split(':');
-                        try
-                        {
-                            key = ushort.Parse(par[1]);
-                        }
-                        catch
-                        {
-                            key = 0;
-                        }
-                        pars.Add(par[0], key);
+                        string[] par = line.Split('=');
+                        pars.Add(par[0], par[1]);
                     }
                 }
             }
@@ -43,7 +34,7 @@ namespace MTSMonitoring
             }
         }
 
-        public Dictionary<string, ushort> GetConfigList()
+        public Dictionary<string, string> GetConfigList()
         {
             return pars;
         }

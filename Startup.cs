@@ -1,12 +1,6 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-// using Microsoft.AspNetCore.Mvc;
-// using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +24,7 @@ namespace MTSMonitoring
             services.AddCors(opt => opt.AddPolicy("CorsPolicy", build =>
             {
                 build.SetIsOriginAllowed(host => true)
-                    .WithOrigins("localhost:8080")
+                    .WithOrigins("localhost:5001")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
@@ -52,14 +46,6 @@ namespace MTSMonitoring
             // Настройка логирования для определенных элементов слежения (агрегатов, узлов и пр.)
             //TODO: Разобраться, почему не работает и запустить логирование
             // services.Configure<LoggingConfiguration>(Configuration.GetSection("LoggingConfiguration")); 
-
-            //services.AddMvc()
-            //    .AddJsonOptions(opt =>
-            //    {
-            //        opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            //        opt.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            //    })
-            //    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,15 +62,20 @@ namespace MTSMonitoring
             app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            //DefaultFilesOptions options = new DefaultFilesOptions();
+            //options.DefaultFileNames.Clear();
+            //options.DefaultFileNames.Add("index.html");
+            //app.UseDefaultFiles(options);
+
             app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<MTSHub>("/MTSHub");
-                endpoints.MapFallbackToFile("/index.html");
             });
         }
     }

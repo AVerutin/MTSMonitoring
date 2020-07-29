@@ -13,6 +13,9 @@
             </tr>
         </tbody>
     </table>
+
+    <canvas id="canvas" width="800" height="500"></canvas>
+
     <script src="js/signalr/dist/browser/signalr.min.js"></script>
     <script>
         // Подключение к хабу MTSHub
@@ -27,20 +30,19 @@
                 let sensors = JSON.parse(data).Sensors;
                 for (let sensor of sensors) {
                     setSensorValue(sensor.id, sensor.value);
+                    drawCanvas(sensor.id, sensor.value);
                 }
             }
         });
 
-        // Метод, вызываемый сервером при получении нового значения от сенсора
-
-
+        // Отправка сообщений на сервер
         //message = "getMeData";
         //if (this._timer) clearInterval(this._timer);
         //if (!this._timer) {
         //    this._timer = setInterval(() => {
         //        hubConnection.invoke("Send", message);
         //    }, 100);
-        //} 
+        //}
 
         // Запуск цикла обработки событий
         hubConnection.start();
@@ -67,6 +69,67 @@
                 sensor.getElementsByTagName("td")[1].innerHTML = value;
             }
         }
+
+        function drawCanvas(name, value) {
+            const canvas = document.getElementById('canvas');
+            if (canvas.getContext) {
+                ctx = canvas.getContext('2d');
+
+                caption = name + " =";
+                caption_len = ctx.measureText(caption).width;
+
+                ctx.font = "18px sansserif";
+                ctx.fillStyle = 'red';
+                switch (name) {
+                    case 4000: {
+                        ctx.clearRect(90, 80, 180, 30);
+                        ctx.fillText(caption, 100, 100);
+                        ctx.fillText(value, 100 + caption_len + 5, 100);
+                        break;
+                    }
+                    case 4001: {
+                        ctx.clearRect(90, 130, 180, 30);
+                        ctx.fillText(caption, 100, 150);
+                        ctx.fillText(value, 100 + caption_len + 5, 150);
+                        break;
+                    }
+                    case 4002: {
+                        ctx.clearRect(90, 180, 180, 30);
+                        ctx.fillText(caption, 100, 200);
+                        ctx.fillText(value, 100 + caption_len + 5, 200);
+                        break;
+                    }
+                    case 4003: {
+                        ctx.clearRect(90, 230, 180, 30);
+                        ctx.fillText(caption, 100, 250);
+                        ctx.fillText(value, 100 + caption_len + 5, 250);
+                        break;
+                    }
+                    case 4004: {
+                        ctx.clearRect(90, 280, 180, 30);
+                        ctx.fillText(caption, 100, 300);
+                        ctx.fillText(value, 100 + caption_len + 5, 300);
+                        break;
+                    }
+                    case 4005: {
+                        ctx.clearRect(90, 330, 180, 30);
+                        ctx.fillText(caption, 100, 350);
+                        ctx.fillText(value, 100 + caption_len + 5, 350);
+                        break;
+                    }
+                }
+                
+            } else {
+                document.write("<h3>Холст не поддерживается</h3>");
+            }
+        }
     </script>
+    <style>
+        canvas {
+            border-style: solid;
+            border-width: 1px;
+            border-color: red;
+        }
+    </style>
 </body>
 </html>

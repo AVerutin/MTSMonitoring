@@ -9,36 +9,58 @@ namespace MTSMonitoring
 {
     public class MTSHub : Hub
     {
-        MTS mts;
-        // private static bool _connected = false;
+        private MTS mts;
+        private string mtsIP;
+        private int mtsPort;
         private static string Message;
-        Sensors sensors;
-        List<IClientProxy> clients = new List<IClientProxy>();
+        private Sensors sensors;
+        private List<IClientProxy> clients = new List<IClientProxy>();
 
         private async void GetMTSStats()
         {
-            // var _timer = new Timer(GetData, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
+            // Получаем список сигналов из файла ConfigMill.txt
+            ConfigMill cnf_mill = new ConfigMill();
+            List<ushort> signals = cnf_mill.GetSignals();
+
+            // Читаем параметры подключения к MTSService
             Config cnf = new Config();
-            Dictionary<string, ushort> cnf_ = cnf.GetConfigList();
+            Dictionary<string, string> _pars = cnf.GetConfigList();
+            foreach (KeyValuePair<string, string> _par in _pars)
+            {
+                if (_par.Key == "address")
+                {
+                    if (_par.Value == "")
+                        throw new ArgumentNullException();
+
+                    mtsIP = _par.Value;
+                    continue;
+                }
+
+                if (_par.Key == "port")
+                    try
+                    {
+                        mtsPort = int.Parse(_par.Value);
+                        continue;
+                    }
+                    catch
+                    {
+                        throw new ArgumentNullException();
+                    }
+            }
+
             List<ushort> ids = new List<ushort>();
             sensors = new Sensors();
 
-            foreach (KeyValuePair<string, ushort> item in cnf_)
+            foreach (ushort item in signals)
             {
-                ushort sensor = item.Value;
-                ids.Add(sensor);
-                sensors.AddSensor(sensor);
+                // ushort sensor = item;
+                ids.Add(item);
+                sensors.AddSensor(item);
             }
 
-            mts = new MTS("10.23.196.4", 9977);
-            // if (mts.Connected)
-            // {
-                await mts.Subscribe(ids, SubOnNewDiff);
-            // }
-            
-            // GetData();
-            // Clients.All.
-            // return Task.CompletedTask;
+            // Вынести параметры подключения в файл настроек
+            mts = new MTS(mtsIP, mtsPort);
+            await mts.Subscribe(ids, SubOnNewDiff);
         }
 
         private void SubOnNewDiff(SubscriptionStateEventArgs e)
@@ -49,17 +71,19 @@ namespace MTSMonitoring
 
             foreach (var (key, value) in diff)
             {
-                //var signals = _signals[key];
-                //if (signals == null || !signals.Any())
-                //    continue;
-
-                //foreach (var signal in signals)
-                //    signal.Value = value;
-
-                sensors.SetValue(key, value.ToString());
-                Console.WriteLine($"New signal from MTS: {key} = {value}");
+                string val;
+                if (key == 777)
+                {
+                    val = String.Format("{0:f0}", value);
+                }
+                else
+                {
+                    val = String.Format("{0:f4}", value);
+                }
+                
+                sensors.SetValue(key, val.ToString());
+                // Console.WriteLine("New signal from MTS: {0} = {1}", key, val);
                 Message = sensors.toString();
-                // Clients.All.SendAsync("receive", Message);
                 foreach (var client in clients)
                 {
                     client.SendAsync("receive", Message);
@@ -67,26 +91,6 @@ namespace MTSMonitoring
             }
             
         }
-
-        //private void WriteError(SubscriptionStateEventArgs e)
-        //{
-
-        //}
-
-        //public static void GetData()
-        //{
-        //    Sensors sensors = new Sensors();
-        //    sensors.AddSensor(4000);
-        //    sensors.AddSensor(4001);
-        //    sensors.AddSensor(4002);
-        //    sensors.AddSensor(4003);
-        //    sensors.SetValue(4000, "15");
-        //    sensors.SetValue(4001, "2");
-        //    sensors.SetValue(4002, "3");
-        //    sensors.SetValue(4003, "21");
-
-        //    Message = sensors.toString();
-        //}
 
         // Обработка вновь подключившегося клиента
         public override async Task OnConnectedAsync()
@@ -104,21 +108,15 @@ namespace MTSMonitoring
         //    await base.OnDisconnectedAsync(exception);
         //}
 
-        public Task Send(string message)
-        {
-            if (message == "getMeData")
-            {
-                // Connect to MTS Service
-                // Subscribe to signals
+        // Прием сообщений от клиента
+        //public Task Send(string message)
+        //{
+        //    if (message == "getMeData")
+        //    {
 
+        //    }
 
-                //TimerCallback tm = new TimerCallback(GetData);
-                //var _timer = new Timer(tm, 0, TimeSpan.Zero, TimeSpan.FromSeconds(2));
-                // GetMTSStats();
-                // Clients.All.SendAsync("receive", Message);
-            }
-
-            return base.OnConnectedAsync();
-        }
+        //    return base.OnConnectedAsync();
+        //}
     }
 }

@@ -10,10 +10,8 @@ namespace MTSMonitoring
     {
         public bool Connected { get; private set; }
         private static MtsTcpConnection _connection;
-        // private static SubscriptionConfig _subsCfg;
         private static Subscription _subscription;
         private Action<SubscriptionStateEventArgs> _callBack;
-        // private Action<SubscriptionStateEventArgs> _failedCallBack;
         private int _reconnectTimeout;
         private int _timeout;
 
@@ -61,7 +59,6 @@ namespace MTSMonitoring
         private void SubscriptionOnError(object sender, SubscriptionErrorEventArgs e)
         {
             // Вызов функции обратного вызова и попытка переподключения при возникновении ошибки от сигнала
-            // _failedCallBack?.Invoke(e);
             Connected = false;
             TryReconnect();
         }
@@ -83,8 +80,8 @@ namespace MTSMonitoring
                 {
                     // Если не удалось подключиться
                     Connected = false;
-                    // _failedCallBack?.Invoke("Не удается подключиться к источнику сигналов.");
                     Console.WriteLine(e.Message);
+
                     // Пытаемся переподключиться через указаное в настройках время
                     TryReconnect();
                 }
@@ -118,7 +115,6 @@ namespace MTSMonitoring
         public Task Subscribe(List<ushort> signalIds, Action<SubscriptionStateEventArgs> callBack)
         {
             _callBack = callBack;
-            // _failedCallBack = failedCallBack;
             TryConnect();
 
             var subConfig = new SubscriptionConfig()
