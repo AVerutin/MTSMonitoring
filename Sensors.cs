@@ -81,9 +81,10 @@ namespace MTSMonitoring
                 KeyValuePair<ushort, string> sensor = _sensors.ElementAt(i);
                 ushort key = sensor.Key;
                 string val = sensor.Value != "" ? sensor.Value : "0" ;
+                val = val.Replace(',', '.');
 
                 res += "{\"id\":" +  key + ",";
-                res += "\"value\":\"" + val + "\"}";
+                res += "\"value\":" + val + "}";
                 if (i < _sensors.Count-1)
                 {
                     res += ",";

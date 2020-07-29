@@ -11,7 +11,7 @@ class Rolgang {
     }
 
     draw(context) {
-        Point
+        
     }
 
 }

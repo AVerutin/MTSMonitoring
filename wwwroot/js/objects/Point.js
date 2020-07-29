@@ -1,6 +1,13 @@
-﻿// Класс, описывающий точку с координатами по осям X и Y
+﻿class Point {
+	x; // number
+	y; // number
 
-class Point {
-    X; // Координата по оси X
-    Y; // Координата по оси Y
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	static distance(a, b) {
+		return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+	}
 }
