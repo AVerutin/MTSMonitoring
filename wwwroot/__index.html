@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Состояние сервиса MTSService</title>
+    <script src="js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <style>
+        canvas {
+            border-style: dotted;
+            border-width: 1px;
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <table id="sensorslist" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <th>Сенсор</th>
+                <th>Значение</th>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="siloses">
+        <img id="silos1" src="img/silos.png">
+        <img id="silos2" src="img/silos.png">
+        <img id="silos3" src="img/silos.png">
+        <img id="silos4" src="img/silos.png">
+        <img id="silos5" src="img/silos.png">
+        <img id="silos6" src="img/silos.png">
+        <img id="silos7" src="img/silos.png">
+        <img id="silos8" src="img/silos.png">
+    </div>
+
+    <div class="rollgang"><img id="rollgang2" src="img/w_rollgang.png" alt="Rollgang 2 Stopped" /></div>
+    <div class="rollgang"><img id="rollgang3" src="img/s_rollgang.png" alt="Rollgang 3 Stopped" /></div>
+
+    <!-- <canvas id="canvas">Визуализация движения материалов по тракту сыпучих на ЭСПЦ</canvas> -->
+</body>
+</html>

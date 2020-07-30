@@ -1,33 +1,40 @@
-﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>Состояние сервиса MTSService</title>
-    <script src="js/signalr/dist/browser/signalr.min.js"></script>
-    <script src="js/main.js"></script>
+    <head>
+        <meta charset="utf-8">
+        <title>Тракт сыпучих &laquo;Ось А&raquo;</title>
+        <script src="js/signalr/dist/browser/signalr.min.js"></script>
+        <script src="js/main.js"></script>
 
-    <style>
-        canvas {
-            border-style: dotted;
-            border-width: 1px;
-            border-color: red;
-        }
-    </style>
-</head>
-<body>
-    <table id="sensorslist" cellspacing="0" border="1">
-        <tbody>
-            <tr>
-                <th>Сенсор</th>
-                <th>Значение</th>
-            </tr>
-        </tbody>
-    </table>
+        <style>
+            canvas {
+                border-style: dotted;
+                border-width: 1px;
+                border-color: red;
+            }
+        </style>
+    </head>
+        <body>
+            
 
-    <div class="rollgang"><img id="rollgang1" src="img/w_rollgang.png" alt="Rollgang 1 Stopped" /></div>
-    <div class="rollgang"><img id="rollgang2" src="img/w_rollgang.png" alt="Rollgang 2 Stopped" /></div>
-    <div class="rollgang"><img id="rollgang3" src="img/s_rollgang.png" alt="Rollgang 3 Stopped" /></div>
+            <div id="siloses" style="position: absolute; left: 800px; top: 20px;">
+                <img id="silos1" src="img/silos.png">
+                <img id="silos2" src="img/silos.png">
+                <img id="silos3" src="img/silos.png"><span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
+                <img id="silos4" src="img/silos.png">
+                <img id="silos5" src="img/silos.png">
+                <img id="silos6" src="img/silos.png"><span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
+                <img id="silos7" src="img/silos.png">
+                <img id="silos8" src="img/silos.png">
+            </div>
 
-    <!-- <canvas id="canvas">Визуализация движения материалов по тракту сыпучих на ЭСПЦ</canvas> -->
-</body>
+            <!-- Элементы отображения для силосов -->
+            <div id="s1_mat" style="color: red; font-weight: bold; position: absolute; left: 812px; top: 50px;">FeSiMn</div>
+            <div id="s2_mat" style="color: red; font-weight: bold; position: absolute; left: 900px; top: 50px;">ZFS</div>
+            <div id="s3_mat" style="color: red; font-weight: bold; position: absolute; left: 975px; top: 50px;">CaO</div>
+            <div id="s4_mat" style="color: red; font-weight: bold; position: absolute; left: 1090px; top: 50px;">FeSiMn</div>
+            <div id="s5_mat" style="color: red; font-weight: bold; position: absolute; left: 1175px; top: 50px;">ATF</div>
+            <div id="s6_mat" style="color: red; font-weight: bold; position: absolute; left: 1255px; top: 50px;">CaF<sub>2</sub></div>
+            <div id="s7_mat" style="color: red; font-weight: bold; position: absolute; left: 1380px; top: 50px;">CaO</div>
+            <div id="s8_mat" style="color: red; font-weight: bold; position: absolute; left: 1455px; top: 50px;">CaO</div>
+        </body>
 </html>
