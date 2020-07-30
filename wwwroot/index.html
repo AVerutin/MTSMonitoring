@@ -1,40 +1,83 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Тракт сыпучих &laquo;Ось А&raquo;</title>
-        <script src="js/signalr/dist/browser/signalr.min.js"></script>
-        <script src="js/main.js"></script>
+<html><head>
+    <meta charset="utf-8">
+    <title>Тракт сыпучих «Ось А»</title>
+    <script src="js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="js/main.js"></script>
+</head>
 
-        <style>
-            canvas {
-                border-style: dotted;
-                border-width: 1px;
-                border-color: red;
-            }
-        </style>
-    </head>
-        <body>
-            
+<body>
+    <img src="img/shnek_horizontal.png" width="120" id="shneck_1" style="position: absolute; top: 500px;">
+    <img src="img/shnek_vertical.png" style="position: absolute; left: 125px;" height="500">
+    <img src="img/shnek_horizontal.png" width="200" style="position: absolute; left: 125px;">
+    <img id="telega" src="img/conveyor_moving.png" width="130" style="position: absolute; left: 300px; top: 30px;">
+    <!-- Диапазон перемещения тележки: 200px - 650px-->
 
-            <div id="siloses" style="position: absolute; left: 800px; top: 20px;">
-                <img id="silos1" src="img/silos.png">
-                <img id="silos2" src="img/silos.png">
-                <img id="silos3" src="img/silos.png"><span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
-                <img id="silos4" src="img/silos.png">
-                <img id="silos5" src="img/silos.png">
-                <img id="silos6" src="img/silos.png"><span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
-                <img id="silos7" src="img/silos.png">
-                <img id="silos8" src="img/silos.png">
-            </div>
+    <div id="siloses" style="position: absolute; left: 200px; top: 80px;">
+        <img id="silos1" src="img/silos.png" width="8%">
+        <img id="silos2" src="img/silos.png" width="8%">
+        <img id="silos3" src="img/silos.png" width="8%">
+        <span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
+        <img id="silos4" src="img/silos.png" width="8%">
+        <img id="silos5" src="img/silos.png" width="8%">
+        <img id="silos6" src="img/silos.png" width="8%">
+        <span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
+        <img id="silos7" src="img/silos.png" width="8%">
+        <img id="silos8" src="img/silos.png" width="8%">
+    </div>
+    <div id="voronki" style="position: absolute; left: 220px; top: 280px;">
+        <img src="img/funnel.png" width="150">
+        <span style="margin-left: 60px;"></span>
+        <img src="img/funnel.png" width="150">
+        <span style="margin-left: 50px;"></span>
+        <img width="150" src="img/funnel.png">
+    </div>
+    <div style="position: absolute; left: 250px; top: 320px;" id="weights">
+        <img src="img/weights_long.png" id="weight_1">
+        <span style="margin-left: 120px;"></span>
+        <img src="img/weights_long.png" id="weight_2">
+        <span style="margin-left: 110px;"></span>
+        <img src="img/weights_long.png" id="weight_3">
+    </div>
+    <div id="elevator_1" style="position: absolute; left: 250px; top: 440px;">
+        <img src="img/conveyor_verylong.png">
+    </div>
+    <div id="diviator_1" style="position: absolute; left: 1000px; top: 470px;">
+        <img id="diviator1" src="img/diviator_left.png" width="120">
+    </div>
+    <div id="diviator_2" style="position: absolute; left: 920px; top: 565px;">
+        <img id="diviator2" src="img/diviator_left.png" width="120" style="vertical-align: middle;">
+        <span style="margin-left: 50px; vertical-align: middle;"></span>
+        <img src="img/dsp.png" width="120" style="vertical-align: middle;">
+    </div>
+    <div id="elevator_2" style="position: absolute; left: 370px; top: 710px;">
+        <img src="img/conveyor_long.png" style="vertical-align: top;">
+        <img src="img/conveyor_long.png" style="vertical-align: top;">
+        <span style="margin-left: 25px;"></span>
+        <img id="diviator3" src="img/diviator_left.png" width="120" style="vertical-align: top;">
+    </div>
+    <div id="diviator_down" style="position: absolute; left: 270px; top: 750px;">
+        <img src="img/deviator_down.png" width="120">
+    </div>
+    <div id="upk" style="position: absolute; left: 270px; top: 900px;">
+        <img id="upk1" src="img/upk.png" style="vertical-align: bottom;">
+        <span id="way" style="margin-left: 550px;"></span>
+        <img id="stalevoz" src="img/stalevoz_kovsh.png" style="vertical-align: bottom;">
+        <!-- Диапазон хода сталевоза: way[0px] - way[550px] -->
+    </div>
 
-            <!-- Элементы отображения для силосов -->
-            <div id="s1_mat" style="color: red; font-weight: bold; position: absolute; left: 812px; top: 50px;">FeSiMn</div>
-            <div id="s2_mat" style="color: red; font-weight: bold; position: absolute; left: 900px; top: 50px;">ZFS</div>
-            <div id="s3_mat" style="color: red; font-weight: bold; position: absolute; left: 975px; top: 50px;">CaO</div>
-            <div id="s4_mat" style="color: red; font-weight: bold; position: absolute; left: 1090px; top: 50px;">FeSiMn</div>
-            <div id="s5_mat" style="color: red; font-weight: bold; position: absolute; left: 1175px; top: 50px;">ATF</div>
-            <div id="s6_mat" style="color: red; font-weight: bold; position: absolute; left: 1255px; top: 50px;">CaF<sub>2</sub></div>
-            <div id="s7_mat" style="color: red; font-weight: bold; position: absolute; left: 1380px; top: 50px;">CaO</div>
-            <div id="s8_mat" style="color: red; font-weight: bold; position: absolute; left: 1455px; top: 50px;">CaO</div>
-        </body>
+    <!-- Элементы отображения для силосов -->
+    <div id="s1_mat" style="color: red; position: absolute; left: 203px; top: 101px;">FeSiMn</div>
+    <div id="s2_mat" style="color: red; position: absolute; left: 275px; top: 101px;">ZFS</div>
+    <div id="s3_mat" style="color: red; position: absolute; left: 335px; top: 101px;">CaO</div>
+    <div id="s4_mat" style="color: red; position: absolute; left: 435px; top: 101px;">FeSiMn</div>
+    <div id="s5_mat" style="color: red; position: absolute; left: 507px; top: 101px;">ATF</div>
+    <div id="s6_mat" style="color: red; position: absolute; left: 565px; top: 101px;">CaF<sub>2</sub></div>
+    <div id="s7_mat" style="color: red; position: absolute; left: 680px; top: 101px;">CaO</div>
+    <div id="s8_mat" style="color: red; position: absolute; left: 740px; top: 101px;">CaO</div>
+    <div id="weight1_label" style="color: red; font-weight: bold; position: absolute; top: 358px; left: 285px;">25</div>
+    <div id="weight2_label" style="color: red; font-weight: bold; position: absolute; top: 358px; left: 500px;">15</div>
+    <div id="weight3_label" style="color: red; font-weight: bold; position: absolute; top: 358px; left: 705px;">35</div>
+    <div id="dsp_label" style="color: red; font-weight: bold; font-size: 24px; position: absolute; left: 1130px; top: 635px;">1580</div>
+
+</body>
 </html>
