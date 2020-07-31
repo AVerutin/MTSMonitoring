@@ -56,7 +56,7 @@
         <img id="diviator3" src="img/diviator_left.png" />
     </div>
     <div id="diviator_3">
-        <img id="diviator3" src="img/deviator_down.png" />
+        <img id="diviator4" src="img/deviator_down.png" />
     </div>
     <div id="upk_zone">
         <img id="upk" src="img/upk.png" />
@@ -100,124 +100,18 @@
     </div>
 
     <!-- Элементы отображения для силосов -->
-    <div id="s1_mat">FeSiMn</div>
-    <div id="s2_mat">FeSiMn</div>
-    <div id="s3_mat">FeSiMn</div>
-    <div id="s4_mat">FeSiMn</div>
-    <div id="s5_mat">FeSiMn</div>
-    <div id="s6_mat">FeSiMn</div>
-    <div id="s7_mat">FeSiMn</div>
-    <div id="s8_mat">FeSiMn</div>
-    <div id="weight1_label">25</div>
-    <div id="weight2_label">15</div>
-    <div id="weight3_label">35</div>
-    <div id="dsp_label">1580</div>
+    <div id="s1_mat">Пустой</div>
+    <div id="s2_mat">Пустой</div>
+    <div id="s3_mat">Пустой</div>
+    <div id="s4_mat">Пустой</div>
+    <div id="s5_mat">Пустой</div>
+    <div id="s6_mat">Пустой</div>
+    <div id="s7_mat">Пустой</div>
+    <div id="s8_mat">Пустой</div>
+    <div id="weight1_label">0</div>
+    <div id="weight2_label">0</div>
+    <div id="weight3_label">0</div>
+    <div id="dsp_label">0</div>
 
 </body>
-
-<script lang="javascript">
-    function setActive (id) {
-        var element = document.getElementById(id);
-        element.style.border = '3px solid red';
-    }
-
-    function setInActive (id) {
-        var element = document.getElementById(id);
-        element.style.border = '3px none red';
-    }
-
-    function diviatorTurn(id, direction) {
-        var elememt = document.getElementById(id);
-        switch (direction.toLowerCase()) {
-            case 'left': {
-                elememt.src = 'img/diviator_left.png';
-                break;
-            }
-            case 'right': {
-                elememt.src = 'img/diviator_right.png';
-                break;
-            }
-            case 'down': {
-                elememt.src = 'img/deviator_down.png';
-                break;
-            }
-        }
-    }
-
-    function setMaterial(silos, material) {
-        number = '';
-        switch(silos) {
-            case 1: number = 's1_mat'; break;
-            case 2: number = 's2_mat'; break;
-            case 3: number = 's3_mat'; break;
-            case 4: number = 's4_mat'; break;
-            case 5: number = 's5_mat'; break;
-            case 6: number = 's6_mat'; break;
-            case 7: number = 's7_mat'; break;
-            case 8: number = 's8_mat'; break;
-        }
-        var element = document.getElementById(number);
-        var spaces = 6 - material.length;
-        var sp = '';
-        for (i=0; i < spaces; i++) {
-            sp += '&nbsp;';
-        }
-        element.innerHTML = sp + material;
-    }
-
-    function setWeight(bunker, weight) {
-        var number;
-        switch(bunker) {
-            case 1: number = 'weight1_label'; break;
-            case 2: number = 'weight2_label'; break;
-            case 3: number = 'weight3_label'; break;
-        }
-        var bunk = document.getElementById(number);
-        bunk.innerHTML = weight;
-    }
-
-    function setTemperature(temperature) {
-        var dsp = document.getElementById('dsp_label');
-        dsp.innerHTML = temperature;
-    }
-
-    function setSilosStatus(silos, status) {
-        var number;
-        var stat = 'img/';
-        switch(silos) {
-            case 1: number = 'silos1_status'; break;
-            case 2: number = 'silos2_status'; break;
-            case 3: number = 'silos3_status'; break;
-            case 4: number = 'silos4_status'; break;
-            case 5: number = 'silos5_status'; break;
-            case 6: number = 'silos6_status'; break;
-            case 7: number = 'silos7_status'; break;
-            case 8: number = 'silos8_status'; break;
-        }
-        switch(status.toLowerCase()) {
-            case 'on': stat += 'on.png'; break;
-            case 'off': stat += 'off.png'; break;
-            case 'error': stat += 'error.png'; break;
-        }
-
-        document.getElementById(number).src = stat;
-    }
-
-    function setWeightStatus(weigth, status) {
-        var number;
-        var stat = 'img/';
-        switch(weigth) {
-            case 1: number = 'weight1_status'; break;
-            case 2: number = 'weight2_status'; break;
-            case 3: number = 'weight3_status'; break;
-        }
-        switch(status.toLowerCase()) {
-            case 'on': stat += 'on.png'; break;
-            case 'off': stat += 'off.png'; break;
-            case 'error': stat += 'error.png'; break;
-        }
-
-        document.getElementById(number).src = stat;
-    }
-</script>
 </html>

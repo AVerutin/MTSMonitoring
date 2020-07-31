@@ -15,9 +15,10 @@ function createHub() {
         if (data) {
             let sensors = JSON.parse(data).Sensors;
             for (let sensor of sensors) {
-                setSensorValue(sensor.id, sensor.value);
+                // setSensorValue(sensor.id, sensor.value);
                 // drawCanvas(sensor.id, sensor.value);
-                drawRollgangs(sensor.id, sensor.value);
+                // drawRollgangs(sensor.id, sensor.value);
+                parseSensors(data);
             }
         }
     });
@@ -35,122 +36,115 @@ function createHub() {
     hubConnection.start();
 }
 
-// Вывод рольганга по его имени
-function drawRollgangs(name, value) {
-    worked = 'img/w_rollgang.png';
-    stopped = 'img/s_rollgang.png';
-    // value = parseFloat(val);
+// Обработка полученных значений сенсоров
+function parseSensors (data) {
 
-    switch (name) {
-        case 4000: {
-            if (value > 5) {
-                document.getElementById('rollgang1').src = worked;
-            } else {
-                document.getElementById('rollgang1').src = stopped;
-            }
+
+}
+
+function setActive (id) {
+    var element = document.getElementById(id);
+    element.style.border = '3px solid red';
+}
+
+function setInActive (id) {
+    var element = document.getElementById(id);
+    element.style.border = '3px none red';
+}
+
+function diviatorTurn(id, direction) {
+    var elememt = document.getElementById(id);
+    switch (direction.toLowerCase()) {
+        case 'left': {
+            elememt.src = 'img/diviator_left.png';
             break;
         }
-        case 4001: {
-            if (value > 5) {
-                document.getElementById('rollgang2').src = worked;
-            } else {
-                document.getElementById('rollgang2').src = stopped;
-            }
+        case 'right': {
+            elememt.src = 'img/diviator_right.png';
             break;
         }
-        case 4002: {
-            if (value > 5) {
-                document.getElementById('rollgang3').src = worked;
-            } else {
-                document.getElementById('rollgang3').src = stopped;
-            }
+        case 'down': {
+            elememt.src = 'img/deviator_down.png';
             break;
         }
     }
 }
 
-
-// Функция добавления строки в таблицу для каждого сенсора
-function setSensorValue(name, value) {
-    // Ищем строку для сенсора по ID
-    let sensor = document.getElementById(name);
-    if (!sensor) {
-        // Такого сенсора нет, создаем для него строку в таблице
-        var tbody = document.getElementById('sensorslist').getElementsByTagName("TBODY")[0];
-        var row = document.createElement("TR");
-        row.id = name;
-        var td1 = document.createElement("TD");
-        td1.appendChild(document.createTextNode(name));
-        var td2 = document.createElement("TD");
-        td2.appendChild(document.createTextNode(value));
-        row.appendChild(td1);
-        row.appendChild(td2);
-        tbody.appendChild(row);
+function setMaterial(silos, material) {
+    number = '';
+    switch(silos) {
+        case 1: number = 's1_mat'; break;
+        case 2: number = 's2_mat'; break;
+        case 3: number = 's3_mat'; break;
+        case 4: number = 's4_mat'; break;
+        case 5: number = 's5_mat'; break;
+        case 6: number = 's6_mat'; break;
+        case 7: number = 's7_mat'; break;
+        case 8: number = 's8_mat'; break;
     }
-    else {
-        // Строка для этого сенсора найдена, обновляем значения
-        sensor.getElementsByTagName("td")[1].innerHTML = value;
+    var element = document.getElementById(number);
+    var spaces = 6 - material.length;
+    var sp = '';
+    for (i=0; i < spaces; i++) {
+        sp += '&nbsp;';
     }
+    element.innerHTML = sp + material;
 }
 
-function drawCanvas(name, value) {
-    // Получаем холст и устанавливаем его размеры
-    const canvas = document.getElementById('canvas');
-    canvas.setAttribute('width', 800);
-    canvas.setAttribute('height', 500);
-
-    if (canvas.getContext) {
-        ctx = canvas.getContext('2d');
-
-        caption = name + " =";
-        caption_len = ctx.measureText(caption).width;
-
-        ctx.font = "18px sansserif";
-        ctx.fillStyle = 'cyan';
-        switch (name) {
-            case 4000: {
-                ctx.clearRect(90, 80, 180, 30);
-                ctx.fillText(caption, 100, 100);
-                ctx.fillText(value, 100 + caption_len + 5, 100);
-                break;
-            }
-            case 4001: {
-                ctx.clearRect(90, 130, 180, 30);
-                ctx.fillText(caption, 100, 150);
-                ctx.fillText(value, 100 + caption_len + 5, 150);
-                break;
-            }
-            case 4002: {
-                ctx.clearRect(90, 180, 180, 30);
-                ctx.fillText(caption, 100, 200);
-                ctx.fillText(value, 100 + caption_len + 5, 200);
-                break;
-            }
-            case 4003: {
-                ctx.clearRect(90, 230, 180, 30);
-                ctx.fillText(caption, 100, 250);
-                ctx.fillText(value, 100 + caption_len + 5, 250);
-                break;
-            }
-            case 4004: {
-                ctx.clearRect(90, 280, 180, 30);
-                ctx.fillText(caption, 100, 300);
-                ctx.fillText(value, 100 + caption_len + 5, 300);
-                break;
-            }
-            case 4005: {
-                ctx.clearRect(90, 330, 180, 30);
-                ctx.fillText(caption, 100, 350);
-                ctx.fillText(value, 100 + caption_len + 5, 350);
-                break;
-            }
-        }
-        
-    } else {
-        document.write("<h3>Холст не поддерживается</h3>");
+function setWeight(bunker, weight) {
+    var number;
+    switch(bunker) {
+        case 1: number = 'weight1_label'; break;
+        case 2: number = 'weight2_label'; break;
+        case 3: number = 'weight3_label'; break;
     }
+    var bunk = document.getElementById(number);
+    bunk.innerHTML = weight;
 }
 
+function setTemperature(temperature) {
+    var dsp = document.getElementById('dsp_label');
+    dsp.innerHTML = temperature;
+}
+
+function setSilosStatus(silos, status) {
+    var number;
+    var stat = 'img/';
+    switch(silos) {
+        case 1: number = 'silos1_status'; break;
+        case 2: number = 'silos2_status'; break;
+        case 3: number = 'silos3_status'; break;
+        case 4: number = 'silos4_status'; break;
+        case 5: number = 'silos5_status'; break;
+        case 6: number = 'silos6_status'; break;
+        case 7: number = 'silos7_status'; break;
+        case 8: number = 'silos8_status'; break;
+    }
+    switch(status.toLowerCase()) {
+        case 'on': stat += 'on.png'; break;
+        case 'off': stat += 'off.png'; break;
+        case 'error': stat += 'error.png'; break;
+    }
+
+    document.getElementById(number).src = stat;
+}
+
+function setWeightStatus(weigth, status) {
+    var number;
+    var stat = 'img/';
+    switch(weigth) {
+        case 1: number = 'weight1_status'; break;
+        case 2: number = 'weight2_status'; break;
+        case 3: number = 'weight3_status'; break;
+    }
+    switch(status.toLowerCase()) {
+        case 'on': stat += 'on.png'; break;
+        case 'off': stat += 'off.png'; break;
+        case 'error': stat += 'error.png'; break;
+    }
+
+    document.getElementById(number).src = stat;
+}
 
 // Запуск JS-кода при полной загрузке контента страницы
 document.addEventListener('DOMContentLoaded', () => {
