@@ -14,12 +14,12 @@ function createHub() {
         // Разбираем строку ответа от сервера
         if (data) {
             let sensors = JSON.parse(data).Sensors;
-            for (let sensor of sensors) {
+            parseSensors(sensors);
+            // for (let sensor of sensors) {
                 // setSensorValue(sensor.id, sensor.value);
                 // drawCanvas(sensor.id, sensor.value);
                 // drawRollgangs(sensor.id, sensor.value);
-                parseSensors(data);
-            }
+            // }
         }
     });
 
@@ -38,8 +38,157 @@ function createHub() {
 
 // Обработка полученных значений сенсоров
 function parseSensors (data) {
+    var sensors = data;
+    const materials = ['', 'Al Met', 'Al2O3', 'CaC2', 'CaF2', 'CaMg', 'CaO', 'CARBON', 'FeB', 'FeCr', 'FeMn', 'FeNb', 'FeSi', 'FeSiMn', 'FeV', 'FOMi', 'Met Mn', 'MgO', 'Mn', 'SiC', 'USM'];
+    for (var i = 0; i < sensors.length; ++i) {
+        switch (sensors[i].id) {
+            case 4000: {
+                // 1
 
+                break;
+            }
+            case 4001: {
+                // 2
 
+                break;
+            }
+            case 4002: {
+                // 3
+
+                break;
+            }
+            case 4003: {
+                // 4
+
+                break;
+            }
+            case 4004: {
+                // 5
+
+                break;
+            }
+            case 4005: {
+                // 6
+
+                break;
+            }
+            case 4006: {
+                // Материал 1
+
+                break;
+            }
+            case 4007: {
+                // Материал 2
+
+                break;
+            }
+            case 4008: {
+                // Материал 3
+
+                break;
+            }
+            case 4009: {
+                // Материал 4
+
+                break;
+            }
+            case 4010: {
+                // Материал 5
+
+                break;
+            }
+            case 4011: {
+                // Материал 6
+
+                break;
+            }
+            case 4012: {
+                // Материал 7
+
+                break;
+            }
+            case 4013: {
+                // Материал 8
+
+                break;
+            }
+            case 4014: {
+                // Силос 1
+
+                break;
+            }
+            case 4015: {
+                // Силос 2
+
+                break;
+            }
+            case 4016: {
+                // Силос 3
+
+                break;
+            }
+            case 4017: {
+                // Силос 4
+
+                break;
+            }
+            case 4018: {
+                // Силос 5
+
+                break;
+            }
+            case 4019: {
+                // Силос 6
+
+                break;
+            }
+            case 4020: {
+                // Силос 7
+
+                break;
+            }
+            case 4021: {
+                // Силос 8
+
+                break;
+            }
+            case 4022: {
+                // Бункер 1
+
+                break;
+            }
+            case 4023: {
+                // Бункер 2
+
+                break;
+            }
+            case 4024: {
+                // Бункер 3
+
+                break;
+            }
+            case 4025: {
+                // Вес 1
+
+                break;
+            }
+            case 4026: {
+                // Вес 2
+
+                break;
+            }
+            case 4027: {
+                // Вес 3
+
+                break;
+            }
+            case 4028: {
+                // Вес 3
+
+                break;
+            }
+        }
+    }
 }
 
 function setActive (id) {
