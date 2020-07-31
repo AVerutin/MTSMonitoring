@@ -1,83 +1,223 @@
 <html><head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
     <title>Тракт сыпучих «Ось А»</title>
     <script src="js/signalr/dist/browser/signalr.min.js"></script>
     <script src="js/main.js"></script>
 </head>
 
 <body>
-    <img src="img/shnek_horizontal.png" width="120" id="shneck_1" style="position: absolute; top: 500px;">
-    <img src="img/shnek_vertical.png" style="position: absolute; left: 125px;" height="500">
-    <img src="img/shnek_horizontal.png" width="200" style="position: absolute; left: 125px;">
-    <img id="telega" src="img/conveyor_moving.png" width="130" style="position: absolute; left: 300px; top: 30px;">
+    <img id="shneck_1" src="img/shnek_horizontal.png" />
+    <img id="shneck_2" src="img/shnek_vertical.png" />
+    <img id="shneck_3" src="img/shnek_horizontal.png" />
+    <img id="telega" src="img/conveyor_moving.png" />
     <!-- Диапазон перемещения тележки: 200px - 650px-->
 
-    <div id="siloses" style="position: absolute; left: 200px; top: 80px;">
-        <img id="silos1" src="img/silos.png" width="8%">
-        <img id="silos2" src="img/silos.png" width="8%">
-        <img id="silos3" src="img/silos.png" width="8%">
-        <span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
-        <img id="silos4" src="img/silos.png" width="8%">
-        <img id="silos5" src="img/silos.png" width="8%">
-        <img id="silos6" src="img/silos.png" width="8%">
-        <span style="width: 50px; margin-left: 20px; margin-right: 20px;">&nbsp;</span>
-        <img id="silos7" src="img/silos.png" width="8%">
-        <img id="silos8" src="img/silos.png" width="8%">
+    <div id="siloses">
+        <img id="silos1" src="img/silos.png" />
+        <img id="silos2" src="img/silos.png" />
+        <img id="silos3" src="img/silos.png" />
+        <span id="siloses1_1">&nbsp;</span>
+        <img id="silos4" src="img/silos.png" />
+        <img id="silos5" src="img/silos.png" />
+        <img id="silos6" src="img/silos.png" />
+        <span id="siloses1_2">&nbsp;</span>
+        <img id="silos7" src="img/silos.png" />
+        <img id="silos8" src="img/silos.png" />
     </div>
-    <div id="voronki" style="position: absolute; left: 220px; top: 280px;">
-        <img src="img/funnel.png" width="150">
-        <span style="margin-left: 60px;"></span>
-        <img src="img/funnel.png" width="150">
-        <span style="margin-left: 50px;"></span>
-        <img width="150" src="img/funnel.png">
+    <div id="voronki">
+        <img id="voronka1" src="img/funnel.png" />
+        <span id="voronka1_1"></span>
+        <img id="voronka2" src="img/funnel.png" />
+        <span id="voronka1_2"></span>
+        <img id="voronka3" src="img/funnel.png" />
     </div>
-    <div style="position: absolute; left: 250px; top: 320px;" id="weights">
-        <img src="img/weights_long.png" id="weight_1">
-        <span style="margin-left: 120px;"></span>
-        <img src="img/weights_long.png" id="weight_2">
-        <span style="margin-left: 110px;"></span>
-        <img src="img/weights_long.png" id="weight_3">
+    <div id="weights">
+        <img id="weight1" src="img/weights_long.png" />
+        <span id="weight1_1"></span>
+        <img id="weight2" src="img/weights_long.png" />
+        <span id="weight1_2"></span>
+        <img id="weight3" src="img/weights_long.png" />
     </div>
-    <div id="elevator_1" style="position: absolute; left: 250px; top: 440px;">
-        <img src="img/conveyor_verylong.png">
+    <div id="elevator_1">
+        <img id="elevator1" src="img/conveyor_verylong.png" />
     </div>
-    <div id="diviator_1" style="position: absolute; left: 1000px; top: 470px;">
-        <img id="diviator1" src="img/diviator_left.png" width="120">
+    <div id="diviator_1">
+        <img id="diviator1" src="img/diviator_left.png" />
     </div>
-    <div id="diviator_2" style="position: absolute; left: 920px; top: 565px;">
-        <img id="diviator2" src="img/diviator_left.png" width="120" style="vertical-align: middle;">
-        <span style="margin-left: 50px; vertical-align: middle;"></span>
-        <img src="img/dsp.png" width="120" style="vertical-align: middle;">
+    <div id="diviator_2">
+        <img id="diviator2" src="img/diviator_left.png" />
+        <span id="diviator2_1">&nbsp;</span>
+        <img id="dsp" src="img/dsp.png" />
     </div>
-    <div id="elevator_2" style="position: absolute; left: 370px; top: 710px;">
-        <img src="img/conveyor_long.png" style="vertical-align: top;">
-        <img src="img/conveyor_long.png" style="vertical-align: top;">
-        <span style="margin-left: 25px;"></span>
-        <img id="diviator3" src="img/diviator_left.png" width="120" style="vertical-align: top;">
+    <div id="elevator_2">
+        <img id="elevator2" src="img/conveyor_doublelong.png" />
+        <span id="elevator2_1">&nbsp;</span>
+        <img id="diviator3" src="img/diviator_left.png" />
     </div>
-    <div id="diviator_down" style="position: absolute; left: 270px; top: 750px;">
-        <img src="img/deviator_down.png" width="120">
+    <div id="diviator_3">
+        <img id="diviator3" src="img/deviator_down.png" />
     </div>
-    <div id="upk" style="position: absolute; left: 270px; top: 900px;">
-        <img id="upk1" src="img/upk.png" style="vertical-align: bottom;">
-        <span id="way" style="margin-left: 550px;"></span>
-        <img id="stalevoz" src="img/stalevoz_kovsh.png" style="vertical-align: bottom;">
+    <div id="upk_zone">
+        <img id="upk" src="img/upk.png" />
+        <span id="way">&nbsp;</span>
+        <img id="stalevoz" src="img/stalevoz_kovsh.png" />
         <!-- Диапазон хода сталевоза: way[0px] - way[550px] -->
     </div>
 
+    <div id="silos_stats">
+        <img id="silos1_status" src="img/error.png" />
+        <img id="silos2_status" src="img/error.png" />
+        <img id="silos3_status" src="img/error.png" />
+        <img id="silos4_status" src="img/error.png" />
+        <img id="silos5_status" src="img/error.png" />
+        <img id="silos6_status" src="img/error.png" />
+        <img id="silos7_status" src="img/error.png" />
+        <img id="silos8_status" src="img/error.png" />
+    </div>
+
+    <div id="silos_numbers">
+        <span id="silos1_number">1</span>
+        <span id="silos2_number">2</span>
+        <span id="silos3_number">3</span>
+        <span id="silos4_number">4</span>
+        <span id="silos5_number">5</span>
+        <span id="silos6_number">6</span>
+        <span id="silos7_number">7</span>
+        <span id="silos8_number">8</span>
+    </div>
+
+    <div id="weights_statuses">
+        <img id="weight1_status" src="img/error.png" />
+        <img id="weight2_status" src="img/error.png" />
+        <img id="weight3_status" src="img/error.png" />
+    </div>
+
+    <div id="weights_numbers">
+        <span id="weight1_number">1</span>
+        <span id="weight2_number">2</span>
+        <span id="weight3_number">3</span>
+    </div>
+
     <!-- Элементы отображения для силосов -->
-    <div id="s1_mat" style="color: red; position: absolute; left: 203px; top: 101px;">FeSiMn</div>
-    <div id="s2_mat" style="color: red; position: absolute; left: 275px; top: 101px;">ZFS</div>
-    <div id="s3_mat" style="color: red; position: absolute; left: 335px; top: 101px;">CaO</div>
-    <div id="s4_mat" style="color: red; position: absolute; left: 435px; top: 101px;">FeSiMn</div>
-    <div id="s5_mat" style="color: red; position: absolute; left: 507px; top: 101px;">ATF</div>
-    <div id="s6_mat" style="color: red; position: absolute; left: 565px; top: 101px;">CaF<sub>2</sub></div>
-    <div id="s7_mat" style="color: red; position: absolute; left: 680px; top: 101px;">CaO</div>
-    <div id="s8_mat" style="color: red; position: absolute; left: 740px; top: 101px;">CaO</div>
-    <div id="weight1_label" style="color: red; font-weight: bold; position: absolute; top: 358px; left: 285px;">25</div>
-    <div id="weight2_label" style="color: red; font-weight: bold; position: absolute; top: 358px; left: 500px;">15</div>
-    <div id="weight3_label" style="color: red; font-weight: bold; position: absolute; top: 358px; left: 705px;">35</div>
-    <div id="dsp_label" style="color: red; font-weight: bold; font-size: 24px; position: absolute; left: 1130px; top: 635px;">1580</div>
+    <div id="s1_mat">FeSiMn</div>
+    <div id="s2_mat">FeSiMn</div>
+    <div id="s3_mat">FeSiMn</div>
+    <div id="s4_mat">FeSiMn</div>
+    <div id="s5_mat">FeSiMn</div>
+    <div id="s6_mat">FeSiMn</div>
+    <div id="s7_mat">FeSiMn</div>
+    <div id="s8_mat">FeSiMn</div>
+    <div id="weight1_label">25</div>
+    <div id="weight2_label">15</div>
+    <div id="weight3_label">35</div>
+    <div id="dsp_label">1580</div>
 
 </body>
+
+<script lang="javascript">
+    function setActive (id) {
+        var element = document.getElementById(id);
+        element.style.border = '3px solid red';
+    }
+
+    function setInActive (id) {
+        var element = document.getElementById(id);
+        element.style.border = '3px none red';
+    }
+
+    function diviatorTurn(id, direction) {
+        var elememt = document.getElementById(id);
+        switch (direction.toLowerCase()) {
+            case 'left': {
+                elememt.src = 'img/diviator_left.png';
+                break;
+            }
+            case 'right': {
+                elememt.src = 'img/diviator_right.png';
+                break;
+            }
+            case 'down': {
+                elememt.src = 'img/deviator_down.png';
+                break;
+            }
+        }
+    }
+
+    function setMaterial(silos, material) {
+        number = '';
+        switch(silos) {
+            case 1: number = 's1_mat'; break;
+            case 2: number = 's2_mat'; break;
+            case 3: number = 's3_mat'; break;
+            case 4: number = 's4_mat'; break;
+            case 5: number = 's5_mat'; break;
+            case 6: number = 's6_mat'; break;
+            case 7: number = 's7_mat'; break;
+            case 8: number = 's8_mat'; break;
+        }
+        var element = document.getElementById(number);
+        var spaces = 6 - material.length;
+        var sp = '';
+        for (i=0; i < spaces; i++) {
+            sp += '&nbsp;';
+        }
+        element.innerHTML = sp + material;
+    }
+
+    function setWeight(bunker, weight) {
+        var number;
+        switch(bunker) {
+            case 1: number = 'weight1_label'; break;
+            case 2: number = 'weight2_label'; break;
+            case 3: number = 'weight3_label'; break;
+        }
+        var bunk = document.getElementById(number);
+        bunk.innerHTML = weight;
+    }
+
+    function setTemperature(temperature) {
+        var dsp = document.getElementById('dsp_label');
+        dsp.innerHTML = temperature;
+    }
+
+    function setSilosStatus(silos, status) {
+        var number;
+        var stat = 'img/';
+        switch(silos) {
+            case 1: number = 'silos1_status'; break;
+            case 2: number = 'silos2_status'; break;
+            case 3: number = 'silos3_status'; break;
+            case 4: number = 'silos4_status'; break;
+            case 5: number = 'silos5_status'; break;
+            case 6: number = 'silos6_status'; break;
+            case 7: number = 'silos7_status'; break;
+            case 8: number = 'silos8_status'; break;
+        }
+        switch(status.toLowerCase()) {
+            case 'on': stat += 'on.png'; break;
+            case 'off': stat += 'off.png'; break;
+            case 'error': stat += 'error.png'; break;
+        }
+
+        document.getElementById(number).src = stat;
+    }
+
+    function setWeightStatus(weigth, status) {
+        var number;
+        var stat = 'img/';
+        switch(weigth) {
+            case 1: number = 'weight1_status'; break;
+            case 2: number = 'weight2_status'; break;
+            case 3: number = 'weight3_status'; break;
+        }
+        switch(status.toLowerCase()) {
+            case 'on': stat += 'on.png'; break;
+            case 'off': stat += 'off.png'; break;
+            case 'error': stat += 'error.png'; break;
+        }
+
+        document.getElementById(number).src = stat;
+    }
+</script>
 </html>

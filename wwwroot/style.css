@@ -1,0 +1,453 @@
+#shneck_1 {
+    position: absolute; 
+    top: 500px;
+    width: 120px;
+}
+
+#shneck_2 {
+    position: absolute; 
+    left: 125px;
+    height: 500px;
+}
+
+#shneck_3 {
+    position: absolute; 
+    left: 125px;
+    width: 200px;
+}
+
+#telega {
+    width: 130px;
+    position: absolute; 
+    left: 300px; 
+    top: 30px;
+}
+
+#siloses {
+    position: absolute; 
+    left: 200px; 
+    top: 80px;
+}
+
+#silos1 {
+    width: 8%;
+}
+
+#silos2 {
+    width: 8%;
+}
+
+#silos3 {
+    width: 8%;
+}
+
+#silos4 {
+    width: 8%;
+}
+
+#silos5 {
+    width: 8%;
+}
+
+#silos6 {
+    width: 8%;
+}
+
+#silos7 {
+    width: 8%;
+}
+
+#silos8 {
+    width: 8%;
+}
+
+#siloses1_1 {
+    width: 50px; 
+    margin-left: 20px; 
+    margin-right: 20px;
+}
+
+#siloses1_2 {
+    width: 50px; 
+    margin-left: 20px; 
+    margin-right: 20px;
+}
+
+#voronki {
+    position: absolute; 
+    left: 220px; 
+    top: 280px;
+}
+
+#voronka1 {
+    width: 150px;
+}
+
+#voronka2 {
+    width: 150px;
+}
+
+#voronka3 {
+    width: 150px;
+}
+
+#voronka1_1 {
+    margin-left: 60px;
+}
+
+#voronka1_2 {
+    margin-left: 50px;
+}
+
+#weights {
+    position: absolute; 
+    left: 250px; 
+    top: 320px;
+}
+
+#weight1_1 {
+    margin-left: 120px;
+}
+
+#weight1_2 {
+    margin-left: 110px;
+}
+
+#elevator_1 {
+    position: absolute; 
+    left: 250px; 
+    top: 440px;
+}
+
+#diviator_1 {
+    position: absolute; 
+    left: 1000px; 
+    top: 470px;
+}
+
+#diviator1 {
+    width: 120px;
+}
+
+#diviator_2 {
+    position: absolute; 
+    left: 920px; 
+    top: 565px;
+}
+
+#diviator2 {
+    width: 120px;
+    vertical-align: middle;
+}
+
+#diviator2_1 {
+    margin-left: 50px; 
+    vertical-align: middle;
+}
+
+#dsp {
+    width: 120px;
+    vertical-align: middle;
+}
+
+#elevator_2 {
+    position: absolute; 
+    left: 370px; 
+    top: 710px;
+}
+
+#elevator2 {
+    vertical-align: top;
+}
+
+#elevator2_1 {
+    margin-left: 25px;
+}
+
+#diviator3 {
+    width: 120px; 
+    vertical-align: top;
+}
+
+#diviator_3 {
+    position: absolute; 
+    left: 270px; 
+    top: 750px;
+}
+
+#diviator3 {
+    width: 120px;
+}
+
+#upk_zone {
+    position: absolute; 
+    left: 270px; 
+    top: 900px;
+}
+
+#upk {
+    vertical-align: bottom;
+}
+
+#way {
+    margin-left: 550px;
+}
+
+#stalevoz {
+    vertical-align: bottom;
+}
+
+#silos1_status {
+    position: absolute; 
+    left: 220px; 
+    top: 85px;
+}
+
+#silos2_status {
+    position: absolute; 
+    left: 285px; 
+    top: 85px;
+}
+
+#silos3_status {
+    position: absolute; 
+    left: 345px; 
+    top: 85px;
+}
+
+#silos4_status {
+    position: absolute; 
+    left: 455px; 
+    top: 85px;
+}
+
+#silos5_status {
+    position: absolute; 
+    left: 515px; 
+    top: 85px;
+}
+
+#silos6_status {
+    position: absolute; 
+    left: 575px; 
+    top: 85px;
+}
+
+#silos7_status {
+    position: absolute; 
+    left: 685px; 
+    top: 85px;
+}
+
+#silos8_status {
+    position: absolute; 
+    left: 745px; 
+    top: 85px;
+}
+
+#silos1_number {
+    position: absolute; 
+    left: 225px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#silos2_number {
+    position: absolute; 
+    left: 286px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#silos3_number {
+    position: absolute; 
+    left: 348px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#silos4_number {
+    position: absolute; 
+    left: 456px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#silos5_number {
+    position: absolute; 
+    left: 518px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#silos6_number {
+    position: absolute; 
+    left: 579px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#silos7_number {
+    position: absolute; 
+    left: 690px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#silos8_number {
+    position: absolute; 
+    left: 750px; 
+    top: 215px; 
+    font-weight: bold; 
+    color: blue; 
+    font-family: arial;
+}
+
+#weight1_number {
+    font-family: arial; 
+    font-weight: bold; 
+    color: blue; 
+    position: absolute; 
+    top: 324px; 
+    left: 290px;
+}
+
+#weight2_number {
+    font-family: arial; 
+    font-weight: bold; 
+    color: blue; 
+    position: absolute; 
+    top: 324px; 
+    left: 505px;
+}
+
+#weight3_number {
+    font-family: arial; 
+    font-weight: bold; 
+    color: blue; 
+    position: absolute; 
+    top: 324px; 
+    left: 710px;
+}
+
+#weight1_status {
+    position: absolute; 
+    top: 386px; 
+    left: 288px;
+}
+
+#weight2_status {
+    position: absolute; 
+    top: 386px; left: 
+    502px;
+}
+
+#weight3_status {
+    position: absolute; 
+    top: 386px; 
+    left: 706px;
+}
+
+#s1_mat {
+    color: red; 
+    position: absolute; 
+    left: 203px; 
+    top: 101px;
+}
+
+#s2_mat {
+    color: red; 
+    position: absolute; 
+    left: 265px; 
+    top: 101px;
+}
+
+#s3_mat {
+    color: red; 
+    position: absolute; 
+    left: 325px; 
+    top: 101px;
+}
+
+#s4_mat {
+    color: red;
+    position: absolute; 
+    left: 435px; 
+    top: 101px;
+}
+
+#s5_mat {
+    color: red; 
+    position: absolute; 
+    left: 496px; 
+    top: 101px;
+}
+
+#s6_mat {
+    color: red; 
+    position: absolute; 
+    left: 557px; 
+    top: 101px;
+}
+
+#s7_mat {
+    color: red; 
+    position: absolute; 
+    left: 667px; 
+    top: 101px;
+}
+
+#s8_mat {
+    color: red; 
+    position: absolute; 
+    left: 727px; 
+    top: 101px;
+}
+
+#weight1_label {
+    color: red; 
+    font-weight: bold; 
+    position: absolute; 
+    top: 358px; 
+    left: 285px;
+}
+
+#weight2_label {
+    color: red; 
+    font-weight: bold; 
+    position: absolute; 
+    top: 358px; 
+    left: 500px;
+}
+
+#weight3_label {
+    color: red; 
+    font-weight: bold; 
+    position: absolute; 
+    top: 358px; 
+    left: 705px;
+}
+
+#dsp_label {
+    color: red; 
+    font-weight: bold; 
+    font-size: 24px; 
+    position: absolute; 
+    left: 1140px; 
+    top: 635px;
+}
+
