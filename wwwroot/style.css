@@ -127,6 +127,7 @@
 
 #diviator1 {
     width: 120px;
+    border: 3px solid white;
 }
 
 #diviator_2 {
@@ -138,6 +139,7 @@
 #diviator2 {
     width: 120px;
     vertical-align: middle;
+    border: 3px solid white;
 }
 
 #diviator2_1 {
@@ -148,6 +150,7 @@
 #dsp {
     width: 120px;
     vertical-align: middle;
+    border: 3px solid white;
 }
 
 #elevator_2 {
@@ -158,6 +161,7 @@
 
 #elevator2 {
     vertical-align: top;
+    border: 3px solid white;
 }
 
 #elevator2_1 {
@@ -167,6 +171,7 @@
 #diviator3 {
     width: 120px; 
     vertical-align: top;
+    border: 3px solid white;
 }
 
 #diviator_3 {
@@ -178,6 +183,7 @@
 #diviator4 {
     vertical-align: top;
     width: 120px;
+    border: 3px solid white;
 }
 
 #upk_zone {
@@ -188,6 +194,7 @@
 
 #upk {
     vertical-align: bottom;
+    border: 3px solid white;
 }
 
 #way {
@@ -196,6 +203,7 @@
 
 #stalevoz {
     vertical-align: bottom;
+    border: 3px solid white;
 }
 
 #silos1_status {
@@ -424,7 +432,7 @@
     font-weight: bold; 
     position: absolute; 
     top: 358px; 
-    left: 285px;
+    left: 280px;
 }
 
 #weight2_label {
@@ -432,7 +440,7 @@
     font-weight: bold; 
     position: absolute; 
     top: 358px; 
-    left: 500px;
+    left: 495px;
 }
 
 #weight3_label {
@@ -440,7 +448,7 @@
     font-weight: bold; 
     position: absolute; 
     top: 358px; 
-    left: 705px;
+    left: 700px;
 }
 
 #dsp_label {

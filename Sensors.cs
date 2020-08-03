@@ -72,7 +72,7 @@ namespace MTSMonitoring
         }
 
         // Преобразование списка сенсоров и их значений в строку JSON
-        public string toString()
+        public string ToString()
         {
             string res = "{\"Sensors\":[";
 

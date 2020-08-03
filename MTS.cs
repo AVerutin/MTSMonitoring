@@ -12,8 +12,8 @@ namespace MTSMonitoring
         private static MtsTcpConnection _connection;
         private static Subscription _subscription;
         private Action<SubscriptionStateEventArgs> _callBack;
-        private int _reconnectTimeout;
-        private int _timeout;
+        private readonly int _reconnectTimeout;
+        private readonly int _timeout;
 
 
         private static string _address;

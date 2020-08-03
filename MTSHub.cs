@@ -2,6 +2,7 @@
 using MtsConnect;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -14,7 +15,8 @@ namespace MTSMonitoring
         private int mtsPort;
         private static string Message;
         private Sensors sensors;
-        private List<IClientProxy> clients = new List<IClientProxy>();
+        private Dictionary<ushort, double> sensorsList = new Dictionary<ushort, double>();
+        private readonly List<IClientProxy> clients = new List<IClientProxy>();
 
         private async void GetMTSStats()
         {
@@ -65,6 +67,7 @@ namespace MTSMonitoring
 
         private void SubOnNewDiff(SubscriptionStateEventArgs e)
         {
+            string msg;
             SignalsState diff = e.Diff.Signals;
             if (diff == null)
                 return;
@@ -80,16 +83,55 @@ namespace MTSMonitoring
                 {
                     val = String.Format("{0:f4}", value);
                 }
-                
-                sensors.SetValue(key, val.ToString());
-                // Console.WriteLine("New signal from MTS: {0} = {1}", key, val);
-                Message = sensors.toString();
-                foreach (var client in clients)
+
+                // Вести локально список сигналов и их значений. Отправлять клиенту только номер одного сигнала и его значения,
+                // если значение изменилось
+
+                // Проверяем, есть ли полученный сигнал в списке
+                if (sensorsList.ContainsKey(key))
                 {
-                    client.SendAsync("receive", Message);
+                    // Этот сигнал уже есть
+                    for (int i=0; i<sensorsList.Count; ++i)
+                    {
+                        KeyValuePair<ushort, double> signal = sensorsList.ElementAt(i);
+                        // Проверяем его значение
+                        if (signal.Key == key && signal.Value != value)
+                        {
+                            // Если значение изменилось, обновляем его и отсылаем клиенту {Сигнал: Значение}
+                            sensorsList[key] = value;
+                            string v = value.ToString();
+                            val = val.Replace(',', '.');
+                            msg = "{\"Sensors\":[" + "{\"id\":" + key + "," + "\"value\":" + val + "}" + "]}";
+
+                            foreach (var client in clients)
+                            {
+                                client.SendAsync("receive", msg);
+                            }
+                        }
+                    }
                 }
+                else
+                {
+                    // Такого сигнала ещё нет
+                    sensorsList.Add(key, value);
+                    string v = value.ToString();
+                    val = val.Replace(',', '.');
+                    msg = "{\"Sensors\":[" + "{\"id\":" + key + "," + "\"value\":" + val + "}" + "]}";
+
+                    foreach (var client in clients)
+                    {
+                        client.SendAsync("receive", msg);
+                    }
+                }
+
+                sensors.SetValue(key, val.ToString());
+                Console.WriteLine("New signal from MTS: {0} = {1}", key, val);
+                Message = sensors.ToString();
+                // foreach (var client in clients)
+                // {
+                    // client.SendAsync("receive", Message);
+                // }
             }
-            
         }
 
         // Обработка вновь подключившегося клиента
