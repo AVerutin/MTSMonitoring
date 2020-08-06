@@ -125,7 +125,7 @@ namespace MTSMonitoring
                 }
 
                 sensors.SetValue(key, val.ToString());
-                Console.WriteLine("New signal from MTS: {0} = {1}", key, val);
+                // Console.WriteLine("New signal from MTS: {0} = {1}", key, val);
                 Message = sensors.ToString();
                 // foreach (var client in clients)
                 // {

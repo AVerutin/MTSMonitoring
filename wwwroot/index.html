@@ -4,15 +4,11 @@
     <title>Тракт сыпучих «Ось А»</title>
     <script src="js/signalr/dist/browser/signalr.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/objects/Silos.js"></script>
+    <script src="js/objects/Weight.js"></script>
 </head>
 
 <body>
-    <img id="shneck_1" src="img/shnek_horizontal.png" />
-    <img id="shneck_2" src="img/shnek_vertical.png" />
-    <img id="shneck_3" src="img/shnek_horizontal.png" />
-    <img id="telega" src="img/conveyor_moving.png" />
-    <!-- Диапазон перемещения тележки: 200px - 650px-->
-
     <div id="siloses">
         <img id="silos1" src="img/silos.png" />
         <img id="silos2" src="img/silos.png" />
@@ -24,13 +20,6 @@
         <span id="siloses1_2">&nbsp;</span>
         <img id="silos7" src="img/silos.png" />
         <img id="silos8" src="img/silos.png" />
-    </div>
-    <div id="voronki">
-        <img id="voronka1" src="img/funnel.png" />
-        <span id="voronka1_1"></span>
-        <img id="voronka2" src="img/funnel.png" />
-        <span id="voronka1_2"></span>
-        <img id="voronka3" src="img/funnel.png" />
     </div>
     <div id="weights">
         <img id="weight1" src="img/weights_long.png" />
@@ -114,6 +103,45 @@
     <div id="weight2_label">0</div>
     <div id="weight3_label">0</div>
     <div id="dsp_label">0</div>
+
+    <div id="tables">
+        <span id="t1">
+            <table id="table1" cellspacing="0" cellpadding="3">
+                <caption>Весовой бункер 1</caption>
+                <tr>
+                    <th>№</th>
+                    <th>Материал</th>
+                    <th>Партия</th>
+                    <th>Вес (т)</th>
+                </tr>
+                <tbody></tbody>
+            </table>
+        </span>
+        <span id="t2">
+            <table id="table2" cellspacing="0" cellpadding="3">
+                <caption>Весовой бункер 2</caption>
+                <tr>
+                    <th>№</th>
+                    <th>Материал</th>
+                    <th>Партия</th>
+                    <th>Вес (т)</th>
+                </tr>
+                <tbody></tbody>
+            </table>
+        </span>
+        <span id="t3">
+            <table id="table3" cellspacing="0" cellpadding="3">
+                <caption>Весовой бункер 3</caption>
+                <tr>
+                    <th>№</th>
+                    <th>Материал</th>
+                    <th>Партия</th>
+                    <th>Вес (т)</th>
+                </tr>
+                <tbody></tbody>
+            </table>
+        </span>
+    </div>
 
 </body>
 </html>

@@ -1,32 +1,6 @@
-#shneck_1 {
-    position: absolute; 
-    top: 500px;
-    width: 120px;
-}
-
-#shneck_2 {
-    position: absolute; 
-    left: 125px;
-    height: 500px;
-}
-
-#shneck_3 {
-    position: absolute; 
-    left: 125px;
-    width: 200px;
-}
-
-#telega {
-    width: 130px;
-    position: absolute; 
-    left: 300px; 
-    top: 30px;
-}
-
 #siloses {
     position: absolute; 
-    left: 200px; 
-    top: 80px;
+    left: 50px; 
 }
 
 #silos1 {
@@ -73,36 +47,10 @@
     margin-right: 20px;
 }
 
-#voronki {
-    position: absolute; 
-    left: 220px; 
-    top: 280px;
-}
-
-#voronka1 {
-    width: 150px;
-}
-
-#voronka2 {
-    width: 150px;
-}
-
-#voronka3 {
-    width: 150px;
-}
-
-#voronka1_1 {
-    margin-left: 60px;
-}
-
-#voronka1_2 {
-    margin-left: 50px;
-}
-
 #weights {
     position: absolute; 
-    left: 250px; 
-    top: 320px;
+    left: 100px; 
+    top: 210px;
 }
 
 #weight1_1 {
@@ -115,14 +63,18 @@
 
 #elevator_1 {
     position: absolute; 
-    left: 250px; 
-    top: 440px;
+    left: 100px; 
+    top: 310px;
+}
+
+#elevator1 {
+    border: 3px solid white;
 }
 
 #diviator_1 {
     position: absolute; 
-    left: 1000px; 
-    top: 470px;
+    left: 850px; 
+    top: 336px;
 }
 
 #diviator1 {
@@ -132,8 +84,8 @@
 
 #diviator_2 {
     position: absolute; 
-    left: 920px; 
-    top: 565px;
+    left: 770px; 
+    top: 420px;
 }
 
 #diviator2 {
@@ -143,7 +95,7 @@
 }
 
 #diviator2_1 {
-    margin-left: 50px; 
+    margin-left: 70px; 
     vertical-align: middle;
 }
 
@@ -155,8 +107,8 @@
 
 #elevator_2 {
     position: absolute; 
-    left: 370px; 
-    top: 710px;
+    left: 220px; 
+    top: 550px;
 }
 
 #elevator2 {
@@ -176,8 +128,8 @@
 
 #diviator_3 {
     position: absolute; 
-    left: 270px; 
-    top: 750px;
+    left: 120px; 
+    top: 580px;
 }
 
 #diviator4 {
@@ -188,8 +140,8 @@
 
 #upk_zone {
     position: absolute; 
-    left: 270px; 
-    top: 900px;
+    left: 120px; 
+    top: 725px;
 }
 
 #upk {
@@ -208,56 +160,56 @@
 
 #silos1_status {
     position: absolute; 
-    left: 220px; 
-    top: 85px;
+    left: 72px; 
+    top: 13px;
 }
 
 #silos2_status {
     position: absolute; 
-    left: 285px; 
-    top: 85px;
+    left: 135px; 
+    top: 13px;
 }
 
 #silos3_status {
     position: absolute; 
-    left: 345px; 
-    top: 85px;
+    left: 196px; 
+    top: 13px;
 }
 
 #silos4_status {
     position: absolute; 
-    left: 455px; 
-    top: 85px;
+    left: 305px; 
+    top: 13px;
 }
 
 #silos5_status {
     position: absolute; 
-    left: 515px; 
-    top: 85px;
+    left: 366px; 
+    top: 13px;
 }
 
 #silos6_status {
     position: absolute; 
-    left: 575px; 
-    top: 85px;
+    left: 426px; 
+    top: 13px;
 }
 
 #silos7_status {
     position: absolute; 
-    left: 685px; 
-    top: 85px;
+    left: 537px; 
+    top: 13px;
 }
 
 #silos8_status {
     position: absolute; 
-    left: 745px; 
-    top: 85px;
+    left: 597px; 
+    top: 13px;
 }
 
 #silos1_number {
     position: absolute; 
-    left: 225px; 
-    top: 215px; 
+    left: 75px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -265,8 +217,8 @@
 
 #silos2_number {
     position: absolute; 
-    left: 286px; 
-    top: 215px; 
+    left: 136px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -274,8 +226,8 @@
 
 #silos3_number {
     position: absolute; 
-    left: 348px; 
-    top: 215px; 
+    left: 198px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -283,8 +235,8 @@
 
 #silos4_number {
     position: absolute; 
-    left: 456px; 
-    top: 215px; 
+    left: 306px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -292,8 +244,8 @@
 
 #silos5_number {
     position: absolute; 
-    left: 518px; 
-    top: 215px; 
+    left: 368px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -301,8 +253,8 @@
 
 #silos6_number {
     position: absolute; 
-    left: 579px; 
-    top: 215px; 
+    left: 429px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -310,8 +262,8 @@
 
 #silos7_number {
     position: absolute; 
-    left: 690px; 
-    top: 215px; 
+    left: 540px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -319,8 +271,8 @@
 
 #silos8_number {
     position: absolute; 
-    left: 750px; 
-    top: 215px; 
+    left: 600px; 
+    top: 143px; 
     font-weight: bold; 
     color: blue; 
     font-family: arial;
@@ -331,8 +283,8 @@
     font-weight: bold; 
     color: blue; 
     position: absolute; 
-    top: 324px; 
-    left: 290px;
+    top: 214px; 
+    left: 140px;
 }
 
 #weight2_number {
@@ -340,8 +292,8 @@
     font-weight: bold; 
     color: blue; 
     position: absolute; 
-    top: 324px; 
-    left: 505px;
+    top: 214px; 
+    left: 355px;
 }
 
 #weight3_number {
@@ -349,106 +301,106 @@
     font-weight: bold; 
     color: blue; 
     position: absolute; 
-    top: 324px; 
-    left: 710px;
+    top: 214px; 
+    left: 560px;
 }
 
 #weight1_status {
     position: absolute; 
-    top: 386px; 
-    left: 288px;
+    top: 277px; 
+    left: 138px;
 }
 
 #weight2_status {
     position: absolute; 
-    top: 386px; left: 
-    502px;
+    top: 277px; 
+    left: 352px;
 }
 
 #weight3_status {
     position: absolute; 
-    top: 386px; 
-    left: 706px;
+    top: 277px; 
+    left: 556px;
 }
 
 #s1_mat {
     color: red; 
     position: absolute; 
-    left: 203px; 
-    top: 101px;
+    left: 53px; 
+    top: 29px;
 }
 
 #s2_mat {
     color: red; 
     position: absolute; 
-    left: 265px; 
-    top: 101px;
+    left: 115px; 
+    top: 29px;
 }
 
 #s3_mat {
     color: red; 
     position: absolute; 
-    left: 325px; 
-    top: 101px;
+    left: 175px; 
+    top: 29px;
 }
 
 #s4_mat {
     color: red;
     position: absolute; 
-    left: 435px; 
-    top: 101px;
+    left: 285px; 
+    top: 29px;
 }
 
 #s5_mat {
     color: red; 
     position: absolute; 
-    left: 496px; 
-    top: 101px;
+    left: 346px; 
+    top: 29px;
 }
 
 #s6_mat {
     color: red; 
     position: absolute; 
-    left: 557px; 
-    top: 101px;
+    left: 407px; 
+    top: 29px;
 }
 
 #s7_mat {
     color: red; 
     position: absolute; 
-    left: 667px; 
-    top: 101px;
+    left: 517px; 
+    top: 29px;
 }
 
 #s8_mat {
     color: red; 
     position: absolute; 
-    left: 727px; 
-    top: 101px;
+    left: 577px; 
+    top: 29px;
 }
 
 #weight1_label {
     color: red; 
     font-weight: bold; 
     position: absolute; 
-    top: 358px; 
-    left: 280px;
+    top: 248px; 
+    left: 130px;
 }
 
 #weight2_label {
     color: red; 
     font-weight: bold; 
     position: absolute; 
-    top: 358px; 
-    left: 495px;
+    top: 248px; 
+    left: 345px;
 }
 
 #weight3_label {
     color: red; 
     font-weight: bold; 
     position: absolute; 
-    top: 358px; 
-    left: 700px;
+    top: 248px; 
+    left: 550px;
 }
 
 #dsp_label {
@@ -456,7 +408,37 @@
     font-weight: bold; 
     font-size: 24px; 
     position: absolute; 
-    left: 1140px; 
-    top: 635px;
+    left: 1015px; 
+    top: 495px;
 }
 
+#tables {
+    position: absolute; 
+    width: 850px; 
+    left: 1000px;
+}
+
+table {
+    display: inline;
+}
+
+#t1 {
+   margin-right: 10px;
+}
+
+#t2 {
+    margin-right: 10px;
+}
+
+
+td {
+    border-width: 1px; 
+    border-style: solid; 
+    border-color: black; 
+}
+
+th {
+    border-width: 1px; 
+    border-style: solid; 
+    border-color: black; 
+}
