@@ -55,60 +55,60 @@ function parseSensors (data) {
         switch (sensors[i].id) {
             case 4006: {
                 // Материал 1
-                setMaterial(1, materials[sensors[i].value]);
+                // setMaterial(1, materials[sensors[i].value]);
                 siloses[0].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4007: {
                 // Материал 2
-                setMaterial(2, materials[sensors[i].value]);
+                // setMaterial(2, materials[sensors[i].value]);
                 siloses[1].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4008: {
                 // Материал 3
-                setMaterial(3, materials[sensors[i].value]);
+                // setMaterial(3, materials[sensors[i].value]);
                 siloses[2].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4009: {
                 // Материал 4
-                setMaterial(4, materials[sensors[i].value]);
+                // setMaterial(4, materials[sensors[i].value]);
                 siloses[3].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4010: {
                 // Материал 5
-                setMaterial(5, materials[sensors[i].value]);
+                // setMaterial(5, materials[sensors[i].value]);
                 siloses[4].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4011: {
                 // Материал 6
-                setMaterial(6, materials[sensors[i].value]);
+                // setMaterial(6, materials[sensors[i].value]);
                 siloses[5].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4012: {
                 // Материал 7
-                setMaterial(7, materials[sensors[i].value]);
+                // setMaterial(7, materials[sensors[i].value]);
                 siloses[6].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4013: {
                 // Материал 8
-                setMaterial(8, materials[sensors[i].value]);
+                // setMaterial(8, materials[sensors[i].value]);
                 siloses[7].setMaterial(materials[sensors[i].value]);
                 break;
             }
             case 4014: {
                 // Силос 1
                 if (sensors[i].value == 1) {
-                    setSilosStatus(1, 'on');
+                    // setSilosStatus(1, 'on');
                     siloses[0].setStatus('on');
                 }
                 else {
-                    setSilosStatus(1, 'off');
+                    // setSilosStatus(1, 'off');
                     siloses[0].setStatus('off');
                 }
                 break;
@@ -116,10 +116,10 @@ function parseSensors (data) {
             case 4015: {
                 // Силос 2
                 if (sensors[i].value == 1) {
-                    setSilosStatus(2, 'on');
+                    // setSilosStatus(2, 'on');
                     siloses[1].setStatus('on');
                 } else {
-                    setSilosStatus(2, 'off');
+                    // setSilosStatus(2, 'off');
                     siloses[1].setStatus('off');
                 }
                 break;
@@ -127,10 +127,10 @@ function parseSensors (data) {
             case 4016: {
                 // Силос 3
                 if (sensors[i].value == 1) {
-                    setSilosStatus(3, 'on');
+                    // setSilosStatus(3, 'on');
                     siloses[2].setStatus('on');
                 } else {
-                    setSilosStatus(3, 'off');
+                    // setSilosStatus(3, 'off');
                     siloses[2].setStatus('off');
                 }
                 break;
@@ -138,10 +138,10 @@ function parseSensors (data) {
             case 4017: {
                 // Силос 4
                 if (sensors[i].value == 1) {
-                    setSilosStatus(4, 'on');
+                    // setSilosStatus(4, 'on');
                     siloses[3].setStatus('on');
                 } else {
-                    setSilosStatus(4, 'off');
+                    // setSilosStatus(4, 'off');
                     siloses[3].setStatus('off');
                 }
                 break;
@@ -149,10 +149,10 @@ function parseSensors (data) {
             case 4018: {
                 // Силос 5
                 if (sensors[i].value == 1) {
-                    setSilosStatus(5, 'on');
+                    // setSilosStatus(5, 'on');
                     siloses[4].setStatus('on');
                 } else {
-                    setSilosStatus(5, 'off');
+                    // setSilosStatus(5, 'off');
                     siloses[4].setStatus('off');
                 }
                 break;
@@ -160,10 +160,10 @@ function parseSensors (data) {
             case 4019: {
                 // Силос 6
                 if (sensors[i].value == 1) {
-                    setSilosStatus(6, 'on');
+                    // setSilosStatus(6, 'on');
                     siloses[5].setStatus('on');
                 } else {
-                    setSilosStatus(6, 'off');
+                    // setSilosStatus(6, 'off');
                     siloses[5].setStatus('off');
                 }
                 break;
@@ -171,10 +171,10 @@ function parseSensors (data) {
             case 4020: {
                 // Силос 7
                 if (sensors[i].value == 1) {
-                    setSilosStatus(7, 'on');
+                    // setSilosStatus(7, 'on');
                     siloses[6].setStatus('on');
                 } else {
-                    setSilosStatus(7, 'off');
+                    // setSilosStatus(7, 'off');
                     siloses[6].setStatus('off');
                 }
                 break;
@@ -182,10 +182,10 @@ function parseSensors (data) {
             case 4021: {
                 // Силос 8
                 if (sensors[i].value == 1) {
-                    setSilosStatus(8, 'on');
+                    // setSilosStatus(8, 'on');
                     siloses[7].setStatus('on');
                 } else {
-                    setSilosStatus(8, 'off');
+                    // setSilosStatus(8, 'off');
                     siloses[7].setStatus('off');
                 }
                 break;
@@ -194,7 +194,7 @@ function parseSensors (data) {
                 // Бункер 1
                 // Сигнал на высыпание материала из бункера
                 if (sensors[i].value == 1) {
-                    setWeightStatus(1, 'on');
+                    // setWeightStatus(1, 'on');
                     weights[0].setStatus('on');
 
                     // Удаляем все слои в весовом бункере
@@ -202,7 +202,7 @@ function parseSensors (data) {
                     clearTable(1);
                     selectTarget();
                 } else {
-                    setWeightStatus(1, 'off');
+                    // setWeightStatus(1, 'off');
                     weights[0].setStatus('off');
                 }
 
@@ -212,7 +212,7 @@ function parseSensors (data) {
                 // Бункер 2
                 // Сигнал на высыпание материала из бункера
                 if (sensors[i].value == 1) {
-                    setWeightStatus(2, 'on');
+                    // setWeightStatus(2, 'on');
                     weights[1].setStatus('on');
 
                     // Удаляем все слои в весовом бункере
@@ -220,7 +220,7 @@ function parseSensors (data) {
                     clearTable(2);
                     selectTarget();
                 } else {
-                    setWeightStatus(2, 'off');
+                    // setWeightStatus(2, 'off');
                     weights[1].setStatus('off');
                 }
 
@@ -230,7 +230,7 @@ function parseSensors (data) {
                 // Бункер 3
                 // Сигнал на высыпание материала из бункера
                 if (sensors[i].value == 1) {
-                    setWeightStatus(3, 'on');
+                    // setWeightStatus(3, 'on');
                     weights[2].setStatus('on');
 
                     // Удаляем все слои в весовом бункере
@@ -238,7 +238,7 @@ function parseSensors (data) {
                     clearTable(3);
                     selectTarget();
                 } else {
-                    setWeightStatus(3, 'off');
+                    // setWeightStatus(3, 'off');
                     weights[2].setStatus('off');
                 }
 
@@ -270,9 +270,15 @@ function parseSensors (data) {
                     }
                 }
 
+                // Если нет выбранного бункера или номера партии, то ставим ошибку на весовой бункер
+                if (material === undefined || partNo === undefined) {
+                    weights[0].setStatus('error');
+                    break;
+                }
+
                 // Получаем новый вес весового бункера
                 let newWeight = sensors[i].value;
-                setWeight(1, newWeight.toFixed(1));
+                weights[0].setWeight(newWeight.toFixed(1));
 
                 // Получаем вес предыдущих слоев материала, уже загруженного в весовой бункер
                 let prevWeight = weights[0].getLastWeight();
@@ -281,11 +287,10 @@ function parseSensors (data) {
                 let layerWeight = newWeight - prevWeight;
 
                 // Добавление нового слоя в весовой бункер
-                // TODO: Откуда брать номер партии материала?
                 var layer = weights[0].addLayer(material, partNo, layerWeight);
 
                 // Отображение нового слоя в таблице соотвествующей данному весовому бункеру
-                addLayer(1, layer);
+                // addLayer(1, layer);
 
                 break;
             }
@@ -314,9 +319,15 @@ function parseSensors (data) {
                         }
                     }
                 }
+
+                // Если нет выбранного бункера или номера партии, то ставим ошибку на весовой бункер
+                if (material === undefined || partNo === undefined) {
+                    weights[1].setStatus('error');
+                    break;
+                }
                 
                 let newWeight = sensors[i].value;
-                setWeight(2, newWeight.toFixed(1));
+                weights[1].setWeight(newWeight.toFixed(1));
 
                 // Получаем вес предыдущих слоев материала, уже загруженного в весовой бункер
                 let prevWeight = weights[1].getLastWeight();
@@ -325,11 +336,10 @@ function parseSensors (data) {
                 let layerWeight = newWeight - prevWeight;
 
                 // Добавление нового слоя в весовой бункер
-                // TODO: Откуда брать номер партии материала?
                 var layer = weights[1].addLayer(material, partNo, layerWeight);
 
                 // Отображение нового слоя в таблице соотвествующей данному весовому бункеру
-                addLayer(2, layer);
+                // addLayer(2, layer);
 
                 break;
             }
@@ -354,8 +364,14 @@ function parseSensors (data) {
                     } 
                 }
 
+                // Если нет выбранного бункера или номера партии, то ставим ошибку на весовой бункер
+                if (material === undefined || partNo === undefined) {
+                    weights[2].setStatus('error');
+                    break;
+                }
+
                 let newWeight = sensors[i].value;
-                setWeight(3, newWeight.toFixed(1));
+                weights[2].setWeight(newWeight.toFixed(1));
 
                 // Получаем вес предыдущих слоев материала, уже загруженного в весовой бункер
                 let prevWeight = weights[2].getLastWeight();
@@ -364,11 +380,10 @@ function parseSensors (data) {
                 let layerWeight = newWeight - prevWeight;
 
                 // Добавление нового слоя в весовой бункер
-                // TODO: Откуда брать номер партии материала?
                 var layer = weights[2].addLayer(material, partNo, layerWeight);
 
                 // Отображение нового слоя в таблице соотвествующей данному весовому бункеру
-                addLayer(3, layer);
+                // addLayer(3, layer);
 
                 break;
             }
@@ -553,7 +568,7 @@ function setMaterial(silos, material) {
     element.innerHTML = sp + material;
 }
 
-function setWeight(bunker, weight) {
+function setWeightLabel(bunker, weight) {
     var number;
     switch (bunker) {
         case 1: number = 'weight1_label'; break;
@@ -567,45 +582,6 @@ function setWeight(bunker, weight) {
 function setTemperature(temperature) {
     var dsp = document.getElementById('dsp_label');
     dsp.innerHTML = temperature;
-}
-
-function setSilosStatus(silos, status) {
-    var number;
-    var stat = 'img/';
-    switch (silos) {
-        case 1: number = 'silos1_status'; break;
-        case 2: number = 'silos2_status'; break;
-        case 3: number = 'silos3_status'; break;
-        case 4: number = 'silos4_status'; break;
-        case 5: number = 'silos5_status'; break;
-        case 6: number = 'silos6_status'; break;
-        case 7: number = 'silos7_status'; break;
-        case 8: number = 'silos8_status'; break;
-    }
-    switch(status.toLowerCase()) {
-        case 'on': stat += 'on.png'; break;
-        case 'off': stat += 'off.png'; break;
-        case 'error': stat += 'error.png'; break;
-    }
-
-    document.getElementById(number).src = stat;
-}
-
-function setWeightStatus(weigth, status) {
-    var number;
-    var stat = 'img/';
-    switch (weigth) {
-        case 1: number = 'weight1_status'; break;
-        case 2: number = 'weight2_status'; break;
-        case 3: number = 'weight3_status'; break;
-    }
-    switch(status.toLowerCase()) {
-        case 'on': stat += 'on.png'; break;
-        case 'off': stat += 'off.png'; break;
-        case 'error': stat += 'error.png'; break;
-    }
-
-    document.getElementById(number).src = stat;
 }
 
 function setTarget(target) {
@@ -646,7 +622,6 @@ function setTarget(target) {
         }
     }
 }
-
 
 // Отображение нового слоя материала в таблице
 function addLayer(bunker, layer) {

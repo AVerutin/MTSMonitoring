@@ -1,7 +1,7 @@
 ﻿using MtsConnect;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
+using static MTSMonitoring.MTLogger;
 using System.Threading.Tasks;
 
 namespace MTSMonitoring
@@ -20,7 +20,8 @@ namespace MTSMonitoring
         private static int _port;
 
         public MTS(string addr, int port) 
-        { 
+        {
+            InitNlog();
             _address = addr;
             _port = port;
             _reconnectTimeout = 3000;
@@ -35,8 +36,9 @@ namespace MTSMonitoring
                 _connection = MtsTcpConnection.Create(_address, _port);
                 Res = true;
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error($"Ошибка при подключении к сервису MTSService {e.Message}");
                 Connected = Res;
             }
 
@@ -59,6 +61,7 @@ namespace MTSMonitoring
         private void SubscriptionOnError(object sender, SubscriptionErrorEventArgs e)
         {
             // Вызов функции обратного вызова и попытка переподключения при возникновении ошибки от сигнала
+            Logger.Error($"Ошибка при получении сигнала от датчика: {e.Message}");
             Connected = false;
             TryReconnect();
         }
@@ -81,6 +84,7 @@ namespace MTSMonitoring
                     // Если не удалось подключиться
                     Connected = false;
                     Console.WriteLine(e.Message);
+                    Logger.Error($"Ошибка при подключении к сервису MTSService: {e.Message}");
 
                     // Пытаемся переподключиться через указаное в настройках время
                     TryReconnect();

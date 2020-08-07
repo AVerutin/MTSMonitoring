@@ -34,6 +34,7 @@ class Silos {
     // Материал
     setMaterial(material) {
         this.#material = material;
+        setMaterial(this.#number, material);
     }
 
     getMaterial() {
@@ -48,6 +49,8 @@ class Silos {
             case 'off' : this.#status = status; break;
             case 'error' : this.#status = status; break;
         }
+
+        setSilosStatus(this.#number, this.#status);
     }
 
     getStatus() {
@@ -64,4 +67,26 @@ class Silos {
             this.#weight = weight;
         }
     }
+}
+
+function setSilosStatus(silos, status) {
+    var number;
+    var stat = 'img/';
+    switch (silos) {
+        case 1: number = 'silos1_status'; break;
+        case 2: number = 'silos2_status'; break;
+        case 3: number = 'silos3_status'; break;
+        case 4: number = 'silos4_status'; break;
+        case 5: number = 'silos5_status'; break;
+        case 6: number = 'silos6_status'; break;
+        case 7: number = 'silos7_status'; break;
+        case 8: number = 'silos8_status'; break;
+    }
+    switch (status.toLowerCase()) {
+        case 'on': stat += 'on.png'; break;
+        case 'off': stat += 'off.png'; break;
+        case 'error': stat += 'error.png'; break;
+    }
+
+    document.getElementById(number).src = stat;
 }

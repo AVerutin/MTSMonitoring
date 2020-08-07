@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using static MTSMonitoring.MTLogger;
 using MtsConnect;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace MTSMonitoring
                 {
                     if (_par.Value == "")
                     {
+                        Logger.Error("Не указан адрес для подключения к MTSService!");
                         throw new ArgumentNullException();
                     }
 
@@ -47,6 +49,7 @@ namespace MTSMonitoring
                     }
                     catch
                     {
+                        Logger.Error("Не указан порт для подключения к MTSService!");
                         throw new ArgumentNullException();
                     }
             }
@@ -138,7 +141,10 @@ namespace MTSMonitoring
         // Обработка вновь подключившегося клиента
         public override async Task OnConnectedAsync()
         {
+            InitNlog();
             clients.Add(Clients.Caller);
+            Logger.Info($"Подлючился новый клиент {Context.ConnectionId}.");
+
             //await Clients.All.SendAsync("send", $"{Context.ConnectionId} вошел в чат");
             GetMTSStats();
             await base.OnConnectedAsync();

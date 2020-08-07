@@ -49,8 +49,14 @@ namespace MTSMonitoring
             // services.Configure<LoggingConfiguration>(Configuration.GetSection("LoggingConfiguration")); 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddDebug();
+            });
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

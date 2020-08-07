@@ -5,7 +5,7 @@ class Weight {
     #layers_cnt;    // Текущее количество слоёв материала в весовом бункере
     #number;        // Номер весового бункера
     #weight;      // Совокупный вес материала, загруженного в весовой бункер
-    #status = ""
+    #status = "";
     #selected = "img/on.png";
     #deselected = "img/off.png";
     #errored = "img/error.png";
@@ -14,7 +14,6 @@ class Weight {
     constructor(number) {
         this.#number = number;
         this.#layers_cnt = 0;
-        this.#number = 0;
         this.#weight = 0.0;
         this.#status = 'off';
     }
@@ -22,14 +21,26 @@ class Weight {
     // Задать вес загруженного материала
     setWeight (weight) {
         this.#weight = weight;
+        setWeightLabel(this.#number, this.#weight);
     }
 
     // Установить статус весового бункера
     // on - весовой бункер выбран для разгрузки
     // off - весовой бункер не выбран
     // error - ошибка весового бункера
-    setStatus (status) {
+    setStatus(status) {
+        switch (status) {
+            case 'on' : this.#status = status; break;
+            case 'off' : this.#status = status; break;
+            case 'error' : this.#status = status; break;
+        }
+
         this.#status = status;
+        setWeightStatus(this.#number, this.#status);
+    }
+
+    getStatus() {
+        return this.#status;
     }
 
     // Добавить новый слой материала и вернуть его
@@ -46,7 +57,9 @@ class Weight {
         layer.Number++;
         this.#layers.push(layer);
         this.#layers_cnt++;
-        
+
+        addLayer(this.#number, layer);
+
         return layer;
     }
 
@@ -84,4 +97,21 @@ class Weight {
         this.#layers_cnt = 0;
         this.#weight = 0.0;
     }
+}
+
+function setWeightStatus(weigth, status) {
+    var number;
+    var stat = 'img/';
+    switch (weigth) {
+        case 1: number = 'weight1_status'; break;
+        case 2: number = 'weight2_status'; break;
+        case 3: number = 'weight3_status'; break;
+    }
+    switch (status.toLowerCase()) {
+        case 'on': stat += 'on.png'; break;
+        case 'off': stat += 'off.png'; break;
+        case 'error': stat += 'error.png'; break;
+    }
+
+    document.getElementById(number).src = stat;
 }
