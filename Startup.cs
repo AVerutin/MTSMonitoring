@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace MTSMonitoring
 {
@@ -48,7 +49,7 @@ namespace MTSMonitoring
             // services.Configure<LoggingConfiguration>(Configuration.GetSection("LoggingConfiguration")); 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -77,6 +78,7 @@ namespace MTSMonitoring
             {
                 endpoints.MapHub<MTSHub>("/MTSHub");
             });
+            logger.LogInformation("Запускаем приложение {0}", env.ContentRootPath + "\\" + env.ApplicationName);
         }
     }
 }

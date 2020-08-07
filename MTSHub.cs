@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace MTSMonitoring
 {
     public class MTSHub : Hub
@@ -32,7 +31,9 @@ namespace MTSMonitoring
                 if (_par.Key == "address")
                 {
                     if (_par.Value == "")
+                    {
                         throw new ArgumentNullException();
+                    }
 
                     mtsIP = _par.Value;
                     continue;

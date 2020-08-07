@@ -6,6 +6,7 @@ class Silos {
     #weight;
     #material; 
     #status;
+    #part_no;
 
     #selected = "img/on.png";
     #deselected = "img/off.png";
@@ -16,8 +17,21 @@ class Silos {
         this.#weight = 0.0;
         this.#material = "";
         this.#status = "off";
+        this.#part_no = 0;
     }
 
+    // Номер партии
+    setPartNo (partno) {
+        if (partno > 0) {
+            this.#part_no = partno;
+        }
+    }
+
+    getPartNo () {
+        return this.#part_no;
+    }
+
+    // Материал
     setMaterial(material) {
         this.#material = material;
     }
@@ -26,6 +40,7 @@ class Silos {
         return this.#material;
     }
 
+    // Статус
     setStatus(status)
     {
         switch (status) {
@@ -39,6 +54,7 @@ class Silos {
         return this.#status;
     }
 
+    // Вес
     getWeight() {
         return this.#weight;
     }

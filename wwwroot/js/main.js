@@ -3,6 +3,7 @@ function init() {
 
     siloses = [];
     weights = [];
+    way_target = 0;
 
     // Создаем 8 загрузочных силосов
     for (var i=1; i<9; i++) {
@@ -199,6 +200,7 @@ function parseSensors (data) {
                     // Удаляем все слои в весовом бункере
                     weights[0].empty();
                     clearTable(1);
+                    selectTarget();
                 } else {
                     setWeightStatus(1, 'off');
                     weights[0].setStatus('off');
@@ -216,6 +218,7 @@ function parseSensors (data) {
                     // Удаляем все слои в весовом бункере
                     weights[1].empty();
                     clearTable(2);
+                    selectTarget();
                 } else {
                     setWeightStatus(2, 'off');
                     weights[1].setStatus('off');
@@ -233,6 +236,7 @@ function parseSensors (data) {
                     // Удаляем все слои в весовом бункере
                     weights[2].empty();
                     clearTable(3);
+                    selectTarget();
                 } else {
                     setWeightStatus(3, 'off');
                     weights[2].setStatus('off');
@@ -248,14 +252,20 @@ function parseSensors (data) {
                 //  (загрузка весового бункера может производиться из одного силоса единоразово)
                 var material;
 
+                // Номер партии для материала
+                let partNo;
+
                 if (siloses[0].getStatus() == 'on') { 
                     material = siloses[0].getMaterial();
+                    partNo = siloses[0].getPartNo();
                 } else {
                     if (siloses[1].getStatus() == 'on') {
                         material = siloses[1].getMaterial();
+                        partNo = siloses[1].getPartNo();
                     } else {
                         if (siloses[2].getStatus() == 'on') {
                             material = siloses[2].getMaterial();
+                            partNo = siloses[2].getPartNo();
                         }
                     }
                 }
@@ -269,9 +279,6 @@ function parseSensors (data) {
 
                 // Расчет вес нового слоя материала
                 let layerWeight = newWeight - prevWeight;
-
-                // Получаем номер партии для материала
-                let partNo = 1;
 
                 // Добавление нового слоя в весовой бункер
                 // TODO: Откуда брать номер партии материала?
@@ -290,14 +297,20 @@ function parseSensors (data) {
                 //  (загрузка весового бункера может производиться из одного силоса единоразово)
                 var material;
 
+                // Номер партии для материала
+                let partNo;
+
                 if (siloses[3].getStatus() == 'on') { 
                     material = siloses[3].getMaterial();
+                    partNo = siloses[3].getPartNo();
                 } else {
                     if (siloses[4].getStatus() == 'on') {
                         material = siloses[4].getMaterial();
+                        partNo = siloses[4].getPartNo();
                     } else {
                         if (siloses[5].getStatus() == 'on') {
                             material = siloses[5].getMaterial();
+                            partNo = siloses[5].getPartNo();
                         }
                     }
                 }
@@ -310,9 +323,6 @@ function parseSensors (data) {
 
                 // Расчет вес нового слоя материала
                 let layerWeight = newWeight - prevWeight;
-
-                // Получаем номер партии для материала
-                let partNo = 1;
 
                 // Добавление нового слоя в весовой бункер
                 // TODO: Откуда брать номер партии материала?
@@ -331,11 +341,16 @@ function parseSensors (data) {
                 //  (загрузка весового бункера может производиться из одного силоса единоразово)
                 var material;
 
+                // Номер партии для материала
+                let partNo;
+
                 if (siloses[6].getStatus() == 'on') { 
                     material = siloses[6].getMaterial();
+                    partNo = siloses[6].getPartNo();
                 } else {
                     if (siloses[7].getStatus() == 'on') {
                         material = siloses[7].getMaterial();
+                        partNo = siloses[7].getPartNo();
                     } 
                 }
 
@@ -347,9 +362,6 @@ function parseSensors (data) {
 
                 // Расчет вес нового слоя материала
                 let layerWeight = newWeight - prevWeight;
-
-                // Получаем номер партии для материала
-                let partNo = 1;
 
                 // Добавление нового слоя в весовой бункер
                 // TODO: Откуда брать номер партии материала?
@@ -370,12 +382,52 @@ function parseSensors (data) {
                 setTemperature(sensors[i].value);
                 break;
             }
+            case 4030: {
+                // Номер партии материала в силосе 1
+                siloses[0].setPartNo(sensors[i].value);
+                break;
+            }
+            case 4031: {
+                // Номер партии материала в силосе 1
+                siloses[1].setPartNo(sensors[i].value);
+                break;
+            }
+            case 4032: {
+                // Номер партии материала в силосе 1
+                siloses[2].setPartNo(sensors[i].value);
+                break;
+            }
+            case 4033: {
+                // Номер партии материала в силосе 1
+                siloses[3].setPartNo(sensors[i].value);
+                break;
+            }
+            case 4034: {
+                // Номер партии материала в силосе 1
+                siloses[4].setPartNo(sensors[i].value);
+                break;
+            }
+            case 4035: {
+                // Номер партии материала в силосе 1
+                siloses[5].setPartNo(sensors[i].value);
+                break;
+            }
+            case 4036: {
+                // Номер партии материала в силосе 1
+                siloses[6].setPartNo(sensors[i].value);
+                break;
+            }
+            case 4037: {
+                // Номер партии материала в силосе 1
+                siloses[7].setPartNo(sensors[i].value);
+                break;
+            }
         }
     }
 }
 
-function selectTarget (target) {
-    switch (target) {
+function selectTarget () {
+    switch (way_target) {
         case 1: {
             // Цель - УПК
             setActive('elevator1');
@@ -557,7 +609,9 @@ function setWeightStatus(weigth, status) {
 }
 
 function setTarget(target) {
-    selectTarget(target);
+    // selectTarget(target);
+
+    way_target = target;
     switch (target) {
         case 1: {
             // Цель - УПК
