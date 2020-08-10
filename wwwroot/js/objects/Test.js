@@ -3,26 +3,27 @@
 class Test { // СИЛОС
 
     // Свойства класса
-    #_id;
-    #_number;
-    #_status;
-    #_part_no;
-    #_showed;
-    #_material;
-    #_width;
-    #_size;
+    #_id;               // Уникальный идентификатор экземпяла класса (для элемента img)
+    #_number;           // Номер силоса
+    #_status;           // Текущий статус силоса
+    #_showed;           // Признак отображения на странице
+    #_material;         // Наименование материала в силосе
+    #_width;            // Ширина изображения (для масштабирования изображения) в px
+    #_size;             // Размер изображения (для масштабирования изображения) в %
 
-    #_layers = [];
-    #_imgs = {};
-    #_elements = {};
-    #_position = {};
+    // #_part_no = [];  // Номер партии материала в силосе (перенесено в слои материала)
+    #_layers = [];      // Слои материала, загруженные в силос (отличаются номерами партий и весом)
+    #_imgs = {};        // Изображения для отображения статусов силоса (on, off, error)
+    #_elements = {};    // Список элементов отображения (значок статуса, номер силоса, материал, номера партий)
+    #_position = {};    // Координаты изображения силоса на странице
 
+    // Конструктор класса
     constructor(number) {
         if (number > 0) {
             this.#_id = 'silos_' + number;
             this.#_number = number;
             this.#_status = "off";
-            this.#_part_no = 0;
+            // this.#_part_no = 0;
             this.#_showed = false;
             this.#_material = "";
             this.#_width = 0;
@@ -44,11 +45,13 @@ class Test { // СИЛОС
             var elements = {};
 
             // Номер партии
-            var partno = {};
-            partno['Div'] = "";
-            partno['Top'] = 0;
-            partno['Left'] = 0;
-            elements['PartNo'] = partno;
+            var parts = [];
+            // var partno = {};
+            // partno['Div'] = "";
+            // partno['Top'] = 0;
+            // partno['Left'] = 0;
+            // parts.push(partno);
+            elements['PartNo'] = parts;
             
             // Номер силоса
             var num = {};
@@ -154,21 +157,41 @@ class Test { // СИЛОС
     }
 
     // Установить номер партии материала
-    setPartNo(partno) {
-        if (partno > 0) {
-            this.#_part_no = partno;
-        }
-    }
+    // setPartNo(partno) {
+    //     if (partno > 0) {
+    //         this.#_part_no = partno;
+    //     }
+    // }
 
     // Получить номер партии
-    getPartNo() {
-        return this.#_part_no;
-    }
+    // getPartNo() {
+    //     return this.#_part_no;
+    // }
+
+    // Отобразить номер партии материала
+    // showPartNo() {
+
+    // }
+
+    // Спрятать номер партии материала
+    // hidePartNo() {
+    //     var el = this.#_elements.PartNo.Div;
+    //     if (el != "") {
+    //         var stat = document.getElementById(el);
+    //         stat.style.display = 'none';
+    //     }
+    // }
+
+    // Установить позицию индикатора номера партии материала
+    // setPartNoPosition(top, left) {
+
+    // }
+
 
     // Получить позицию силоса на странице (координаты Top и Left)
-    getPosition() {
-        return this.#_position;
-    }
+     getPosition() {
+         return this.#_position;
+     }
 
     // Получить элементы отображения силоса (номер, статус, материал)
     getElements() {
@@ -435,25 +458,6 @@ class Test { // СИЛОС
             // Устанавливаем цвет для текстовой метки на экране
             document.getElementById(el).style.fontWeight = weight;
         }
-    }
-
-    // Отобразить номер партии материала
-    showPartNo() {
-
-    }
-
-    // Спрятать номер партии материала
-    hidePartNo() {
-        var el = this.#_elements.PartNo.Div;
-        if (el != "") {
-            var stat = document.getElementById(el);
-            stat.style.display = 'none';
-        }
-    }
-
-    // Установить позицию индикатора номера партии материала
-    setPartNoPosition(top, left) {
-
     }
 
     // Установить статус силоса
