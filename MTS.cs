@@ -19,13 +19,13 @@ namespace MTSMonitoring
         private static string _address;
         private static int _port;
 
-        public MTS(string addr, int port) 
+        public MTS(string addr, int port, int timeout, int reconnect) 
         {
             InitNlog();
             _address = addr;
             _port = port;
-            _reconnectTimeout = 3000;
-            _timeout = 1500;
+            _reconnectTimeout = reconnect;
+            _timeout = timeout;
         }
 
         public bool Connect ()

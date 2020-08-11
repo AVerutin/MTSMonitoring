@@ -10,14 +10,13 @@ namespace MTSMonitoring
 {
     public class Startup
     {
-        // Получение настроек приложения из файла конфигурации appsettings.json
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration config)
         {
-            // Подключаем класс настроек приложения
-            Configuration = configuration;
+            Config = config;
         }
+
+        // Получение настроек приложения из файла конфигурации appsettings.json
+        public IConfiguration Config { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -42,11 +41,8 @@ namespace MTSMonitoring
             services.AddSignalR();
 
             // Получаем настройки для подключения к сервису MTSService из файла настроек
-            services.Configure<MtsConnectionOptions>(Configuration.GetSection("Mts"));
-
-            // Настройка логирования для определенных элементов слежения (агрегатов, узлов и пр.)
-            //TODO: Разобраться, почему не работает и запустить логирование
-            // services.Configure<LoggingConfiguration>(Configuration.GetSection("LoggingConfiguration")); 
+            services.Configure<MtsConnectionOptions>(Config.GetSection("Mts"));
+            services.Configure<DBConnectionOptions>(Config.GetSection("PGSQL"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -67,19 +63,12 @@ namespace MTSMonitoring
             }
 
             app.UseCors("CorsPolicy");
-
             app.UseHttpsRedirection();
-
-            //DefaultFilesOptions options = new DefaultFilesOptions();
-            //options.DefaultFileNames.Clear();
-            //options.DefaultFileNames.Add("index.html");
-            //app.UseDefaultFiles(options);
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseRouting();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<MTSHub>("/MTSHub");

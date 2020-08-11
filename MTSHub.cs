@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace MTSMonitoring
 {
@@ -13,7 +14,9 @@ namespace MTSMonitoring
         private MTS mts;
         private string mtsIP;
         private int mtsPort;
-        private static string Message;
+        private int mtsTimeout;
+        private int mtsReconnect;
+        private IConfigurationRoot config;
         private Sensors sensors;
         private Dictionary<ushort, double> sensorsList = new Dictionary<ushort, double>();
         private readonly List<IClientProxy> clients = new List<IClientProxy>();
@@ -24,35 +27,21 @@ namespace MTSMonitoring
             ConfigMill cnf_mill = new ConfigMill();
             List<ushort> signals = cnf_mill.GetSignals();
 
+            // Читаем параметры подключения к СУБД PostgreSQL
+            config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            string db_host = config.GetSection("PGSQL:DBHost").Value;
+            string db_port = config.GetSection("PGSQL:DBPort").Value;
+            string db_name = config.GetSection("PGSQL:DBName").Value;
+            string db_user = config.GetSection("PGSQL:DBUser").Value;
+            string db_pass = config.GetSection("PGSQL:DBPass").Value;
+
             // Читаем параметры подключения к MTSService
-            Config cnf = new Config();
-            Dictionary<string, string> _pars = cnf.GetConfigList();
-            foreach (KeyValuePair<string, string> _par in _pars)
-            {
-                if (_par.Key == "address")
-                {
-                    if (_par.Value == "")
-                    {
-                        Logger.Error("Не указан адрес для подключения к MTSService!");
-                        throw new ArgumentNullException();
-                    }
-
-                    mtsIP = _par.Value;
-                    continue;
-                }
-
-                if (_par.Key == "port")
-                    try
-                    {
-                        mtsPort = int.Parse(_par.Value);
-                        continue;
-                    }
-                    catch
-                    {
-                        Logger.Error("Не указан порт для подключения к MTSService!");
-                        throw new ArgumentNullException();
-                    }
-            }
+            mtsIP = config.GetSection("Mts:Ip").Value;
+            mtsPort = Int32.Parse(config.GetSection("Mts:Port").Value);
+            mtsTimeout = Int32.Parse(config.GetSection("Mts:Timeout").Value);
+            mtsReconnect = Int32.Parse(config.GetSection("Mts:ReconnectTimeout").Value);
 
             List<ushort> ids = new List<ushort>();
             sensors = new Sensors();
@@ -65,7 +54,7 @@ namespace MTSMonitoring
             }
 
             // Вынести параметры подключения в файл настроек
-            mts = new MTS(mtsIP, mtsPort);
+            mts = new MTS(mtsIP, mtsPort, mtsTimeout, mtsReconnect);
             await mts.Subscribe(ids, SubOnNewDiff);
         }
 
@@ -128,9 +117,9 @@ namespace MTSMonitoring
                     }
                 }
 
-                sensors.SetValue(key, val.ToString());
+                // sensors.SetValue(key, val.ToString());
                 // Console.WriteLine("New signal from MTS: {0} = {1}", key, val);
-                Message = sensors.ToString();
+                // Message = sensors.ToString();
                 // foreach (var client in clients)
                 // {
                     // client.SendAsync("receive", Message);
