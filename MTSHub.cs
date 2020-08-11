@@ -43,6 +43,23 @@ namespace MTSMonitoring
             mtsTimeout = Int32.Parse(config.GetSection("Mts:Timeout").Value);
             mtsReconnect = Int32.Parse(config.GetSection("Mts:ReconnectTimeout").Value);
 
+            /* Начало тестирование модуля работы со слоями материалов */
+
+            Ingot ingot = new Ingot();
+            ingot.Test();
+
+            DBConnectionOptions DBCnf = new DBConnectionOptions(config);
+            DBConnection db = new DBConnection(DBCnf);
+            if (db.Connect())
+            {
+                // Устанорвлено подключение к СУБД
+                Logger.Info("Подключились к СУБД");
+                bool q = db.ExequteQuery("CREATE TABLE IF NOT EXISTS Material (Id SERIAL PRIMARY KEY, Name varchar(10), Partno smallint, Weight real);");
+                var data = db.ReadData();
+            }
+
+            /* Конец тестирования модуля работы со слоями материалов */
+
             List<ushort> ids = new List<ushort>();
             sensors = new Sensors();
 

@@ -1,30 +1,40 @@
-﻿namespace MTSMonitoring
+﻿using Microsoft.Extensions.Configuration;
+
+namespace MTSMonitoring
 {
     public class DBConnectionOptions
     {
         /// <summary>
         /// Адрес сервера СУБД
         /// </summary>
-        public string DBHost { get; set; }
-
+        public string DBHost { get; }
         /// <summary>
         /// Порт для подключения к СУБД
         /// </summary>
-        public ushort DBPort { get; set; }
+        public ushort DBPort { get; }
 
         /// <summary>
         /// Имя базы данных
         /// </summary>
-        public string DBName { get; set; }
+        public string DBName { get; }
 
         /// <summary>
         /// Имя пользователя СУБД
         /// </summary>
-        public string DBUser { get; set; }
+        public string DBUser { get; }
 
         /// <summary>
         /// Пароль для подключения к СУБД
         /// </summary>
-        public string DBPass { get; set; }
+        public string DBPass { get; }
+
+        public DBConnectionOptions(IConfigurationRoot config)
+        {
+            DBHost = config.GetSection("PGSQL:DBHost").Value;
+            DBPort = ushort.Parse(config.GetSection("PGSQL:DBPort").Value);
+            DBName = config.GetSection("PGSQL:DBName").Value;
+            DBUser = config.GetSection("PGSQL:DBUser").Value;
+            DBPass = config.GetSection("PGSQL:DBPass").Value;
+        }
     }
 }
