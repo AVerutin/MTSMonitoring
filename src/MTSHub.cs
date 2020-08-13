@@ -21,11 +21,10 @@ namespace MTSMonitoring
         private Dictionary<ushort, double> sensorsList = new Dictionary<ushort, double>();
         private readonly List<IClientProxy> clients = new List<IClientProxy>();
 
-        private async void GetMTSStats()
+        private async void Subscribe()
         {
-            // Получаем список сигналов из файла ConfigMill.txt
-            ConfigMill cnf_mill = new ConfigMill();
-            List<ushort> signals = cnf_mill.GetSignals();
+            // Подключаем модуль логирования
+            InitNlog();
 
             // Читаем параметры подключения к СУБД PostgreSQL
             config = new ConfigurationBuilder()
@@ -43,38 +42,51 @@ namespace MTSMonitoring
             mtsTimeout = Int32.Parse(config.GetSection("Mts:Timeout").Value);
             mtsReconnect = Int32.Parse(config.GetSection("Mts:ReconnectTimeout").Value);
 
+            /**********************************************************/
             /* Начало тестирование модуля работы со слоями материалов */
-
-            Ingot ingot = new Ingot();
-            ingot.Test();
-
-            DBConnectionOptions DBCnf = new DBConnectionOptions(config);
-            DBConnection db = new DBConnection(DBCnf);
-            if (db.Connect())
-            {
-                // Устанорвлено подключение к СУБД
-                Logger.Info("Подключились к СУБД");
-                bool q = db.ExequteQuery("CREATE TABLE IF NOT EXISTS Material (Id SERIAL PRIMARY KEY, Name varchar(10), Partno smallint, Weight real);");
-                var data = db.ReadData();
-            }
-
+            /**********************************************************/
+            /**/
+            /**/ Ingot ingot = new Ingot();
+            /**/ ingot.Test();
+            /**/
+            /**/ DBConnectionOptions DBCnf = new DBConnectionOptions(config);
+            /**/ DBConnection db = new DBConnection(DBCnf);
+            /**/
+            /**/ // Устанорвлено подключение к СУБД
+            /**/ Logger.Info("Подключились к СУБД");
+            /**/ db.InitDB();
+            /**/ var data = db.ReadData();
+            /**/ 
+            /**/ Material mt = new Material(10, "SiCa", 12, 9.3);
+            /**/ bool m = db.AddMaterial(mt);
+            /**/
+            /*********************************************************/
             /* Конец тестирования модуля работы со слоями материалов */
+            /*********************************************************/
 
+            // Получаем список сигналов из файла ConfigMill.txt
+            ConfigMill cnf_mill = new ConfigMill();
+            List<ushort> signals = cnf_mill.GetSignals();
             List<ushort> ids = new List<ushort>();
             sensors = new Sensors();
 
             foreach (ushort item in signals)
             {
-                // ushort sensor = item;
                 ids.Add(item);
                 sensors.AddSensor(item);
             }
 
-            // Вынести параметры подключения в файл настроек
+            // Создание подключения к службе MTSService
             mts = new MTS(mtsIP, mtsPort, mtsTimeout, mtsReconnect);
+
+            // Открытие подписки на сигналы
             await mts.Subscribe(ids, SubOnNewDiff);
         }
 
+        /// <summary>
+        /// Обработка сигнала при получении его нового значения
+        /// </summary>
+        /// <param name="e">Экземпляр класса MtsConnect.SubscriptionStateEventArgs</param>
         private void SubOnNewDiff(SubscriptionStateEventArgs e)
         {
             string msg;
@@ -147,12 +159,11 @@ namespace MTSMonitoring
         // Обработка вновь подключившегося клиента
         public override async Task OnConnectedAsync()
         {
-            InitNlog();
             clients.Add(Clients.Caller);
             Logger.Info($"Подлючился новый клиент {Context.ConnectionId}.");
 
             //await Clients.All.SendAsync("send", $"{Context.ConnectionId} вошел в чат");
-            GetMTSStats();
+            Subscribe();
             await base.OnConnectedAsync();
         }
 
