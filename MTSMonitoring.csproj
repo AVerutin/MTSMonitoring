@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="src\MTLogger.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\index.html" />
     <None Include="wwwroot\js\signalr\dist\browser\signalr.min.js" />
   </ItemGroup>
@@ -17,6 +21,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLog" Version="4.7.3" />
+    <PackageReference Include="NLog.Config" Version="4.7.3" />
     <PackageReference Include="Npgsql" Version="4.1.4" />
   </ItemGroup>
 

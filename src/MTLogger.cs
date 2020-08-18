@@ -16,7 +16,7 @@ namespace MTSMonitoring
             var targetFolder = AppDomain.CurrentDomain.BaseDirectory;
 
             targetFile.FileName = targetFolder + "/logs/${shortdate}.log";
-            targetFile.Layout = "[${date:format=dd.MM.yyyy HH\\:mm\\:ss.fff}] [${level:uppercase=true}]: ${message}";
+            targetFile.Layout = "[${date:format=dd.MM.yyyy HH\\:mm\\:ss.fff}] [${level:uppercase=true} ${logger}]: ${message}";
             targetFile.ArchiveFileName = "${basedir}/logs/archives/${shortdate}.zip";
             targetFile.ArchiveEvery = FileArchivePeriod.Day;
             targetFile.EnableArchiveFileCompression = true;
@@ -33,7 +33,7 @@ namespace MTSMonitoring
 
             LogManager.Configuration = configNLog;
             Logger = LogManager.GetCurrentClassLogger();
-            Logger.Info("Logger started.");
+            // Logger.Info("Logger started.");
         }
     }
 }

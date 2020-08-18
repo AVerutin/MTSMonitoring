@@ -1,7 +1,7 @@
 ﻿using MtsConnect;
 using System;
 using System.Collections.Generic;
-using static MTSMonitoring.MTLogger;
+using NLog;
 using System.Threading.Tasks;
 
 namespace MTSMonitoring
@@ -14,14 +14,14 @@ namespace MTSMonitoring
         private Action<SubscriptionStateEventArgs> _callBack;
         private readonly int _reconnectTimeout;
         private readonly int _timeout;
-
+        private readonly Logger logger;
 
         private static string _address;
         private static int _port;
 
         public MTS(string addr, int port, int timeout, int reconnect) 
         {
-            InitNlog();
+            logger = LogManager.GetCurrentClassLogger();
             _address = addr;
             _port = port;
             _reconnectTimeout = reconnect;
@@ -38,7 +38,7 @@ namespace MTSMonitoring
             }
             catch (Exception e)
             {
-                Logger.Error($"Ошибка при подключении к сервису MTSService {e.Message}");
+                logger.Error($"Ошибка при подключении к сервису MTSService {e.Message}");
                 Connected = Res;
             }
 
@@ -61,7 +61,7 @@ namespace MTSMonitoring
         private void SubscriptionOnError(object sender, SubscriptionErrorEventArgs e)
         {
             // Вызов функции обратного вызова и попытка переподключения при возникновении ошибки от сигнала
-            Logger.Error($"Ошибка при получении сигнала от датчика: {e.Message}");
+            logger.Error($"Ошибка при получении сигнала от датчика: {e.Message}");
             Connected = false;
             TryReconnect();
         }
@@ -84,7 +84,7 @@ namespace MTSMonitoring
                     // Если не удалось подключиться
                     Connected = false;
                     Console.WriteLine(e.Message);
-                    Logger.Error($"Ошибка при подключении к сервису MTSService: {e.Message}");
+                    logger.Error($"Ошибка при подключении к сервису MTSService: {e.Message}");
 
                     // Пытаемся переподключиться через указаное в настройках время
                     TryReconnect();

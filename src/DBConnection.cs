@@ -1,26 +1,40 @@
 ﻿using System;
-using static MTSMonitoring.MTLogger;
+using NLog;
 using Npgsql;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Collections.Generic;
 
 namespace MTSMonitoring
 {
     public class DBConnection
     {
 
-        private NpgsqlConnection Connection;
-        private string ConnectionString;
+        private readonly NpgsqlConnection Connection;
+        private readonly string ConnectionString;
         private NpgsqlCommand SQLCommand;
         private NpgsqlDataReader SQLData;
+        private readonly IConfigurationRoot config;
+        private readonly Logger logger;
 
         /// <summary>
         /// Конструктор создания подключения к базе данных
         /// </summary>
         /// <param name="options">Параметры подключения к базе данных</param>
-        public DBConnection(DBConnectionOptions options)
+        public DBConnection()
         {
-            ConnectionString = $"Server={options.DBHost};Username={options.DBUser};Database={options.DBName};Port={options.DBPort};Password={options.DBPass}"; // ;SSLMode=Prefer
+            // Читаем параметры подключения к СУБД PostgreSQL
+            logger = LogManager.GetCurrentClassLogger();
+            config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            string db_host = config.GetSection("PGSQL:DBHost").Value;
+            string db_port = config.GetSection("PGSQL:DBPort").Value;
+            string db_name = config.GetSection("PGSQL:DBName").Value;
+            string db_user = config.GetSection("PGSQL:DBUser").Value;
+            string db_pass = config.GetSection("PGSQL:DBPass").Value;
+
+            ConnectionString = $"Server={db_host};Username={db_user};Database={db_name};Port={db_port};Password={db_pass}"; // ;SSLMode=Prefer
 
             try
             {
@@ -28,7 +42,8 @@ namespace MTSMonitoring
             }
             catch (Exception e)
             {
-                Logger.Error($"Не удалось подключиться к БД [{e.Message}]");
+                logger.Error($"Не удалось подключиться к БД [{e.Message}]");
+                throw new DataException($"Ошибка при подключении к базе данных: [{e.Message}]");
             }
 
             SQLCommand = null;
@@ -53,12 +68,14 @@ namespace MTSMonitoring
                 }
                 catch (Exception e)
                 {
-                    Logger.Error($"Неудачнавя инициализация БД: [{e.Message}]");
+                    logger.Error($"Неудачнавя инициализация БД: [{e.Message}]");
+                    throw new DataException($"Ошибка при инициализации базы данных: [{e.Message}]");
                 }
             }
             else
             {
-                Logger.Error("Неудачнавя инициализация БД");
+                logger.Error("Неудачнавя инициализация БД");
+                throw new DataException($"Не удалось установить подключение к базе данных");
             }
         }
 
@@ -77,13 +94,13 @@ namespace MTSMonitoring
                 {
                     Connection.Open();
                     SQLCommand.ExecuteNonQuery();
-                    Result = true;
                     Connection.Close();
+                    Result = true;
                 }
                 catch (Exception e)
                 {
                     Result = false;
-                    Logger.Error($"Ошибка выполнения запроса: [{e.Message}]");
+                    logger.Error($"Ошибка выполнения запроса: [{e.Message}]");
                 }
             }
             else
@@ -105,18 +122,17 @@ namespace MTSMonitoring
 
             if (Connection != null)
             {
-                long id = material.getId();
                 string name = material.getName();
                 int partno = material.getPartNo();
                 double weight = material.getWeight();
                 string w = weight.ToString();
                 w = w.Replace(',', '.');
+                double volume = material.getVolume();
+                string v = volume.ToString();
+                v = v.Replace(',', '.');
 
-                // string query = string.Format("INSERT INTO Material (id, name, partno, weight) VALUES ({0}, '{1}', {2}, {3});", 
-                //     id, name, partno, w);
-
-                string query = string.Format("INSERT INTO Material (name, partno, weight) VALUES ('{0}', {1}, {2});",
-                    name, partno, w);
+                string query = string.Format("INSERT INTO Material (name, partno, weight, volume) VALUES ('{0}', {1}, {2}, {3});",
+                    name, partno, w, v);
 
                 SQLCommand = new NpgsqlCommand(query, Connection);
 
@@ -124,12 +140,12 @@ namespace MTSMonitoring
                 {
                     Connection.Open();
                     SQLCommand.ExecuteNonQuery();
-                    Result = true;
                     Connection.Close();
+                    Result = true;
                 }
                 catch (Exception e)
                 {
-                    Logger.Error("Не удалось добавить новый материал {0}: {1}", material.getName(), e.Message);
+                    logger.Error("Не удалось добавить новый материал {0}: {1}", material.getName(), e.Message);
                     Result = false;
                 }
             } else
@@ -141,9 +157,22 @@ namespace MTSMonitoring
         }
 
 
-        private bool writeData(string query)
+        public bool WriteData(string query)
         {
             bool Result = false;
+
+            try
+            {
+                NpgsqlCommand command = new NpgsqlCommand(query, Connection);
+                Connection.Open();
+                command.ExecuteNonQuery();
+                Connection.Close();
+                Result = true;
+            }
+            catch (Exception e)
+            {
+                logger.Error($"Не удалось записать данные в базу данных: [{query}] = {e.Message}");
+            }
 
             return Result;
         }
@@ -159,8 +188,10 @@ namespace MTSMonitoring
 
             if (Connection != null)
             {
-                NpgsqlCommand command = new NpgsqlCommand(query, Connection);
-                command.CommandTimeout = 20;
+                NpgsqlCommand command = new NpgsqlCommand(query, Connection)
+                {
+                    CommandTimeout = 20
+                };
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(command);
                 DataSet ds = new DataSet();
                 da.Fill(ds, "Material");
@@ -187,10 +218,9 @@ namespace MTSMonitoring
        /// Получить материал из таблицы БД
        /// </summary>
        /// <returns>Экземпляр класса Material</returns>
-        public Material ReadData()
+        public List<Material> ReadData()
         {
-            Material Result = new Material();
-            Connection.Open();
+            List<Material> Result = new List<Material>();
 
             if (Connection != null)
             {
@@ -200,23 +230,27 @@ namespace MTSMonitoring
 
                 SQLCommand = new NpgsqlCommand(query, Connection);
 
+                Connection.Open();
                 SQLData = SQLCommand.ExecuteReader();
+
                 while (SQLData.Read())
                 {
+                    Material layer = new Material();
+
                     long id = SQLData.GetInt64(0);
                     string name = SQLData.GetString(1);
                     int partno = SQLData.GetInt32(2);
                     double weight = SQLData.GetDouble(3);
 
-                    Result.setMaterial(id, name, partno, weight);
+                    layer.setMaterial(id, name, partno, weight);
+                    Result.Add(layer);
                 }
+                Connection.Close();
             }
             else
             {
                 Result = null;
             }
-
-            Connection.Close();
 
             return Result;
         }

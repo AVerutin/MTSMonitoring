@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using static MTSMonitoring.MTLogger;
+using NLog;
 using MtsConnect;
 using System;
 using System.Collections.Generic;
@@ -18,25 +18,16 @@ namespace MTSMonitoring
         private int mtsReconnect;
         private IConfigurationRoot config;
         private Sensors sensors;
-        private Dictionary<ushort, double> sensorsList = new Dictionary<ushort, double>();
+        private readonly Dictionary<ushort, double> sensorsList = new Dictionary<ushort, double>();
         private readonly List<IClientProxy> clients = new List<IClientProxy>();
+        private Logger logger;
 
         private async void Subscribe()
         {
-            // Подключаем модуль логирования
-            InitNlog();
-
-            // Читаем параметры подключения к СУБД PostgreSQL
+            // Читаем параметры подключения к MTSService
             config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            string db_host = config.GetSection("PGSQL:DBHost").Value;
-            string db_port = config.GetSection("PGSQL:DBPort").Value;
-            string db_name = config.GetSection("PGSQL:DBName").Value;
-            string db_user = config.GetSection("PGSQL:DBUser").Value;
-            string db_pass = config.GetSection("PGSQL:DBPass").Value;
-
-            // Читаем параметры подключения к MTSService
             mtsIP = config.GetSection("Mts:Ip").Value;
             mtsPort = Int32.Parse(config.GetSection("Mts:Port").Value);
             mtsTimeout = Int32.Parse(config.GetSection("Mts:Timeout").Value);
@@ -49,15 +40,14 @@ namespace MTSMonitoring
             /**/ Ingot ingot = new Ingot();
             /**/ ingot.Test();
             /**/
-            /**/ DBConnectionOptions DBCnf = new DBConnectionOptions(config);
-            /**/ DBConnection db = new DBConnection(DBCnf);
+            /**/ DBConnection db = new DBConnection();
             /**/
             /**/ // Устанорвлено подключение к СУБД
-            /**/ Logger.Info("Подключились к СУБД");
+            /**/ logger.Info("Подключились к СУБД");
             /**/ db.InitDB();
             /**/ var data = db.ReadData();
             /**/ 
-            /**/ Material mt = new Material(10, "SiCa", 12, 9.3);
+            /**/ Material mt = new Material(13, "CaO", 10, 7.9, 7.2);
             /**/ bool m = db.AddMaterial(mt);
             /**/
             /*********************************************************/
@@ -159,8 +149,9 @@ namespace MTSMonitoring
         // Обработка вновь подключившегося клиента
         public override async Task OnConnectedAsync()
         {
+            logger = LogManager.GetCurrentClassLogger();
             clients.Add(Clients.Caller);
-            Logger.Info($"Подлючился новый клиент {Context.ConnectionId}.");
+            logger.Info("Подлючился новый клиент {0}", Context.ConnectionId);
 
             //await Clients.All.SendAsync("send", $"{Context.ConnectionId} вошел в чат");
             Subscribe();
