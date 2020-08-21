@@ -71,7 +71,8 @@ namespace MTSMonitoring
             
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<MTSHub>("/MTSHub");
+                endpoints.MapHub<ARM1>("/ARM1");
+                endpoints.MapHub<ARM2>("/ARM2");
             });
             logger.LogInformation("Запускаем приложение {0}", env.ContentRootPath + "\\" + env.ApplicationName);
         }

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace MTSMonitoring
 {
-    public class MTSHub : Hub
+    public class ARM2 : Hub
     {
         private MTS mts;
         private string mtsIP;
@@ -92,7 +92,7 @@ namespace MTSMonitoring
             mts = new MTS(mtsIP, mtsPort, mtsTimeout, mtsReconnect);
 
             // Открытие подписки на сигналы
-            await mts.Subscribe(ids, SubOnNewDiff);
+            await mts.Subscribe(/* ids */ signals, SubOnNewDiff);
         }
 
         /// <summary>
