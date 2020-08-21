@@ -7,11 +7,11 @@
     {
         // Свойства класса Материал
         #region
-        private long ID;            // Уникальный идентификационный номер
-        private string Name;        // Наименование материала
-        private int PartNo;         // Номер партии
-        private double Weight;      // Вес партии материала 
-        private double Volume;      // Объем материала в партии 
+        public long ID { get; private set; }            // Уникальный идентификационный номер
+        public string Name { get; private set; }        // Наименование материала
+        public int PartNo { get; private set; }         // Номер партии
+        public double Weight { get; private set; }      // Вес партии материала 
+        public double Volume { get; private set; }      // Объем материала в партии 
         #endregion
 
         // Конструктор по умолчанию
