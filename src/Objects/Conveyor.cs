@@ -149,6 +149,7 @@ namespace MTSMonitoring
 
                 ushort uid = GetNextUID();
                 Material.Add(uid, material);
+                MaterialCount = Material.Count;
 
                 await OnDelivered(uid, ondelivered);
             }
@@ -193,25 +194,6 @@ namespace MTSMonitoring
             return uid;
         }
 
-        /// <summary>
-        /// Удалить материал с конвейера по его номеру
-        /// </summary>
-        /// <param name="number">Номер материала на конвейере</param>
-        /// <returns></returns>
-        private Material RemoveMaterial(ushort number)
-        {
-            if (number > MaterialCount)
-            {
-                logger.Error($"Номер материала [{number}] превышает количество материала [{MaterialCount}] на конвейере");
-                throw new ArgumentOutOfRangeException($"Номер материала [{number}] превышает количество материала [{MaterialCount}] на конвейере");
-            }
-
-            ushort num = --number;
-            Material Result = null; //Material[num];
-
-
-            return Result;
-        }
 
         /// <summary>
         /// Метод, осуществляет доставку материала до конца конвейера и вызывает внешний метод при завершении доставки

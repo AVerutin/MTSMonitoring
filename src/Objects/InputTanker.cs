@@ -159,8 +159,8 @@ namespace MTSMonitoring
             if (LayersCount == 0)
             {
                 Status = Status.Error;
-                logger.Error($"Загрузочный бункер {InputTankerId} не содержит материал, невозможно выгрузить {weight} тонн");
-                throw new ArgumentNullException($"Загрузочный бункер {InputTankerId} не содержит материал, невозможно выгрузить {weight} тонн");
+                logger.Error($"Загрузочный бункер {InputTankerId} не содержит материал, невозможно выгрузить {weight} кг");
+                throw new ArgumentNullException($"Загрузочный бункер {InputTankerId} не содержит материал, невозможно выгрузить {weight} кг");
             }
 
             List<Material> unloaded = new List<Material>();
@@ -228,8 +228,8 @@ namespace MTSMonitoring
                 if (Materials.Count == 0 && weight > 0)
                 {
                     Status = Status.Error;
-                    logger.Error($"Материал в загрузочном бункере {InputTankerId} закончился. Не хватило {weight} тонн");
-                    throw new IndexOutOfRangeException($"Материал в загрузочном бункере {InputTankerId} закончился. Не хватило {weight} тонн");
+                    logger.Error($"Материал в загрузочном бункере {InputTankerId} закончился. Не хватило {weight} кг");
+                    throw new IndexOutOfRangeException($"Материал в загрузочном бункере {InputTankerId} закончился. Не хватило {weight} кг");
                 }
             }
             else

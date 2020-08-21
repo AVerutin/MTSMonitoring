@@ -152,16 +152,14 @@ namespace MTSMonitoring
             }
             else
             {
-                //TODO: Необходимо установить значение веса материала в весовом бункере (Weight) в фактическое значение
-
                 unloadWeight = Weight - newWeight;
 
                 // Получаем количество слоев материала. Если материала нет, выдаем ошибку
                 if (LayersCount == 0)
                 {
                     Status = Status.Error;
-                    logger.Error($"Силос {WeightTankerId} не содержит материал, невозможно выгрузить {unloadWeight} тонн");
-                    throw new ArgumentOutOfRangeException($"Силос {WeightTankerId} не содержит материал, невозможно выгрузить {unloadWeight} тонн");
+                    logger.Error($"Весовой бункер {WeightTankerId} не содержит материал, невозможно выгрузить {unloadWeight} кг");
+                    throw new ArgumentOutOfRangeException($"Весовой бункер {WeightTankerId} не содержит материал, невозможно выгрузить {unloadWeight} кг");
                 }
 
                 if (unloadWeight > 0)
@@ -228,15 +226,15 @@ namespace MTSMonitoring
                     if (Materials.Count == 0 && unloadWeight > 0)
                     {
                         Status = Status.Error;
-                        logger.Error($"Материал в силосе {WeightTankerId} закончился. Не хватило {unloadWeight} тонн");
-                        throw new ArgumentOutOfRangeException($"Материал в силосе {WeightTankerId} закончился. Не хватило {unloadWeight} тонн");
+                        logger.Error($"Материал в весовом бункере {WeightTankerId} закончился. Не хватило {unloadWeight} кг");
+                        throw new ArgumentOutOfRangeException($"Материал в весовом бункере {WeightTankerId} закончился. Не хватило {unloadWeight} кг");
                     }
                 }
                 else
                 {
                     Status = Status.Error;
-                    logger.Warn($"Не указан вес выгружаемого материала из силоса {WeightTankerId}");
-                    throw new ArgumentNullException($"Не указан вес выгружаемого материала из силоса {WeightTankerId}");
+                    logger.Warn($"Не указан вес выгружаемого материала из весового бункера {WeightTankerId}");
+                    throw new ArgumentNullException($"Не указан вес выгружаемого материала из весового бункера {WeightTankerId}");
                 }
 
                 Weight = GetWeight();

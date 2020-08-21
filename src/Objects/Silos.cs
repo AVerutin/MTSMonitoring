@@ -183,8 +183,8 @@ namespace MTSMonitoring
             if (LayersCount == 0)
             {
                 Status = Status.Error;
-                logger.Error($"Силос {SilosId} не содержит материал, невозможно выгрузить {weight} тонн");
-                throw new ArgumentOutOfRangeException($"Силос {SilosId} не содержит материал, невозможно выгрузить {weight} тонн");
+                logger.Error($"Силос {SilosId} не содержит материал, невозможно выгрузить {weight} кг");
+                throw new ArgumentOutOfRangeException($"Силос {SilosId} не содержит материал, невозможно выгрузить {weight} кг");
             }
 
             List<Material> unloaded = new List<Material>();
@@ -252,8 +252,8 @@ namespace MTSMonitoring
                 if (Materials.Count == 0 && weight > 0)
                 {
                     Status = Status.Error;
-                    logger.Error($"Материал в силосе {SilosId} закончился. Не хватило {weight} тонн");
-                    throw new ArgumentOutOfRangeException($"Материал в силосе {SilosId} закончился. Не хватило {weight} тонн");
+                    logger.Error($"Материал в силосе {SilosId} закончился. Не хватило {weight} кг");
+                    throw new ArgumentOutOfRangeException($"Материал в силосе {SilosId} закончился. Не хватило {weight} кг");
                 }
             }
             else
