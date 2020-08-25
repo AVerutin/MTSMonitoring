@@ -1,0 +1,98 @@
+.label {
+    text-align: right;
+}
+
+.forms {
+    border: black 1px solid;
+    border-collapse: collapse;
+}
+
+#input_tankers {
+    position: absolute;
+    top: 665px;
+    left: 10px;
+    width: 300px;
+}
+
+#load_silos {
+    position: absolute;
+    top: 750px;
+    left: 10px;
+    width: 200px;
+}
+
+#add_materials {
+    position: absolute;
+    top: 550px;
+    left: 10px;
+    width: 300px;
+}
+
+.silos_detail {
+    border-collapse: collapse;
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    position: absolute;
+    font-family: "Times New Roman", serif;
+    font-size: 12px;
+}
+
+caption {
+    caption-side: top;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+#silos1 {
+    top: 550px;
+    left: 350px;
+    width: 150px;
+}
+
+#silos2 {
+    top: 550px;
+    left: 505px;
+    width: 150px;
+}
+
+#silos3 {
+    top: 550px;
+    left: 660px;
+    width: 150px;
+}
+
+#silos4 {
+    top: 550px;
+    left: 815px;
+    width: 150px;
+}
+
+#silos5 {
+    top: 550px;
+    left: 970px;
+    width: 150px;
+}
+
+#silos6 {
+    top: 550px;
+    left: 1125px;
+    width: 150px;
+}
+
+#silos7 {
+    top: 550px;
+    left: 1280px;
+    width: 150px;
+}
+
+#silos8 {
+    top: 550px;
+    left: 1435px;
+    width: 150px;
+}

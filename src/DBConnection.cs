@@ -14,6 +14,7 @@ namespace MTSMonitoring
         private readonly string ConnectionString;
         private NpgsqlCommand SQLCommand;
         private NpgsqlDataReader SQLData;
+        private string DBShema;
         private readonly IConfigurationRoot config;
         private readonly Logger logger;
 
@@ -31,6 +32,7 @@ namespace MTSMonitoring
             string db_host = config.GetSection("PGSQL:DBHost").Value;
             string db_port = config.GetSection("PGSQL:DBPort").Value;
             string db_name = config.GetSection("PGSQL:DBName").Value;
+            string db_schema = config.GetSection("PGSQL:DBSchema").Value;
             string db_user = config.GetSection("PGSQL:DBUser").Value;
             string db_pass = config.GetSection("PGSQL:DBPass").Value;
 
@@ -48,6 +50,7 @@ namespace MTSMonitoring
 
             SQLCommand = null;
             SQLData = null;
+            DBShema = db_schema;
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace MTSMonitoring
         {
             if (Connection != null)
             {
-                string query = "CREATE TABLE IF NOT EXISTS Material (Id SERIAL PRIMARY KEY, Name varchar(10) NOT NULL, Partno smallint NOT NULL, Weight real NOT NULL, Volume real NOT NULL);";
+                string query = $"CREATE TABLE IF NOT EXISTS {DBShema}.Material (Id SERIAL PRIMARY KEY, Name varchar(10) NOT NULL, Partno smallint NOT NULL, Weight real NOT NULL, Volume real NOT NULL);";
                 SQLCommand = new NpgsqlCommand(query, Connection);
 
                 try
@@ -131,8 +134,9 @@ namespace MTSMonitoring
                 string v = volume.ToString();
                 v = v.Replace(',', '.');
 
-                string query = string.Format("INSERT INTO Material (name, partno, weight, volume) VALUES ('{0}', {1}, {2}, {3});",
-                    name, partno, w, v);
+
+                string query = string.Format("INSERT INTO {0}.Material (name, partno, weight, volume) VALUES ('{1}', {2}, {3}, {4});",
+                    DBShema, name, partno, w, v);
 
                 SQLCommand = new NpgsqlCommand(query, Connection);
 
@@ -194,7 +198,7 @@ namespace MTSMonitoring
                 };
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(command);
                 DataSet ds = new DataSet();
-                da.Fill(ds, "Material");
+                da.Fill(ds, $"{DBShema}.Material");
 
                 // Перебор таблиц из результирующего набора
                 foreach (DataTable table in ds.Tables)
@@ -224,7 +228,7 @@ namespace MTSMonitoring
 
             if (Connection != null)
             {
-                string query = "SELECT * FROM Material ORDER BY id ASC;";
+                string query = $"SELECT * FROM {DBShema}.Material ORDER BY id ASC;";
                 var data = getData(query);
 
 

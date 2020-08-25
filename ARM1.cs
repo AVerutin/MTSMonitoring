@@ -22,7 +22,6 @@ namespace MTSMonitoring
             clients.Add(Clients.Caller);
             logger.Info("Подлючился новый клиент {0}", Context.ConnectionId);
 
-            //await Clients.All.SendAsync("send", $"{Context.ConnectionId} вошел в чат");
             // Subscribe();
             await base.OnConnectedAsync();
         }

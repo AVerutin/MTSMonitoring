@@ -19,6 +19,11 @@ namespace MTSMonitoring
         public string DBName { get; }
 
         /// <summary>
+        /// Имя схемы в базе данных
+        /// </summary>
+        public string DBSchena { get; }
+
+        /// <summary>
         /// Имя пользователя СУБД
         /// </summary>
         public string DBUser { get; }

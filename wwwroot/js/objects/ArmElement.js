@@ -1,14 +1,13 @@
-// Отладочный класс для силоса
-
-class Test { // СИЛОС
+class ArmElement { // Техузел
 
     // Свойства класса
     #_id;               // Уникальный идентификатор экземпяла класса (для элемента img)
     #_name;             // Наименование техузла
+    #_alt;              // Альтернативный текст
     #_number;           // Номер техузла
     #_status;           // Текущий статус техузла
     #_showed;           // Признак отображения на странице
-    #_material;         // Наименование материала в техузле
+    #_materials;         // Наименование материала в техузле
     #_width;            // Ширина изображения (для масштабирования изображения) в px
     #_size;             // Размер изображения (для масштабирования изображения) в %
 
@@ -18,16 +17,17 @@ class Test { // СИЛОС
     #_position = {};    // Координаты изображения техузла на странице
 
     // Конструктор класса
-    constructor(name, number) {
+    constructor(name, number, alttext) {
         if (number > 0) {
             this.#_id = name + '_' + number;
             this.#_number = number;
             this.#_status = "off";
             this.#_name = name;
             this.#_showed = false;
-            this.#_material = "";
+            this.#_materials = [];
             this.#_width = 0;
             this.#_size = 0;
+            this.#_alt = alttext;
 
             // Заполнение массива изображений для вывода статуса силоса
             let status_img = {};
@@ -44,15 +44,6 @@ class Test { // СИЛОС
             // Добавление элементов для отображения
             let elements = {};
 
-            // Номер партии
-            // let parts = [];
-            // let partno = {};
-            // partno['Div'] = "";
-            // partno['Top'] = 0;
-            // partno['Left'] = 0;
-            // parts.push(partno);
-            // elements['PartNo'] = parts;
-            
             // Номер силоса
             let num = {};
             num['Div'] = "";
@@ -90,7 +81,7 @@ class Test { // СИЛОС
     // Добавление нового слоя материала
     addLayer(layer) {
         let _layer = {};
-        _layer['Material'] = this.#_material;
+        _layer['Material'] = this.#_materials;
         _layer['PartNo'] = layer.PartNo;
         _layer['Weight'] = layer.Weight;
 
@@ -99,13 +90,13 @@ class Test { // СИЛОС
 
     // Получить количество слоев материала в силосе
     getLayersCount() {
-        return this.#_layers.length;
+        return this.#_materials.length;
     }
 
     // Получить слой по его номеру
     getLayer(number) {
-        if (number < this.getLayersCount() && number >= 0) {
-            return this.#_layers[number];
+        if (number <= this.getLayersCount() && number >= 0) {
+            return this.#_materials[number-1];
         }
     }
 
@@ -156,17 +147,11 @@ class Test { // СИЛОС
         return this.#_id;
     }
 
-    // Установить номер партии материала
-    // setPartNo(partno) {
-    //     if (partno > 0) {
-    //         this.#_part_no = partno;
-    //     }
-    // }
-
     // Получить номер партии
-    // getPartNo() {
-    //     return this.#_part_no;
-    // }
+    getPartNo(layer) {
+        if (layer < this.getLayersCount() && layer > 0)
+        return this.#_materials[layer-1].PartNo;
+    }
 
     // Отобразить номер партии материала
     showPartNo() {
@@ -179,9 +164,9 @@ class Test { // СИЛОС
     }
 
     // Установить позицию индикатора номера партии материала
-    // setPartNoPosition(top, left) {
+    setPartNoPosition(top, left) {
 
-    // }
+    }
 
 
     // Получить позицию силоса на странице (координаты Top и Left)
@@ -247,8 +232,9 @@ class Test { // СИЛОС
 
     // Установить материал силоса
     setMaterial(material) {
-        if (material !== "") {
-            this.#_material = material;
+        let curr_material = this.getMaterial();
+        if (material.Name !== "" && (material.Name === curr_material || curr_material === "")) {
+            this.#_materials.push(material);
             this.showMaterial();
         }
     }
@@ -271,7 +257,13 @@ class Test { // СИЛОС
 
     // Получить материал в силосе
     getMaterial() {
-        return this.#_material;
+        let material = "";
+        if (this.getLayersCount() > 0) {
+            material = this.#_materials[0].Name;
+        } else {
+            material = ""
+        }
+        return material;
     }
 
     // Отобразить материал силоса
@@ -427,7 +419,7 @@ class Test { // СИЛОС
 
         if (el !== "") {
             // Устанавливаем цвет для текстовой метки на экране
-            document.getElementById(el).style.fontSize = size;
+            document.getElementById(el).style.fontSize = size + 'pt';
         }
     }
 
@@ -535,6 +527,7 @@ class Test { // СИЛОС
         if (silos === null) {
             silos = document.createElement('img');
             silos.src = this.getImage();
+            silos.alt = this.#_alt;
             silos.style.position = this.getPosition().Position;
             silos.style.left = this.getPosition().Left;
             silos.style.top = this.getPosition().Top;

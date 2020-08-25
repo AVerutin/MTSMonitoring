@@ -2,14 +2,151 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="arm1.css">
+    <title>АРМ №1</title>
     <script src="js/signalr/dist/browser/signalr.min.js"></script>
     <script src="js/arm1.js"></script>
     <script src="js/objects/Silos.js"></script>
     <script src="js/objects/Weight.js"></script>
-    <script src="js/objects/Test.js"></script>
+    <script src="js/objects/ArmElement.js"></script>
 </head>
 <body>
+    <img id="Conveyor1" src="img/arm1/Elevator2Grey.png" style="position: absolute; top: 504px;" alt="Горизонтальный конвейер 1" />
+    <img id="Conveyor2" src="img/arm1/Elevator3Grey.png" style="position: absolute; top: 0; left: 310px;" alt="Вертикальный конвейер 1" />
+    <img id="Conveyor3" src="img/arm1/Elevator2Grey.png" style="position: absolute; top: 0; left: 332px;" alt="Горизонтальный конвейер 2" />
+    <img id="Conveyor4" src="img/arm1/TelegaGrey.png" style="position: absolute; top: 60px; left: 450px;" alt="Конвейер на телеге" />
 
+    <form id="input_tankers" name="inputs">
+        <table class="forms">
+            <tr>
+                <td class="label">Загрузочный бункер:</td>
+                <td>
+                    <select name="tanker"></select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Материал:</td>
+                <td><select name="material">
+                    <option>__ Пусто __</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <input type="button" name="submit" value="Установить" onClick="setMaterial();" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form id="load_silos" name="silos">
+        <table class="forms">
+            <tr>
+                <td><select name="from_tanker"></select></td>
+                <td>=></td>
+                <td><select name="to_silos"></select></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <input type="button" name="submit2" value="Загрузить" onclick="loadSilos();">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form id="add_materials" name="materials">
+        <table class="forms">
+            <tr>
+                <td>Наименование:</td>
+                <td><input type="text" name="material_name" /></td>
+            </tr>
+            <tr>
+                <td>Номер партии:</td>
+                <td><input type="number" name="material_no" /></td>
+            </tr>
+            <tr>
+                <td>Вес:</td>
+                <td><input type="number" name="material_weight"></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center">
+                    <input type="button" name="submit3" value="Добавить" onclick="addMaterial();">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <table class="silos_detail" id="silos1">
+        <caption>Силос 1</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
+    <table class="silos_detail" id="silos2">
+        <caption>Силос 2</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
+    <table class="silos_detail" id="silos3">
+        <caption>Силос 3</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
+    <table class="silos_detail" id="silos4">
+        <caption>Силос 4</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
+    <table class="silos_detail" id="silos5">
+        <caption>Силос 5</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
+    <table class="silos_detail" id="silos6">
+        <caption>Силос 6</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
+    <table class="silos_detail" id="silos7">
+        <caption>Силос 7</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
+    <table class="silos_detail" id="silos8">
+        <caption>Силос 8</caption>
+        <tr>
+            <th>№</th>
+            <th>Материал</th>
+            <th>Партия</th>
+            <th>Вес</th>
+        </tr>
+    </table>
 </body>
 </html>
+

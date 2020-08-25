@@ -22,6 +22,50 @@ namespace MTSMonitoring
         private readonly List<IClientProxy> clients = new List<IClientProxy>();
         private Logger logger;
 
+        private async void TestModule()
+        {
+            /**********************************************************/
+            /* Начало тестирование модуля работы со слоями материалов */
+            /**********************************************************/
+
+            Ingot ingot = new Ingot();
+            ingot.Test();
+
+            // Установлено подключение к СУБД
+            DBConnection db = new DBConnection();
+            logger.Info("Подключились к СУБД");
+
+            db.InitDB();
+            var data = db.ReadData();
+
+            Material mt = new Material(15, "FeSiMn", 10, 7.9, 8.2);
+            bool m = db.AddMaterial(mt);
+
+            InputTanker tanker1 = new InputTanker(1);
+            tanker1.Load(mt);
+            mt = new Material(16, "FeSiMn", 15, 12.3, 12.7);
+            tanker1.Load(mt);
+
+            Silos silos1 = new Silos(1);
+            Silos silos2 = new Silos(2);
+            silos1.Load(tanker1, 12);
+
+            WeightTanker weight1 = new WeightTanker(1);
+            weight1.AddSilos(silos1);
+            weight1.AddSilos(silos2);
+            weight1.Load(silos1, 10);
+
+            List<Material> u = weight1.Unload(1.3);
+
+            Conveyor conveyor1 = new Conveyor(1, Conveyor.Types.Horizontal, 78);
+            conveyor1.SetSpeed(3);
+            conveyor1.Deliver(u, onDelivered);
+
+            /*********************************************************/
+            /* Конец тестирования модуля работы со слоями материалов */
+            /*********************************************************/
+        }
+
         private async void Subscribe()
         {
             // Читаем параметры подключения к MTSService
@@ -33,60 +77,17 @@ namespace MTSMonitoring
             mtsTimeout = Int32.Parse(config.GetSection("Mts:Timeout").Value);
             mtsReconnect = Int32.Parse(config.GetSection("Mts:ReconnectTimeout").Value);
 
-            /**********************************************************/
-            /* Начало тестирование модуля работы со слоями материалов */
-            /**********************************************************/
-            /**/
-            /**/ Ingot ingot = new Ingot();
-            /**/ ingot.Test();
-            /**/
-            /**/ DBConnection db = new DBConnection();
-            /**/
-            /**/ // Устанорвлено подключение к СУБД
-            /**/ logger.Info("Подключились к СУБД");
-            /**/ db.InitDB();
-            /**/ var data = db.ReadData();
-            /**/ 
-            /**/ Material mt = new Material(15, "FeSiMn", 10, 7.9, 8.2);
-            /**/ bool m = db.AddMaterial(mt);
-            /**/
-            /**/ InputTanker tanker1 = new InputTanker(1);
-            /**/ // tanker1.SetMaterial("FeSiMn");
-            /**/ tanker1.Load(mt);
-            /**/ mt = new Material(16, "FeSiMn", 15, 12.3, 12.7);
-            /**/ tanker1.Load(mt);
-            /**/
-            /**/ Silos silos1 = new Silos(1);
-            /**/ // silos1.SetMaterial("FeSiMn");
-            /**/ Silos silos2 = new Silos(2);
-            /**/ // silos2.SetMaterial("FeSiMn");
-            /**/ 
-            /**/ silos1.Load(tanker1, 12);
-            /**/ WeightTanker weight1 = new WeightTanker(1);
-            /**/ weight1.AddSilos(silos1);
-            /**/ weight1.AddSilos(silos2);
-            /**/ weight1.Load(silos1, 10);
-            /**/ List<Material> u = weight1.Unload(1.3);
-            /**/
-            /**/ Conveyor conveyor1 = new Conveyor(1, Conveyor.Types.Horizontal, 78);
-            /**/ conveyor1.SetSpeed(3);
-            /**/ conveyor1.Deliver(u, onDelivered);
-            /**/
-            /*********************************************************/
-            /* Конец тестирования модуля работы со слоями материалов */
-            /*********************************************************/
-
             // Получаем список сигналов из файла ConfigMill.txt
             ConfigMill cnf_mill = new ConfigMill();
             List<ushort> signals = cnf_mill.GetSignals();
-            List<ushort> ids = new List<ushort>();
+            // List<ushort> ids = new List<ushort>();
             sensors = new Sensors();
 
-            foreach (ushort item in signals)
-            {
-                ids.Add(item);
-                sensors.AddSensor(item);
-            }
+            //foreach (ushort item in signals)
+            //{
+            //    ids.Add(item);
+            //    sensors.AddSensor(item);
+            //}
 
             // Создание подключения к службе MTSService
             mts = new MTS(mtsIP, mtsPort, mtsTimeout, mtsReconnect);
@@ -185,6 +186,7 @@ namespace MTSMonitoring
             logger.Info("Подлючился новый клиент {0}", Context.ConnectionId);
 
             //await Clients.All.SendAsync("send", $"{Context.ConnectionId} вошел в чат");
+            TestModule();
             Subscribe();
             await base.OnConnectedAsync();
         }
