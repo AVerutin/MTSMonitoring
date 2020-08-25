@@ -4,70 +4,71 @@ class Test { // СИЛОС
 
     // Свойства класса
     #_id;               // Уникальный идентификатор экземпяла класса (для элемента img)
-    #_number;           // Номер силоса
-    #_status;           // Текущий статус силоса
+    #_name;             // Наименование техузла
+    #_number;           // Номер техузла
+    #_status;           // Текущий статус техузла
     #_showed;           // Признак отображения на странице
-    #_material;         // Наименование материала в силосе
+    #_material;         // Наименование материала в техузле
     #_width;            // Ширина изображения (для масштабирования изображения) в px
     #_size;             // Размер изображения (для масштабирования изображения) в %
 
-    #_layers = [];      // Слои материала, загруженные в силос (отличаются номерами партий и весом)
-    #_imgs = {};        // Изображения для отображения статусов силоса (on, off, error)
-    #_elements = {};    // Список элементов отображения (значок статуса, номер силоса, материал, номера партий)
-    #_position = {};    // Координаты изображения силоса на странице
+    #_layers = [];      // Слои материала, загруженные в техузел (отличаются номерами партий и весом)
+    #_images = {};        // Изображения для отображения статусов техузла (on, off, error)
+    #_elements = {};    // Список элементов отображения (значок статуса, номер техузла, материал, номера партий)
+    #_position = {};    // Координаты изображения техузла на странице
 
     // Конструктор класса
-    constructor(number) {
+    constructor(name, number) {
         if (number > 0) {
-            this.#_id = 'silos_' + number;
+            this.#_id = name + '_' + number;
             this.#_number = number;
             this.#_status = "off";
-            // this.#_part_no = 0;
+            this.#_name = name;
             this.#_showed = false;
             this.#_material = "";
             this.#_width = 0;
             this.#_size = 0;
 
             // Заполнение массива изображений для вывода статуса силоса
-            var status_img = {};
+            let status_img = {};
             status_img['On'] = "";
             status_img['Off'] = "";
             status_img['Error'] = "";
-            this.#_imgs['Statuses'] = status_img;
+            this.#_images['Statuses'] = status_img;
 
             // Добавление изображения силоса
-            var class_img = {};
+            let class_img = {};
             class_img['Image'] = "";
-            this.#_imgs['Image'] = class_img;
+            this.#_images['Image'] = class_img;
 
             // Добавление элементов для отображения
-            var elements = {};
+            let elements = {};
 
             // Номер партии
-            var parts = [];
-            // var partno = {};
+            // let parts = [];
+            // let partno = {};
             // partno['Div'] = "";
             // partno['Top'] = 0;
             // partno['Left'] = 0;
             // parts.push(partno);
-            elements['PartNo'] = parts;
+            // elements['PartNo'] = parts;
             
             // Номер силоса
-            var num = {};
+            let num = {};
             num['Div'] = "";
             num['Top'] = 0;
             num['Left'] = 0;
             elements['Number'] = num;
 
             // Индикатор статуса силоса
-            var stat = {};
+            let stat = {};
             stat['Div'] = "";
             stat['Top'] = 0;
             stat['Left'] = 0;
             elements['Status'] = stat;
 
             // Обозначение материала в силосе
-            var mat = {};
+            let mat = {};
             mat['Div'] = "";
             mat['Top'] = 0;
             mat['Left'] = 0;
@@ -78,7 +79,7 @@ class Test { // СИЛОС
             this.#_elements = elements;
 
             // Позиция силоса на странице
-            var pos = {};
+            let pos = {};
             pos['Position'] = 'absolute';
             pos['Top'] = 0;
             pos['Left'] = 0;
@@ -88,7 +89,7 @@ class Test { // СИЛОС
 
     // Добавление нового слоя материала
     addLayer(layer) {
-        var _layer = {};
+        let _layer = {};
         _layer['Material'] = this.#_material;
         _layer['PartNo'] = layer.PartNo;
         _layer['Weight'] = layer.Weight;
@@ -110,8 +111,8 @@ class Test { // СИЛОС
 
     // Получить изображение силоса
     getImage() {
-        var img = this.#_imgs.Image.Image;
-        if (img == "") {
+        let img = this.#_images.Image;
+        if (img === "") {
             img = "img/noimage.png";
             this.setImage(img);
         }
@@ -121,18 +122,18 @@ class Test { // СИЛОС
     // Получить изображение статуса силоса по наименованию статуса
     getStatusImage(status) {
         switch (status.toLowerCase()) {
-            case 'on'   :  return this.#_imgs.Statuses.On;
-            case 'off'  :  return this.#_imgs.Statuses.Off;
-            case 'error':  return this.#_imgs.Statuses.Error;
+            case 'on'   :  return this.#_images.Statuses.On;
+            case 'off'  :  return this.#_images.Statuses.Off;
+            case 'error':  return this.#_images.Statuses.Error;
         }
     }
 
     // Установить изображение силоса
     setImage(image) {
-        if (image != "") {
-            this.#_imgs.Image.Image = image;
+        if (image !== "") {
+            this.#_images.Image = image;
 
-            var silos = document.getElementById(this.getId());
+            let silos = document.getElementById(this.getId());
             if (silos !== null) {
                 silos.src = image;
             }
@@ -141,11 +142,11 @@ class Test { // СИЛОС
 
     // Установить изображение статуса силоса
     setStatusImage(status, img) {
-        if (img != "" && status != "") {
+        if (img !== "" && status !== "") {
             switch(status.toLowerCase()) {
-                case 'on' : this.#_imgs.Statuses.On = img;
-                case 'off' : this.#_imgs.Statuses.Off = img;
-                case 'error' : this.#_imgs.Statuses.Error = img;
+                case 'on' : this.#_images.Statuses.On = img; break;
+                case 'off' : this.#_images.Statuses.Off = img; break;
+                case 'error' : this.#_images.Statuses.Error = img; break;
             }
         }
     }
@@ -168,18 +169,14 @@ class Test { // СИЛОС
     // }
 
     // Отобразить номер партии материала
-    // showPartNo() {
+    showPartNo() {
 
-    // }
+    }
 
     // Спрятать номер партии материала
-    // hidePartNo() {
-    //     var el = this.#_elements.PartNo.Div;
-    //     if (el != "") {
-    //         var stat = document.getElementById(el);
-    //         stat.style.display = 'none';
-    //     }
-    // }
+    hidePartNo() {
+
+    }
 
     // Установить позицию индикатора номера партии материала
     // setPartNoPosition(top, left) {
@@ -204,10 +201,10 @@ class Test { // СИЛОС
 
     // Отобразить номер силоса
     showNumber() {
-        var num = this.#_elements.Number.Div;
-        var number; 
+        let num = this.#_elements.Number.Div;
+        let number; 
 
-        if (num == "") {
+        if (num === "") {
             num = this.getId() + "_number";
             this.#_elements.Number.Div = num;
             number = document.createElement('div');
@@ -218,11 +215,11 @@ class Test { // СИЛОС
         }
 
         // Позиционирование относительно позиции родительского объекта (силоса)
-        var pos_top = this.#_position.Top + this.getElements().Number.Top;
-        var pos_left = this.#_position.Left + this.getElements().Number.Left;
+        let pos_top = this.#_position.Top + this.getElements().Number.Top;
+        let pos_left = this.#_position.Left + this.getElements().Number.Left;
         number.style.position = 'absolute';
-        number.style.top = pos_top;
-        number.style.left = pos_left;
+        number.style.top = pos_top + 'px';
+        number.style.left = pos_left + 'px';
         number.innerHTML = this.#_number;
 
         if (this.#_showed) {
@@ -234,9 +231,9 @@ class Test { // СИЛОС
 
     // Спрятать номер силоса
     hideNumber() {
-        var el = this.#_elements.Number.Div;
-        if (el != "") {
-            var stat = document.getElementById(el);
+        let el = this.#_elements.Number.Div;
+        if (el !== "") {
+            let stat = document.getElementById(el);
             stat.style.display = 'none';
         }
     }
@@ -250,7 +247,7 @@ class Test { // СИЛОС
 
     // Установить материал силоса
     setMaterial(material) {
-        if (material != "") {
+        if (material !== "") {
             this.#_material = material;
             this.showMaterial();
         }
@@ -266,7 +263,7 @@ class Test { // СИЛОС
 
     // Установить тип выравния текста в поле наименования материала
     setMaterialAlign(align) {
-        if (align == 'left' || align == 'center' || align == 'right') {
+        if (align === 'left' || align === 'center' || align === 'right') {
             this.#_elements.Material.Align = align;
             this.showMaterial();
         }
@@ -279,10 +276,10 @@ class Test { // СИЛОС
 
     // Отобразить материал силоса
     showMaterial() {
-        var mat = this.getElements().Material.Div;
-        var stat;
+        let mat = this.getElements().Material.Div;
+        let stat;
 
-        if (mat == "") {
+        if (mat === "") {
             // Элемент отображения статуса не создан
             mat = this.getId() + '_material';
             stat = document.createElement('div');
@@ -294,12 +291,12 @@ class Test { // СИЛОС
         }
 
         // Позиционирование относительно позиции родительского объекта (силоса)
-        var pos_top = this.#_position.Top + this.getElements().Material.Top;
-        var pos_left = this.#_position.Left + this.getElements().Material.Left;
-        var st = this.getMaterial();
+        let pos_top = this.#_position.Top + this.getElements().Material.Top;
+        let pos_left = this.#_position.Left + this.getElements().Material.Left;
+        let st = this.getMaterial();
 
         // Устанавливаем выравнивание для поля отображения материала в силосе
-        var text = "";
+        let text = "";
         if (st.length > this.#_elements.Material.Length) {
             text = st;
         } else {
@@ -309,14 +306,14 @@ class Test { // СИЛОС
                     break;
                 }
                 case 'center' : {
-                    var spaces = Number((this.#_elements.Material.Length - st.length) / 2);
-                    for (var i=0; i<spaces; i++) text += "&nbsp;";
+                    let spaces = Number((this.#_elements.Material.Length - st.length) / 2);
+                    for (let i=0; i<spaces; i++) text += "&nbsp;";
                     text += st;
                     break;
                 }
                 case 'right' : {
-                    var spaces = this.#_elements.Material.Length - st.length;
-                    for (var i=0; i<spaces; i++) text += "&nbsp;";
+                    let spaces = this.#_elements.Material.Length - st.length;
+                    for (let i=0; i<spaces; i++) text += "&nbsp;";
                     text += st;
                     break;
                 }
@@ -325,8 +322,8 @@ class Test { // СИЛОС
 
         stat.innerHTML = text;
         stat.style.position = 'absolute';
-        stat.style.top = pos_top;
-        stat.style.left = pos_left;
+        stat.style.top = pos_top + 'px';
+        stat.style.left = pos_left + 'px';
 
         if (this.#_showed) {
             stat.style.display = 'inherit';
@@ -337,20 +334,20 @@ class Test { // СИЛОС
 
     // Спрятать материал силоса
     hideMaterial() {
-        var el = this.#_elements.Material.Div;
-        if (el != "") {
-            var stat = document.getElementById(el);
+        let el = this.#_elements.Material.Div;
+        if (el !== "") {
+            let stat = document.getElementById(el);
             stat.style.display = 'none';
         }
     }
 
     // Установить позицию индикатора материала
     setMaterialPosition(top, left) {
-        var pos_top = this.#_position.Top + top;
-        var pos_left = this.#_position.Left + left;
-        var el = this.#_elements.Material.Div;
-        if (el != "") {
-            var stat = document.getElementById(el);
+        let pos_top = this.#_position.Top + top;
+        let pos_left = this.#_position.Left + left;
+        let el = this.#_elements.Material.Div;
+        if (el !== "") {
+            let stat = document.getElementById(el);
             stat.style.top = pos_top;
             stat.style.left = pos_left;
             this.#_elements.Material.Top = top;
@@ -361,7 +358,7 @@ class Test { // СИЛОС
 
     // Установка цвета для текстовых элементов
     setColor(element, color) {
-        var el;
+        let el;
 
         switch (element.toLowerCase()) {
             case 'material': {
@@ -378,7 +375,7 @@ class Test { // СИЛОС
             }
         }
 
-        if (el != "") {
+        if (el !== "") {
             // Устанавливаем цвет для текстовой метки на экране
             document.getElementById(el).style.color = color;
         }
@@ -386,7 +383,7 @@ class Test { // СИЛОС
 
     // Установка типа шрифта для текстовой метки
     setFont(element, font) {
-        var el;
+        let el;
 
         switch (element.toLowerCase()) {
             case 'material': {
@@ -403,7 +400,7 @@ class Test { // СИЛОС
             }
         }
 
-        if (el != "") {
+        if (el !== "") {
             // Устанавливаем цвет для текстовой метки на экране
             document.getElementById(el).style.fontFamily = font;
         }
@@ -411,7 +408,7 @@ class Test { // СИЛОС
 
     // Установка размера шрифта для текстовой метки
     setFontSize(element, size) {
-        var el;
+        let el;
 
         switch (element.toLowerCase()) {
             case 'material': {
@@ -428,7 +425,7 @@ class Test { // СИЛОС
             }
         }
 
-        if (el != "") {
+        if (el !== "") {
             // Устанавливаем цвет для текстовой метки на экране
             document.getElementById(el).style.fontSize = size;
         }
@@ -436,7 +433,7 @@ class Test { // СИЛОС
 
     // Установка толщины шрифта для текстовой метки
     setFontWeight(element, weight) {
-        var el;
+        let el;
 
         switch (element.toLowerCase()) {
             case 'material': {
@@ -453,7 +450,7 @@ class Test { // СИЛОС
             }
         }
 
-        if (el != "") {
+        if (el !== "") {
             // Устанавливаем цвет для текстовой метки на экране
             document.getElementById(el).style.fontWeight = weight;
         }
@@ -471,10 +468,10 @@ class Test { // СИЛОС
 
     // Отобразить индикатор статуса силоса
     showStatus() {
-        var el = this.getElements().Status.Div;
-        var stat;
+        let el = this.getElements().Status.Div;
+        let stat;
 
-        if (el == "") {
+        if (el === "") {
             // Элемент отображения статуса не создан
             el = this.getId() + '_status';
             stat = document.createElement('img');
@@ -486,14 +483,14 @@ class Test { // СИЛОС
         }
 
         // Позиционирование относительно позиции родительского объекта (силоса)
-        var pos_top = this.#_position.Top + this.getElements().Status.Top;
-        var pos_left = this.#_position.Left + this.getElements().Status.Left;
-        var st = this.getStatusImage(this.#_status);
+        let pos_top = this.#_position.Top + this.getElements().Status.Top;
+        let pos_left = this.#_position.Left + this.getElements().Status.Left;
+        let st = this.getStatusImage(this.#_status);
 
         stat.src = st;
         stat.style.position = 'absolute';
-        stat.style.top = pos_top;
-        stat.style.left = pos_left;
+        stat.style.top = pos_top + 'px';
+        stat.style.left = pos_left + 'px';
 
         if (this.#_showed) {
             stat.style.display = 'inherit';
@@ -504,25 +501,25 @@ class Test { // СИЛОС
     
     // Спрятать индикатор статуса силоса
     hideStatus() {
-        var el = this.getElements().Status.Div;
-        if (el != "") {
-            var stat = document.getElementById(el);
+        let el = this.getElements().Status.Div;
+        if (el !== "") {
+            let stat = document.getElementById(el);
             stat.style.display = 'none';
         }
     }
 
     // Устанавливаем позицию индикатора статуса
     setStatusPosition(top, left) {
-        var pos_top = this.#_position.Top + top;
-        var pos_left = this.#_position.Left + left;
+        let pos_top = this.#_position.Top + top;
+        let pos_left = this.#_position.Left + left;
         this.#_elements.Status.Top = top;
         this.#_elements.Status.Left = left;
 
-        var _stat  = this.getElements().Status.Div;
-        if (_stat != "") {
-            var stat = document.getElementById(_stat);
-            stat.style.top = pos_top;
-            stat.style.left = pos_left;
+        let _stat  = this.getElements().Status.Div;
+        if (_stat !== "") {
+            let stat = document.getElementById(_stat);
+            stat.style.top = pos_top + 'px';
+            stat.style.left = pos_left + 'px';
             stat.style.position = 'absolute';
         }
     }
@@ -534,7 +531,7 @@ class Test { // СИЛОС
 
     // Отображение силоса на странице
     show() {
-        var silos = document.getElementById(this.getId());
+        let silos = document.getElementById(this.getId());
         if (silos === null) {
             silos = document.createElement('img');
             silos.src = this.getImage();
@@ -556,28 +553,28 @@ class Test { // СИЛОС
         }
 
         // Устанавливаем масштабирование изображения силоса, если заданы размеры
-        if (this.#_width != 0) {
+        if (this.#_width !== 0) {
             silos.style.width = this.#_width + "px";
-        } else if (this.#_size != 0) {
+        } else if (this.#_size !== 0) {
             silos.style.width = this.#_size + "%";
         }
 
         // Устанавливаем позицию силоса в окне, если заданы координаты
-        if (this.#_position.Top != 0) {
+        if (this.#_position.Top !== 0) {
             silos.style.top = this.#_position.Top;
         }
-        if (this.#_position.Left != 0) {
+        if (this.#_position.Left !== 0) {
             silos.style.left = this.#_position.Left;
         }
 
         // Опускаем изображение силоса на нижний z-уровень, чтобы не закрывал остальные элементы
-        silos.style.zIndex = -1;
+        silos.style.zIndex = '-1';
     }
 
     // Спрятать силос на странице
     hide() {
         if (this.#_showed) {
-            var silos = document.getElementById(this.getId());
+            let silos = document.getElementById(this.getId());
             silos.style.display = 'none';
             this.#_showed = false;
             this.hideMaterial();
@@ -593,9 +590,10 @@ class Test { // СИЛОС
         this.#_position.Left = left;
 
         if (this.#_showed) {
-            var silos = document.getElementById(this.getId());
-            silos.style.top = top;
-            silos.style.left = left;
+            let silos = document.getElementById(this.getId());
+            silos.style.position = this.#_position.Position;
+            silos.style.top = top + 'px';
+            silos.style.left = left + 'px';
             this.showMaterial();
             this.showNumber();
             this.showStatus();
@@ -606,7 +604,7 @@ class Test { // СИЛОС
     // Установить масштабирование для изображения силоса
     scale(size) {
         if (size > 0) {
-            var silos = document.getElementById(this.getId());
+            let silos = document.getElementById(this.getId());
             this.#_size = size;
             this.#_width = 0;
 
@@ -619,7 +617,7 @@ class Test { // СИЛОС
     // Установить ширину для изображения силоса
     width(width) {
         if (width > 0) {
-            var silos = document.getElementById(this.getId());
+            let silos = document.getElementById(this.getId());
             this.#_width = width;
             this.#_size = 0;
 
@@ -628,5 +626,4 @@ class Test { // СИЛОС
             }
         }
     }
-    
 }
