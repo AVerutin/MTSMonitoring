@@ -83,7 +83,6 @@ function createElements() {
     Input1.setFont('number', 'arial');
     Input1.setFontWeight('number', 'bold');
     Input1.setFontSize('number', 12);
-    // Input1.setMaterial('FeSiMn');
     Input1.setMaterialLength(6);
     Input1.setMaterialAlign('center');
     Input1.setMaterialPosition(12, 10);
@@ -112,7 +111,6 @@ function createElements() {
     Input2.setFont('number', 'arial');
     Input2.setFontWeight('number', 'bold');
     Input2.setFontSize('number', 12);
-    // Input2.setMaterial('FeSi');
     Input2.setMaterialLength(6);
     Input2.setMaterialAlign('center');
     Input2.setMaterialPosition(12, 10);
@@ -142,7 +140,6 @@ function createElements() {
     Silos1.setFont('number', 'arial');
     Silos1.setFontWeight('number', 'bold');
     Silos1.setFontSize('number', 16);
-    // Silos1.setMaterial('FeSiMn');
     Silos1.setMaterialLength(8);
     Silos1.setMaterialAlign('left');
     Silos1.setMaterialPosition(32, 10);
@@ -171,7 +168,6 @@ function createElements() {
     Silos2.setFont('number', 'arial');
     Silos2.setFontWeight('number', 'bold');
     Silos2.setFontSize('number', 16);
-    // Silos2.setMaterial('FeSiMn');
     Silos2.setMaterialLength(8);
     Silos2.setMaterialAlign('left');
     Silos2.setMaterialPosition(32, 10);
@@ -200,7 +196,6 @@ function createElements() {
     Silos3.setFont('number', 'arial');
     Silos3.setFontWeight('number', 'bold');
     Silos3.setFontSize('number', 16);
-    // Silos3.setMaterial('FeSiMn');
     Silos3.setMaterialLength(8);
     Silos3.setMaterialAlign('left');
     Silos3.setMaterialPosition(32, 10);
@@ -229,7 +224,6 @@ function createElements() {
     Silos4.setFont('number', 'arial');
     Silos4.setFontWeight('number', 'bold');
     Silos4.setFontSize('number', 16);
-    // Silos4.setMaterial('FeSiMn');
     Silos4.setMaterialLength(8);
     Silos4.setMaterialAlign('left');
     Silos4.setMaterialPosition(32, 10);
@@ -258,7 +252,6 @@ function createElements() {
     Silos5.setFont('number', 'arial');
     Silos5.setFontWeight('number', 'bold');
     Silos5.setFontSize('number', 16);
-    // Silos5.setMaterial('FeSiMn');
     Silos5.setMaterialLength(8);
     Silos5.setMaterialAlign('left');
     Silos5.setMaterialPosition(32, 10);
@@ -287,7 +280,6 @@ function createElements() {
     Silos6.setFont('number', 'arial');
     Silos6.setFontWeight('number', 'bold');
     Silos6.setFontSize('number', 16);
-    // Silos6.setMaterial('FeSiMn');
     Silos6.setMaterialLength(8);
     Silos6.setMaterialAlign('left');
     Silos6.setMaterialPosition(32, 10);
@@ -316,7 +308,6 @@ function createElements() {
     Silos7.setFont('number', 'arial');
     Silos7.setFontWeight('number', 'bold');
     Silos7.setFontSize('number', 16);
-    // Silos7.setMaterial('FeSiMn');
     Silos7.setMaterialLength(8);
     Silos7.setMaterialAlign('left');
     Silos7.setMaterialPosition(32, 10);
@@ -345,7 +336,6 @@ function createElements() {
     Silos8.setFont('number', 'arial');
     Silos8.setFontWeight('number', 'bold');
     Silos8.setFontSize('number', 16);
-    // Silos8.setMaterial('FeSiMn');
     Silos8.setMaterialLength(8);
     Silos8.setMaterialAlign('left');
     Silos8.setMaterialPosition(32, 10);
@@ -483,21 +473,21 @@ function updateSilos(number) {
 function addRow(table, material) {
     let tbl = document.getElementById (table); // Получаем таблицу
     let nextId = tbl.rows.length;              // Получаем номер следующей строки таблицы
-    let ro = tbl.insertRow (nextId);         // Вставляем новую строку снизу
+    let ro = tbl.insertRow (nextId);           // Вставляем новую строку снизу
 
     // Номер строки
     let cell1 = ro.insertCell(0);             // Добавляем ячейку в начало строки
-    cell1.innerHTML = nextId;                       // Устанавливаем текст в ячейку
-    cell1.style.textAlign = 'center';               // Устанавливаем выравнивание в ячейке
+    cell1.innerHTML = nextId;                 // Устанавливаем текст в ячейку
+    cell1.style.textAlign = 'center';         // Устанавливаем выравнивание в ячейке
     let cell2 = ro.insertCell(1);             // Добавляем ячейку в конец строки
-    cell2.innerHTML = material.Name;                // Устанавливаем текст в ячейку
-    cell2.style.textAlign = 'left';                 // Устанавливаем выравнивание в ячейке
-    let cell3 = ro.insertCell(2);            // Добавляем ячейку в начало строки
-    cell3.innerHTML = material.PartNo;              // Устанавливаем текст в ячейку
-    cell3.style.textAlign = 'center';               // Устанавливаем выравнивание в ячейке
-    let cell4 = ro.insertCell(3);            // Добавляем ячейку в начало строки
-    cell4.innerHTML = material.Weight;             // Устанавливаем текст в ячейку
-    cell4.style.textAlign = 'left';                // Устанавливаем выравнивание в ячейке
+    cell2.innerHTML = material.Name;          // Устанавливаем текст в ячейку
+    cell2.style.textAlign = 'left';           // Устанавливаем выравнивание в ячейке
+    let cell3 = ro.insertCell(2);             // Добавляем ячейку в начало строки
+    cell3.innerHTML = material.PartNo;        // Устанавливаем текст в ячейку
+    cell3.style.textAlign = 'center';         // Устанавливаем выравнивание в ячейке
+    let cell4 = ro.insertCell(3);             // Добавляем ячейку в начало строки
+    cell4.innerHTML = material.Weight;        // Устанавливаем текст в ячейку
+    cell4.style.textAlign = 'left';           // Устанавливаем выравнивание в ячейке
 }
 
 // Удалить все строки таблицы, кроме заголовка

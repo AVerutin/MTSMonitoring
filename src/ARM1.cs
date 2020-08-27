@@ -26,25 +26,25 @@ namespace MTSMonitoring
         private readonly List<IClientProxy> clients = new List<IClientProxy>();
 
         // Загрузочные бункера 1 и 2
-        private InputTanker tanker1;
-        private string material1;
-        private InputTanker tanker2;
-        private string material2;
+        private InputTanker _tanker1;
+        private string _material1;
+        private InputTanker _tanker2;
+        private string _material2;
 
         // Силоса 8 штук
-        private Silos silos1;
-        private Silos silos2;
-        private Silos silos3;
-        private Silos silos4;
-        private Silos silos5;
-        private Silos silos6;
-        private Silos silos7;
-        private Silos silos8;
+        private Silos _silos1;
+        private Silos _silos2;
+        private Silos _silos3;
+        private Silos _silos4;
+        private Silos _silos5;
+        private Silos _silos6;
+        private Silos _silos7;
+        private Silos _silos8;
 
         // Конвейеры 3 штуки
-        private Conveyor conveyor1;
-        private Conveyor conveyor2;
-        private Conveyor conveyor3;
+        private Conveyor _conveyor1;
+        private Conveyor _conveyor2;
+        private Conveyor _conveyor3;
 
         // Обработка вновь подключившегося клиента
         public override async Task OnConnectedAsync()
@@ -65,7 +65,8 @@ namespace MTSMonitoring
 
             if (message == "getMeData")
             {
-
+                // Метод, вызываемый веб-клиентом
+                
             }
 
             return base.OnConnectedAsync();
@@ -79,36 +80,36 @@ namespace MTSMonitoring
             db = new DBConnection();
             string msgStats = "{\"Statuses\":[";
 
-            tanker1 = new InputTanker(1);   // Загрузочный бункер 1
-            material1 = "";
+            _tanker1 = new InputTanker(1);   // Загрузочный бункер 1
+            _material1 = "";
             msgStats += "{\"id\":\"Input1\",\"status\":\"off\"},";
 
-            tanker2 = new InputTanker(2);   // Загрузочный бункер 2
-            material2 = "";
+            _tanker2 = new InputTanker(2);   // Загрузочный бункер 2
+            _material2 = "";
             msgStats += "{\"id\":\"Input2\",\"status\":\"off\"},";
 
-            silos1 = new Silos(1);  // Силос 1
+            _silos1 = new Silos(1);  // Силос 1
             msgStats += "{\"id\":\"Silos1\",\"status\":\"off\"},";
-            silos2 = new Silos(2);  // Силос 2
+            _silos2 = new Silos(2);  // Силос 2
             msgStats += "{\"id\":\"Silos2\",\"status\":\"off\"},";
-            silos3 = new Silos(3);  // Силос 3
+            _silos3 = new Silos(3);  // Силос 3
             msgStats += "{\"id\":\"Silos3\",\"status\":\"off\"},";
-            silos4 = new Silos(4);  // Силос 4
+            _silos4 = new Silos(4);  // Силос 4
             msgStats += "{\"id\":\"Silos4\",\"status\":\"off\"},";
-            silos5 = new Silos(5);  // Силос 5
+            _silos5 = new Silos(5);  // Силос 5
             msgStats += "{\"id\":\"Silos5\",\"status\":\"off\"},";
-            silos6 = new Silos(6);  // Силос 6
+            _silos6 = new Silos(6);  // Силос 6
             msgStats += "{\"id\":\"Silos6\",\"status\":\"off\"},";
-            silos7 = new Silos(7);  // Силос 7
+            _silos7 = new Silos(7);  // Силос 7
             msgStats += "{\"id\":\"Silos7\",\"status\":\"off\"},";
-            silos8 = new Silos(8);  // Силос 8
+            _silos8 = new Silos(8);  // Силос 8
             msgStats += "{\"id\":\"Silos8\",\"status\":\"off\"},";
 
-            conveyor1 = new Conveyor(1, Conveyor.Types.Horizontal, 5);
+            _conveyor1 = new Conveyor(1, Conveyor.Types.Horizontal, 5);
             msgStats += "{\"id\":\"Conveyor1\",\"status\":\"off\"},";
-            conveyor2 = new Conveyor(2, Conveyor.Types.Vertical, 25);
+            _conveyor2 = new Conveyor(2, Conveyor.Types.Vertical, 25);
             msgStats += "{\"id\":\"Conveyor2\",\"status\":\"off\"},";
-            conveyor3 = new Conveyor(3, Conveyor.Types.Horizontal, 3);
+            _conveyor3 = new Conveyor(3, Conveyor.Types.Horizontal, 3);
             msgStats += "{\"id\":\"Conveyor3\",\"status\":\"off\"}";
 
             msgStats += "]}";
@@ -130,8 +131,8 @@ namespace MTSMonitoring
             mtsReconnect = Int32.Parse(config.GetSection("Mts:ReconnectTimeout").Value);
 
             // Получаем список сигналов из файла ConfigMill.txt
-            ConfigMill cnf_mill = new ConfigMill();
-            List<ushort> signals = cnf_mill.GetSignals();
+            ConfigMill cnfMill = new ConfigMill();
+            List<ushort> signals = cnfMill.GetSignals();
 
             // Создание подключения к службе MTSService
             mts = new MTS("ARM-1", mtsIP, mtsPort, mtsTimeout, mtsReconnect);
@@ -197,8 +198,8 @@ namespace MTSMonitoring
 
             switch (number)
             {
-                case 1: material1 = materials[_material]; break;
-                case 2: material2 = materials[_material]; break;
+                case 1: _material1 = materials[_material]; break;
+                case 2: _material2 = materials[_material]; break;
             }
         }
 
@@ -209,7 +210,7 @@ namespace MTSMonitoring
         private void LoadInput(int number, double value)
         {
             InputTanker tanker;
-            string _material;
+            string material;
             string msgStats;
 
             switch (number)
@@ -217,15 +218,15 @@ namespace MTSMonitoring
                 case 1:
                     {
                         // Бункер 1
-                        tanker = tanker1;
-                        _material = material1;
+                        tanker = _tanker1;
+                        material = _material1;
                         break;
                     }
                 case 2:
                     {
                         // Бункер 2
-                        tanker = tanker2;
-                        _material = material2;
+                        tanker = _tanker2;
+                        material = _material2;
                         break;
                     }
                 default:
@@ -237,7 +238,7 @@ namespace MTSMonitoring
             }
 
             // Получаем материал, выбранный для этого бункера
-            if (_material == "")
+            if (material == "")
             {
                 logger.Error($"Не установлен материал для загрузочного бункера [{number}]");
                 tanker.SetStatus(Status.Error);
@@ -250,31 +251,31 @@ namespace MTSMonitoring
 
             // Если выбранный материал для загрузки в загрузочный бункер и материал, который установлен
             // для этого загрузочного бункера не совпадают, выдать сообщение оператору и установить состояние ошибки
-            if (_material != loadedMaterial)
+            if (material != loadedMaterial)
             {
-                logger.Error($"Нельзя загрузить материал [{_material}] в бункер, для которого установлен материал [{loadedMaterial}]");
+                logger.Error($"Нельзя загрузить материал [{material}] в бункер, для которого установлен материал [{loadedMaterial}]");
                 tanker.SetStatus(Status.Error);
 
                 // Передаем веб-клиенту статус загрузочного бункера
                 msgStats = "{\"Statuses\":[{\"id\":\"" + tanker + "\",\"status\":\"error\"}]}";
                 Clients.All.SendAsync("statuses", msgStats);
 
-                throw new TypeAccessException($"Нельзя загрузить материал [{_material}] в бункер, для которого установлен материал [{loadedMaterial}]");
+                throw new TypeAccessException($"Нельзя загрузить материал [{material}] в бункер, для которого установлен материал [{loadedMaterial}]");
             }
 
             // Передаем веб-клиенту статус загрузочного бункера
             msgStats = "{\"Statuses\":[{\"id\":\"" + tanker + "\",\"status\":\"on\"}]}";
             Clients.All.SendAsync("statuses", msgStats);
 
-            List<Material> material = GetMaterial(_material);
-            if (material.Count == 0)
+            List<Material> materials = GetMaterial(material);
+            if (materials.Count == 0)
             {
-                logger.Error($"Материал [{_material}] не найден в базе данных!");
+                logger.Error($"Материал [{material}] не найден в базе данных!");
 
                 // Передаем веб-клиенту статус загрузочного бункера
                 msgStats = "{\"Statuses\":[{\"id\":\"" + tanker + "\",\"status\":\"error\"}]}";
                 Clients.All.SendAsync("statuses", msgStats);
-                throw new ArgumentNullException($"Материал [{_material}] не найден в базе данных!");
+                throw new ArgumentNullException($"Материал [{material}] не найден в базе данных!");
             }
         }
 
