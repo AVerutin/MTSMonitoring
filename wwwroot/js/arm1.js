@@ -1,3 +1,6 @@
+// Подключение к хабу MTSHub
+// var hubConnection;
+
 let Inputs = [];
 let Siloses = [];
 let Materials = [];
@@ -26,17 +29,37 @@ function createHub() {
         }
     });
 
+    // Обработка статусов, переданных от сервера
+    hubConnection.on("statuses", function (data) {
+        if (data) {
+            let statuses = JSON.parse(data).Statuses;
+            setStatuses(statuses);
+        }
+    });
+
     // Отправка сообщений на сервер
     //message = "getMeData";
     //if (this._timer) clearInterval(this._timer);
     //if (!this._timer) {
     //    this._timer = setInterval(() => {
-    //        hubConnection.invoke("Send", message);
-    //    }, 100);
+    //        hubConnection.invoke("SendARM1", message).catch(err => alert(err));
+    //    }, 1000);
     //}
 
     // Запуск цикла обработки событий
     hubConnection.start();
+}
+
+// Получение сигнала о смене статуса агрегата
+function setStatuses(statuses) {
+    for (let i = 0; i < statuses.length; i++) {
+        let unit = statuses[i].id;
+        let status = statuses[i].status
+        // alert(unit + " получил статус " + status);
+        switch (unit) {
+            
+        }
+    }
 }
 
 // Запуск JS-кода при полной загрузке контента страницы
@@ -63,11 +86,16 @@ function createElements() {
     // Input1.setMaterial('FeSiMn');
     Input1.setMaterialLength(6);
     Input1.setMaterialAlign('center');
-    Input1.setMaterialPosition(15, 10);
+    Input1.setMaterialPosition(12, 10);
     Input1.setColor('material', 'darkred');
     Input1.setFont('material', 'Courier New');
     Input1.setFontWeight('material', 'bold');
     Input1.setFontSize('material', 14);
+    Input1.setColor('weight', 'darkcyan');
+    Input1.setFont('weight', 'sans-serif');
+    Input1.setFontSize('weight', 14);
+    Input1.setFontWeight('weight', 'bold');
+    Input1.setWeightPosition(50, 15);
     Inputs.push(Input1);
 
     let Input2 = new ArmElement('input', 2, 'Загрузочный бункер 1');
@@ -87,13 +115,19 @@ function createElements() {
     // Input2.setMaterial('FeSi');
     Input2.setMaterialLength(6);
     Input2.setMaterialAlign('center');
-    Input2.setMaterialPosition(15, 10);
+    Input2.setMaterialPosition(12, 10);
     Input2.setColor('material', 'darkred');
     Input2.setFont('material', 'Courier New');
     Input2.setFontWeight('material', 'bold');
     Input2.setFontSize('material', 14);
+    Input2.setColor('weight', 'darkcyan');
+    Input2.setFont('weight', 'sans-serif');
+    Input2.setFontSize('weight', 14);
+    Input2.setFontWeight('weight', 'bold');
+    Input2.setWeightPosition(50, 15);
     Inputs.push(Input2);
 
+    // Создание силосов
     let Silos1 = new ArmElement('silos', 1, 'Силос 1');
     Silos1.setImage("img/arm1/SilosLeft.png");
     Silos1.setStatusImage('on', '/img/arm1/led/SmallGreen.png');
@@ -109,13 +143,18 @@ function createElements() {
     Silos1.setFontWeight('number', 'bold');
     Silos1.setFontSize('number', 16);
     // Silos1.setMaterial('FeSiMn');
-    Silos1.setMaterialLength(6);
-    Silos1.setMaterialAlign('center');
-    Silos1.setMaterialPosition(4, 5);
+    Silos1.setMaterialLength(8);
+    Silos1.setMaterialAlign('left');
+    Silos1.setMaterialPosition(32, 10);
     Silos1.setColor('material', 'darkred');
     Silos1.setFont('material', 'Courier New');
     Silos1.setFontWeight('material', 'bold');
-    Silos1.setFontSize('material', 12);
+    Silos1.setFontSize('material', 14);
+    Silos1.setColor('weight', 'darkcyan');
+    Silos1.setFont('weight', 'sans-serif');
+    Silos1.setFontSize('weight', 14);
+    Silos1.setFontWeight('weight', 'bold');
+    Silos1.setWeightPosition(3, 10);
     Siloses.push(Silos1);
 
     let Silos2 = new ArmElement('silos', 2, 'Силос 2');
@@ -133,13 +172,18 @@ function createElements() {
     Silos2.setFontWeight('number', 'bold');
     Silos2.setFontSize('number', 16);
     // Silos2.setMaterial('FeSiMn');
-    Silos2.setMaterialLength(6);
-    Silos2.setMaterialAlign('center');
-    Silos2.setMaterialPosition(4, 5);
+    Silos2.setMaterialLength(8);
+    Silos2.setMaterialAlign('left');
+    Silos2.setMaterialPosition(32, 10);
     Silos2.setColor('material', 'darkred');
     Silos2.setFont('material', 'Courier New');
     Silos2.setFontWeight('material', 'bold');
-    Silos2.setFontSize('material', 12);
+    Silos2.setFontSize('material', 14);
+    Silos2.setColor('weight', 'darkcyan');
+    Silos2.setFont('weight', 'sans-serif');
+    Silos2.setFontSize('weight', 14);
+    Silos2.setFontWeight('weight', 'bold');
+    Silos2.setWeightPosition(3, 10);
     Siloses.push(Silos2);
 
     let Silos3 = new ArmElement('silos', 3, 'Силос 3');
@@ -157,13 +201,18 @@ function createElements() {
     Silos3.setFontWeight('number', 'bold');
     Silos3.setFontSize('number', 16);
     // Silos3.setMaterial('FeSiMn');
-    Silos3.setMaterialLength(6);
-    Silos3.setMaterialAlign('center');
-    Silos3.setMaterialPosition(4, 5);
+    Silos3.setMaterialLength(8);
+    Silos3.setMaterialAlign('left');
+    Silos3.setMaterialPosition(32, 10);
     Silos3.setColor('material', 'darkred');
     Silos3.setFont('material', 'Courier New');
     Silos3.setFontWeight('material', 'bold');
-    Silos3.setFontSize('material', 12);
+    Silos3.setFontSize('material', 14);
+    Silos3.setColor('weight', 'darkcyan');
+    Silos3.setFont('weight', 'sans-serif');
+    Silos3.setFontSize('weight', 14);
+    Silos3.setFontWeight('weight', 'bold');
+    Silos3.setWeightPosition(3, 10);
     Siloses.push(Silos3);
 
     let Silos4 = new ArmElement('silos', 4, 'Силос 4');
@@ -181,13 +230,18 @@ function createElements() {
     Silos4.setFontWeight('number', 'bold');
     Silos4.setFontSize('number', 16);
     // Silos4.setMaterial('FeSiMn');
-    Silos4.setMaterialLength(6);
-    Silos4.setMaterialAlign('center');
-    Silos4.setMaterialPosition(4, 5);
+    Silos4.setMaterialLength(8);
+    Silos4.setMaterialAlign('left');
+    Silos4.setMaterialPosition(32, 10);
     Silos4.setColor('material', 'darkred');
     Silos4.setFont('material', 'Courier New');
     Silos4.setFontWeight('material', 'bold');
-    Silos4.setFontSize('material', 12);
+    Silos4.setFontSize('material', 14);
+    Silos4.setColor('weight', 'darkcyan');
+    Silos4.setFont('weight', 'sans-serif');
+    Silos4.setFontSize('weight', 14);
+    Silos4.setFontWeight('weight', 'bold');
+    Silos4.setWeightPosition(3, 10);
     Siloses.push(Silos4);
 
     let Silos5 = new ArmElement('silos', 5, 'Силос 5');
@@ -205,13 +259,18 @@ function createElements() {
     Silos5.setFontWeight('number', 'bold');
     Silos5.setFontSize('number', 16);
     // Silos5.setMaterial('FeSiMn');
-    Silos5.setMaterialLength(6);
-    Silos5.setMaterialAlign('center');
-    Silos5.setMaterialPosition(4, 5);
+    Silos5.setMaterialLength(8);
+    Silos5.setMaterialAlign('left');
+    Silos5.setMaterialPosition(32, 10);
     Silos5.setColor('material', 'darkred');
     Silos5.setFont('material', 'Courier New');
     Silos5.setFontWeight('material', 'bold');
-    Silos5.setFontSize('material', 12);
+    Silos5.setFontSize('material', 14);
+    Silos5.setColor('weight', 'darkcyan');
+    Silos5.setFont('weight', 'sans-serif');
+    Silos5.setFontSize('weight', 14);
+    Silos5.setFontWeight('weight', 'bold');
+    Silos5.setWeightPosition(3, 10);
     Siloses.push(Silos5);
 
     let Silos6 = new ArmElement('silos', 6, 'Силос 6');
@@ -229,13 +288,18 @@ function createElements() {
     Silos6.setFontWeight('number', 'bold');
     Silos6.setFontSize('number', 16);
     // Silos6.setMaterial('FeSiMn');
-    Silos6.setMaterialLength(6);
-    Silos6.setMaterialAlign('center');
-    Silos6.setMaterialPosition(4, 5);
+    Silos6.setMaterialLength(8);
+    Silos6.setMaterialAlign('left');
+    Silos6.setMaterialPosition(32, 10);
     Silos6.setColor('material', 'darkred');
     Silos6.setFont('material', 'Courier New');
     Silos6.setFontWeight('material', 'bold');
-    Silos6.setFontSize('material', 12);
+    Silos6.setFontSize('material', 14);
+    Silos6.setColor('weight', 'darkcyan');
+    Silos6.setFont('weight', 'sans-serif');
+    Silos6.setFontSize('weight', 14);
+    Silos6.setFontWeight('weight', 'bold');
+    Silos6.setWeightPosition(3, 10);
     Siloses.push(Silos6);
 
     let Silos7 = new ArmElement('silos', 7, 'Силос 7');
@@ -253,13 +317,18 @@ function createElements() {
     Silos7.setFontWeight('number', 'bold');
     Silos7.setFontSize('number', 16);
     // Silos7.setMaterial('FeSiMn');
-    Silos7.setMaterialLength(6);
-    Silos7.setMaterialAlign('center');
-    Silos7.setMaterialPosition(4, 5);
+    Silos7.setMaterialLength(8);
+    Silos7.setMaterialAlign('left');
+    Silos7.setMaterialPosition(32, 10);
     Silos7.setColor('material', 'darkred');
     Silos7.setFont('material', 'Courier New');
     Silos7.setFontWeight('material', 'bold');
-    Silos7.setFontSize('material', 12);
+    Silos7.setFontSize('material', 14);
+    Silos7.setColor('weight', 'darkcyan');
+    Silos7.setFont('weight', 'sans-serif');
+    Silos7.setFontSize('weight', 14);
+    Silos7.setFontWeight('weight', 'bold');
+    Silos7.setWeightPosition(3, 10);
     Siloses.push(Silos7);
 
     let Silos8 = new ArmElement('silos', 8, 'Силос 8');
@@ -277,13 +346,18 @@ function createElements() {
     Silos8.setFontWeight('number', 'bold');
     Silos8.setFontSize('number', 16);
     // Silos8.setMaterial('FeSiMn');
-    Silos8.setMaterialLength(6);
-    Silos8.setMaterialAlign('center');
-    Silos8.setMaterialPosition(4, 5);
+    Silos8.setMaterialLength(8);
+    Silos8.setMaterialAlign('left');
+    Silos8.setMaterialPosition(32, 10);
     Silos8.setColor('material', 'darkred');
     Silos8.setFont('material', 'Courier New');
     Silos8.setFontWeight('material', 'bold');
-    Silos8.setFontSize('material', 12);
+    Silos8.setFontSize('material', 14);
+    Silos8.setColor('weight', 'darkcyan');
+    Silos8.setFont('weight', 'sans-serif');
+    Silos8.setFontSize('weight', 14);
+    Silos8.setFontWeight('weight', 'bold');
+    Silos8.setWeightPosition(3, 10);
     Siloses.push(Silos8);
 
     // Заполнение списка загрузочных бункеров на форме
@@ -297,12 +371,12 @@ function createElements() {
         document.silos.to_silos.options[i] = new Option('Силос ' + Siloses[i].getNumber(), Siloses[i].getId(), false, false);
     }
 }
-
+// Загрузить материал в загрузочный бункер
 function setMaterial() {
     let tanker = document.inputs.tanker.options[document.inputs.tanker.selectedIndex].value;
-    let materialId = document.inputs.material.options[document.inputs.material.selectedIndex].value;
+    // let materialId = document.inputs.material.options[document.inputs.material.selectedIndex].value;
     let material = Materials[document.inputs.material.selectedIndex];
-    let materialName = Materials[materialId-1].Name;
+    // let materialName = Materials[materialId-1].Name;
     for (let i = 0; i < Inputs.length; i++) {
         let tanker_id = Inputs[i].getId();
         if (tanker_id === tanker) {
@@ -311,6 +385,7 @@ function setMaterial() {
     }
 }
 
+// Загрузка материала в силос из загрузочного бункера
 function loadSilos() {
     let fromTanker =  document.silos.from_tanker.options[document.silos.from_tanker.selectedIndex].value;
     let toSilos = document.silos.to_silos.options[document.silos.to_silos.selectedIndex].value;
@@ -325,7 +400,6 @@ function loadSilos() {
             break;
         }
     }
-    input.setStatus('on');
 
     // Находим силос, в который загружать материал
     for (let i=0; i<Siloses.length; i++) {
@@ -334,13 +408,28 @@ function loadSilos() {
             break;
         }
     }
-    silos.setStatus('on');
-    //TODO: Добавить проверку успешного добавления материала в силос, если ошибка, то ставить соотвествующий статус
-    silos.setMaterial(input.getLayer(1));
 
-    updateSilos(toSilos);
+    let materialInput = input.getMaterial();
+    let materialSilos  = silos.getMaterial();
+
+    if (materialInput !== "" && (materialInput === materialSilos || materialSilos === "") ) {
+        input.setStatus('on');
+
+        silos.setStatus('on');
+        //TODO: Добавить проверку успешного добавления материала в силос, если ошибка, то ставить соотвествующий статус
+        silos.setMaterial(input.getLayer(1));
+        // sendToServer('Test message to server!');
+        updateSilos(silos.getNumber());
+    } else {
+        if (materialSilos !== materialInput) {
+            silos.setStatus('error');
+        } else {
+            input.setStatus('error');
+        }
+    }
 }
 
+// Добавить новый материал
 function addMaterial() {
     let materialId = 0;
     let materialName =  document.materials.material_name.value;
@@ -369,18 +458,23 @@ function addMaterial() {
     for (let i = 0; i < Materials.length; i++) {
         document.inputs.material.options[i] = new Option(Materials[i].Name + '_' + Materials[i].PartNo, Materials[i].ID, false, false);
     }
-    
 }
 
 // Обновить таблицы материалов силосов
-function updateSilos(silos) {
-    //FIXME: Прежде чем добавлять новые строки в таблицу требуется сначала очистить
-    for (let i=0; i<Siloses.length; i++) {
-        let silos = Siloses[i];
-        let detail = 'silos' + silos.getNumber();
-        for (let l=1; l<=silos.getLayersCount(); l++) {
-            let layer = silos.getLayer(l);
-            addRow(detail, layer);
+function updateSilos(number) {
+    if (number <= Siloses.length && number > 0) {
+        let table_name = 'silos' + number;
+
+        // Прежде чем добавлять новые строки в таблицу требуется сначала очистить
+        clearTable(table_name);
+
+        // Добавление строк с материалами в таблицу силоса
+        let silos = Siloses[number - 1];
+        let matCnt = silos.getLayersCount();
+        
+        for (let i = 0; i < matCnt; i++) {
+            let layer = silos.getLayer(i + 1);
+            addRow(table_name, layer);
         }
     }
 }
@@ -404,7 +498,15 @@ function addRow(table, material) {
     let cell4 = ro.insertCell(3);            // Добавляем ячейку в начало строки
     cell4.innerHTML = material.Weight;             // Устанавливаем текст в ячейку
     cell4.style.textAlign = 'left';                // Устанавливаем выравнивание в ячейке
+}
 
+// Удалить все строки таблицы, кроме заголовка
+function clearTable(table) {
+    let tbl = document.getElementById(table);
+    let rows = tbl.rows.length;
+    for (let i = 1; i < rows; i++) {
+        tbl.deleteRow(1);
+    }
 }
 
 // Удалить строку из таблицы
@@ -413,4 +515,10 @@ function removeRow(table, rowNumber) {
     if (rowNumber > 0 && rowNumber <= tbl.rows.length) {
         tbl.deleteRow(rowNumber);
     }
+}
+
+// Сброс состояния загрузочного бункера
+function resetInput(number) {
+    let tanker = Inputs[number-1];
+    tanker.reset();
 }

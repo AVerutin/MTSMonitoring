@@ -60,7 +60,7 @@ namespace MTSMonitoring
         {
             if (Connection != null)
             {
-                string query = $"CREATE TABLE IF NOT EXISTS {DBShema}.Material (Id SERIAL PRIMARY KEY, Name varchar(10) NOT NULL, Partno smallint NOT NULL, Weight real NOT NULL, Volume real NOT NULL);";
+                string query = $"CREATE TABLE IF NOT EXISTS {DBShema}.Materials (Id SERIAL PRIMARY KEY, Name varchar(10) NOT NULL, Partno smallint NOT NULL, Weight real NOT NULL, Volume real NOT NULL);";
                 SQLCommand = new NpgsqlCommand(query, Connection);
 
                 try
@@ -115,6 +115,36 @@ namespace MTSMonitoring
         }
 
         /// <summary>
+        /// Добавление наименование материала в справочник
+        /// </summary>
+        /// <param name="name">Наименование материала</param>
+        /// <returns>Номер ID добавленной записи, или -1 в случае ошибки</returns>
+        public int AddMaterialToCollection(string name)
+        {
+            int Result = -1;
+            if (name == "" || Connection == null)
+            {
+                return Result;
+            }
+
+            string sql = $"INSERT INTO {DBShema}.material(name) VALUES (\'{name}\') RETURNING id;";
+            SQLCommand = new NpgsqlCommand(sql, Connection);
+
+            try
+            {
+                Connection.Open();
+                Result = Int32.Parse(SQLCommand.ExecuteScalar().ToString()); //Выполняем нашу команду.
+                Connection.Close();
+            }
+            catch (Exception e)
+            {
+                logger.Error($"Ошибка при добавлении материала [{name}] в базу данных: {e.Message}");
+            }
+
+            return Result;
+        }
+
+        /// <summary>
         /// Добавить новый материал в таблицу БД
         /// </summary>
         /// <param name="material">Экземпляр объекта Material</param>
@@ -134,8 +164,7 @@ namespace MTSMonitoring
                 string v = volume.ToString();
                 v = v.Replace(',', '.');
 
-
-                string query = string.Format("INSERT INTO {0}.Material (name, partno, weight, volume) VALUES ('{1}', {2}, {3}, {4});",
+                string query = string.Format("INSERT INTO {0}.Materials (name, partno, weight, volume) VALUES ('{1}', {2}, {3}, {4});",
                     DBShema, name, partno, w, v);
 
                 SQLCommand = new NpgsqlCommand(query, Connection);
@@ -222,13 +251,13 @@ namespace MTSMonitoring
        /// Получить материал из таблицы БД
        /// </summary>
        /// <returns>Экземпляр класса Material</returns>
-        public List<Material> ReadData()
+        public List<Material> GetMaterials(string material)
         {
             List<Material> Result = new List<Material>();
 
             if (Connection != null)
             {
-                string query = $"SELECT * FROM {DBShema}.Material ORDER BY id ASC;";
+                string query = $"SELECT * FROM {DBShema}.materials WHERE name='{material}' ORDER BY id ASC;";
                 var data = getData(query);
 
 
@@ -245,8 +274,9 @@ namespace MTSMonitoring
                     string name = SQLData.GetString(1);
                     int partno = SQLData.GetInt32(2);
                     double weight = SQLData.GetDouble(3);
+                    double volume = SQLData.GetDouble(4);
 
-                    layer.setMaterial(id, name, partno, weight);
+                    layer.setMaterial(id, name, partno, weight, volume);
                     Result.Add(layer);
                 }
                 Connection.Close();

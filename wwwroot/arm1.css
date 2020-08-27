@@ -28,6 +28,18 @@
     width: 300px;
 }
 
+#reset1 {
+    position: absolute;
+    top: 220px;
+    left: 50px;
+}
+
+#reset2 {
+    position: absolute;
+    top: 220px;
+    left: 200px;
+}
+
 .silos_detail {
     border-collapse: collapse;
     border-color: black;

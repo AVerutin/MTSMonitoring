@@ -10,6 +10,7 @@ class ArmElement { // Техузел
     #_materials;         // Наименование материала в техузле
     #_width;            // Ширина изображения (для масштабирования изображения) в px
     #_size;             // Размер изображения (для масштабирования изображения) в %
+    #_weight;           // Расчетный вес загруженного материала
 
     #_layers = [];      // Слои материала, загруженные в техузел (отличаются номерами партий и весом)
     #_images = {};        // Изображения для отображения статусов техузла (on, off, error)
@@ -28,6 +29,7 @@ class ArmElement { // Техузел
             this.#_width = 0;
             this.#_size = 0;
             this.#_alt = alttext;
+            this.#_weight = 0;
 
             // Заполнение массива изображений для вывода статуса силоса
             let status_img = {};
@@ -67,6 +69,12 @@ class ArmElement { // Техузел
             mat['Align'] = 'center';
             elements['Material'] = mat;
 
+            let weight = {};
+            weight['Div'] = "";
+            weight['Top'] = 0;
+            weight['Left'] = 0;
+            elements['Weight'] = weight;
+
             this.#_elements = elements;
 
             // Позиция силоса на странице
@@ -76,6 +84,23 @@ class ArmElement { // Техузел
             pos['Left'] = 0;
             this.#_position = pos;
         }
+    }
+
+    reset() {
+        this.setStatus('off');
+        this.removeMaterials();
+        this.show();
+    }
+
+    getWeight() {
+        let weight = 0;
+        let cnt = this.getLayersCount();
+        if (cnt > 0) {
+            for (let i = 1; i <= cnt; i++) {
+                weight += Number(this.getLayer(i).Weight);
+            }
+        }
+        this.#_weight = weight;
     }
 
     // Добавление нового слоя материала
@@ -236,7 +261,15 @@ class ArmElement { // Техузел
         if (material.Name !== "" && (material.Name === curr_material || curr_material === "")) {
             this.#_materials.push(material);
             this.showMaterial();
+            this.showWeight();
         }
+    }
+
+    removeMaterials() {
+        this.#_materials = [];
+        this.#_weight = 0;
+        this.showMaterial();
+        this.showWeight();
     }
 
     // Установить длину текстового поля для отображения наименования материала
@@ -311,7 +344,7 @@ class ArmElement { // Техузел
                 }
             }
         }
-
+        this.getWeight();
         stat.innerHTML = text;
         stat.style.position = 'absolute';
         stat.style.top = pos_top + 'px';
@@ -365,6 +398,10 @@ class ArmElement { // Техузел
                 el = this.#_elements.PartNo.Div;
                 break;
             }
+            case 'weight': {
+                el = this.#_elements.Weight.Div;
+            }
+
         }
 
         if (el !== "") {
@@ -389,6 +426,9 @@ class ArmElement { // Техузел
             case 'partno': {
                 el = this.#_elements.PartNo.Div;
                 break;
+            }
+            case 'weight': {
+                el = this.#_elements.Weight.Div;
             }
         }
 
@@ -415,6 +455,9 @@ class ArmElement { // Техузел
                 el = this.#_elements.PartNo.Div;
                 break;
             }
+            case 'weight': {
+                el = this.#_elements.Weight.Div;
+            }
         }
 
         if (el !== "") {
@@ -439,6 +482,9 @@ class ArmElement { // Техузел
             case 'partno': {
                 el = this.#_elements.PartNo.Div;
                 break;
+            }
+            case 'weight': {
+                el = this.#_elements.Weight.Div;
             }
         }
 
@@ -490,7 +536,54 @@ class ArmElement { // Техузел
             stat.style.display = 'none';
         }
     }
-    
+
+    // Отображение текущего веса материала в загрузочном бункере
+    showWeight() {
+        let wght = this.#_elements.Weight.Div;
+        let weight;
+
+        if (wght === "") {
+            wght = this.getId() + "_weight";
+            this.#_elements.Weight.Div = wght;
+            weight = document.createElement('div');
+            document.body.append(weight);
+            weight.id = wght;
+        } else {
+            weight = document.getElementById(wght);
+        }
+
+        // Позиционирование относительно позиции родительского объекта (силоса)
+        let pos_top = this.#_position.Top + this.getElements().Weight.Top;
+        let pos_left = this.#_position.Left + this.getElements().Weight.Left;
+        weight.style.position = 'absolute';
+        weight.style.top = pos_top + 'px';
+        weight.style.left = pos_left + 'px';
+        this.getWeight();
+        weight.innerHTML = this.#_weight;
+
+        if (this.#_showed) {
+            weight.style.display = 'inherit';
+        } else {
+            weight.style.display = 'none';
+        }
+    }
+
+    // Спрятать вес материала
+    hideWeight() {
+        let w = this.#_elements.Weight.Div;
+        if (w !== "") {
+            let stat = document.getElementById(w);
+            stat.style.display = 'none';
+        }
+    }
+
+    // Установить позицию веса материала
+    setWeightPosition(top, left) {
+        this.#_elements.Weight.Top = top;
+        this.#_elements.Weight.Left = left;
+        this.showWeight();
+    }
+
     // Спрятать индикатор статуса силоса
     hideStatus() {
         let el = this.getElements().Status.Div;
@@ -543,6 +636,7 @@ class ArmElement { // Техузел
             this.showStatus();
             this.showNumber();
             this.showPartNo();
+            this.showWeight();
         }
 
         // Устанавливаем масштабирование изображения силоса, если заданы размеры
@@ -574,6 +668,7 @@ class ArmElement { // Техузел
             this.hideStatus();
             this.hideNumber();
             this.hidePartNo();
+            this.hideWeight();
         }
     }
 
@@ -591,6 +686,7 @@ class ArmElement { // Техузел
             this.showNumber();
             this.showStatus();
             this.showPartNo();
+            this.showWeight();
         }
     }
 

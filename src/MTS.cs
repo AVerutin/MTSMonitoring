@@ -18,14 +18,16 @@ namespace MTSMonitoring
 
         private static string _address;
         private static int _port;
+        private string _identity;
 
-        public MTS(string addr, int port, int timeout, int reconnect) 
+        public MTS(string identity, string addr, int port, int timeout, int reconnect) 
         {
             logger = LogManager.GetCurrentClassLogger();
             _address = addr;
             _port = port;
             _reconnectTimeout = reconnect;
             _timeout = timeout;
+            _identity = identity;
         }
 
         public bool Connect ()
@@ -122,7 +124,7 @@ namespace MTSMonitoring
             TryConnect();
 
             var subConfig = new SubscriptionConfig()
-                .Identity("AVP")
+                .Identity(_identity)
                 .Timeout(TimeSpan.FromMilliseconds(_timeout));
             foreach (var id in signalIds)
                 subConfig.AddSignal(id);

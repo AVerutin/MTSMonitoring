@@ -82,6 +82,15 @@ namespace MTSMonitoring
         }
 
         /// <summary>
+        /// Получить наименование материала, установленного для загрузочного бункера
+        /// </summary>
+        /// <returns>Наименование материала. укстановленного для загрузочного бункера</returns>
+        public string GetMaterial()
+        {
+            return Material;
+        }
+
+        /// <summary>
         /// Загрузить материал в загрузочный бункер
         /// </summary>
         /// <param name="material">Загружаемый материал</param>

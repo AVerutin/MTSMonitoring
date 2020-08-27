@@ -1,5 +1,8 @@
-function init() {
-    createHub();
+// Подключение к хабу MTSHub
+// var hubConnection;
+
+async function init() {
+    await createHub();
 
     siloses = [];
     weights = [];
@@ -19,9 +22,9 @@ function init() {
 }
 
 // Создание ресивера для подключения к хабу сервера
-function createHub() {
-        // Подключение к хабу MTSHub
-        const hubConnection = new signalR.HubConnectionBuilder()
+async function createHub() {
+    // Подключение к хабу MTSHub
+    const hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/ARM2")
         .build();
 
@@ -34,17 +37,46 @@ function createHub() {
         }
     });
 
+    hubConnection.on("statuses", function (data) {
+        if (data) {
+            let statuses = JSON.parse(data).Statuses;
+            setStatuses(statuses);
+        }
+    });
+
     // Отправка сообщений на сервер
     //message = "getMeData";
     //if (this._timer) clearInterval(this._timer);
     //if (!this._timer) {
     //    this._timer = setInterval(() => {
-    //        hubConnection.invoke("Send", message);
-    //    }, 100);
+    //        hubConnection.invoke("SendARM2", message).catch(err => alert(err));
+    //    }, 1000);
     //}
 
     // Запуск цикла обработки событий
-    hubConnection.start();
+    await hubConnection.start();
+}
+
+/// <summary>
+/// Отправка данных на сервер в виде JSON-строки
+/// </summary>
+/// <param name="message">Данные для сервера в виде JSON-строки</param>
+//async function sendToServer(message) {
+//    if (hubConnection != null && message !== "") {
+//        await hubConnection.invoke("GetMessage", message);
+//    }
+//}
+
+// Получение сигнала о смене статуса агрегата
+function setStatuses(statuses) {
+    for (let i = 0; i < statuses.length; i++) {
+        let unit = statuses[i].id;
+        let status = statuses[i].status
+        // alert(unit + " получил статус " + status);
+        switch (unit) {
+
+        }
+    }
 }
 
 // Обработка полученных значений сенсоров

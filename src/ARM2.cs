@@ -17,12 +17,12 @@ namespace MTSMonitoring
         private int mtsTimeout;
         private int mtsReconnect;
         private IConfigurationRoot config;
-        private Sensors sensors;
+        // private Sensors sensors;
         private readonly Dictionary<ushort, double> sensorsList = new Dictionary<ushort, double>();
         private readonly List<IClientProxy> clients = new List<IClientProxy>();
         private Logger logger;
 
-        private async void TestModule()
+        private void TestModule()
         {
             /**********************************************************/
             /* Начало тестирование модуля работы со слоями материалов */
@@ -36,7 +36,7 @@ namespace MTSMonitoring
             logger.Info("Подключились к СУБД");
 
             db.InitDB();
-            var data = db.ReadData();
+            var data = db.GetMaterials("FeSiMn");
 
             Material mt = new Material(15, "FeSiMn", 10, 7.9, 8.2);
             bool m = db.AddMaterial(mt);
@@ -80,17 +80,17 @@ namespace MTSMonitoring
             // Получаем список сигналов из файла ConfigMill.txt
             ConfigMill cnf_mill = new ConfigMill();
             List<ushort> signals = cnf_mill.GetSignals();
-            // List<ushort> ids = new List<ushort>();
-            sensors = new Sensors();
+            // sensors = new Sensors();
 
-            //foreach (ushort item in signals)
-            //{
+            // List<ushort> ids = new List<ushort>();
+            // foreach (ushort item in signals)
+            // {
             //    ids.Add(item);
             //    sensors.AddSensor(item);
-            //}
+            // }
 
             // Создание подключения к службе MTSService
-            mts = new MTS(mtsIP, mtsPort, mtsTimeout, mtsReconnect);
+            mts = new MTS("ARM-2", mtsIP, mtsPort, mtsTimeout, mtsReconnect);
 
             // Открытие подписки на сигналы
             await mts.Subscribe(/* ids */ signals, SubOnNewDiff);
@@ -186,7 +186,7 @@ namespace MTSMonitoring
             logger.Info("Подлючился новый клиент {0}", Context.ConnectionId);
 
             //await Clients.All.SendAsync("send", $"{Context.ConnectionId} вошел в чат");
-            TestModule();
+            // TestModule();
             Subscribe();
             await base.OnConnectedAsync();
         }
@@ -198,15 +198,17 @@ namespace MTSMonitoring
         //    await base.OnDisconnectedAsync(exception);
         //}
 
-        // Прием сообщений от клиента
-        //public Task Send(string message)
-        //{
-        //    if (message == "getMeData")
-        //    {
+        // Прием сообщений от веб-клиента
+        public Task SendARM2(string message)
+        {
+            Console.WriteLine(message);
 
-        //    }
+            if (message == "getMeData")
+            {
 
-        //    return base.OnConnectedAsync();
-        //}
+            }
+
+            return base.OnConnectedAsync();
+        }
     }
 }
