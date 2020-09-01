@@ -24,6 +24,6 @@ class Material {
     }
 
     getChemicals() {
-        return this.Chemicals;
+        return this._chemicals;
     }
 }
