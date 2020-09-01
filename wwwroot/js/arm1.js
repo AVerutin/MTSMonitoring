@@ -4,7 +4,8 @@
 let Inputs = [];
 let Siloses = [];
 let Materials = [];
-let Material = {};
+let Layers = [];
+// let Material = {};
 
 function init() {
     // Создание подключения по SignalR
@@ -54,10 +55,7 @@ function createHub() {
 function setStatuses(statuses) {
     for (let i = 0; i < statuses.length; i++) {
         let unit = statuses[i].id;
-        let status = statuses[i].status
-        // alert(unit + " получил статус " + status);
         switch (unit) {
-            
         }
     }
 }
@@ -66,6 +64,11 @@ function setStatuses(statuses) {
 document.addEventListener('DOMContentLoaded', () => {
     init();
 });
+
+// Отслеживание и обработка щелчков мыши по странице
+// document.addEventListener('mousedown',  (e) => {
+//     showChemicals(e);
+// });
 
 function createElements() {
     // Создание загрузочных бункеров
@@ -350,6 +353,61 @@ function createElements() {
     Silos8.setWeightPosition(3, 10);
     Siloses.push(Silos8);
 
+    // FeSi
+    let mat = new Material(1,'FeSi');
+    mat.addElement('Si', 87);
+    mat.addElement('C', 0.1);
+    mat.addElement('S', 0.02);
+    mat.addElement('P', 0.03);
+    mat.addElement('Al', 3.5);
+    mat.addElement('Mn', 0.3);
+    mat.addElement('Cr', 0.2);
+    Materials.push(mat);
+
+    // FeSiMn
+    mat = new Material(2,'FeSiMn');
+    mat.addElement('Si', 15);
+    mat.addElement('Mn', 65);
+    mat.addElement('C', 3.5);
+    mat.addElement('P', 0.1);
+    mat.addElement('S', 0.02);
+    Materials.push(mat);
+
+    // SiC
+    mat = new Material(3,'SiC');
+    mat.addElement('Si', 85);
+    mat.addElement('C', 15);
+    Materials.push(mat);
+
+    // FeB
+    mat = new Material(4,'FeB');
+    mat.addElement('B', 20);
+    mat.addElement('Si', 2.2);
+    mat.addElement('Al', 3.4);
+    mat.addElement('C', 0.03);
+    mat.addElement('S', 0.005);
+    mat.addElement('P', 0.01);
+    mat.addElement('Cu', 0.03);
+    Materials.push(mat);
+
+    // FeCr
+    mat = new Material(5,'FeCr');
+    mat.addElement('Cr', 55);
+    mat.addElement('C', 5);
+    mat.addElement('Si', 1.1);
+    mat.addElement('P', 0.025);
+    mat.addElement('S', 0.027);
+    Materials.push(mat);
+
+    // FeNb
+    mat = new Material(6,'FeNb');
+    mat.addElement('Nb', 60);
+    mat.addElement('Si', 12);
+    mat.addElement('Al', 5);
+    mat.addElement('Ti', 4);
+    mat.addElement('Fe', 19);
+    Materials.push(mat);
+
     // Заполнение списка загрузочных бункеров на форме
     for (let i=0; i<Inputs.length; i++) {
         document.inputs.tanker.options[i] = new Option('Бункер ' + Inputs[i].getNumber(), Inputs[i].getId(), false, false);
@@ -360,17 +418,33 @@ function createElements() {
     for (let i=0; i<Siloses.length; i++) {
         document.silos.to_silos.options[i] = new Option('Силос ' + Siloses[i].getNumber(), Siloses[i].getId(), false, false);
     }
+
+    // Заполнение списка материалов
+    for (let i=0; i<Materials.length; i++) {
+        document.materials.material_name.options[i] = new Option(Materials[i].Name, Materials[i].Name, false, false);
+    }
 }
 // Загрузить материал в загрузочный бункер
 function setMaterial() {
     let tanker = document.inputs.tanker.options[document.inputs.tanker.selectedIndex].value;
-    // let materialId = document.inputs.material.options[document.inputs.material.selectedIndex].value;
-    let material = Materials[document.inputs.material.selectedIndex];
+
+    let materialId = Number(document.inputs.material.options[document.inputs.material.selectedIndex].value);
+    let material = getMaterialByNumber(materialId);
     // let materialName = Materials[materialId-1].Name;
     for (let i = 0; i < Inputs.length; i++) {
         let tanker_id = Inputs[i].getId();
         if (tanker_id === tanker) {
             Inputs[i].setMaterial(material);
+        }
+    }
+}
+
+function getMaterialByNumber(number) {
+    if (number > 0) {
+        for (let i = 0; i < Layers.length; i++) {
+            if (Layers[i].ID === number) {
+                return Layers[i];
+            }
         }
     }
 }
@@ -382,6 +456,7 @@ function loadSilos() {
 
     let input;
     let silos;
+    let silosNumber;
 
     // Находим загрузочный бункер, из которого забирать материал
     for (let i=0; i<Inputs.length; i++) {
@@ -398,18 +473,20 @@ function loadSilos() {
             break;
         }
     }
+    silosNumber = silos.getNumber();
 
     let materialInput = input.getMaterial();
     let materialSilos  = silos.getMaterial();
 
     if (materialInput !== "" && (materialInput === materialSilos || materialSilos === "") ) {
+        setLed(silosNumber, 'on');
         input.setStatus('on');
 
         silos.setStatus('on');
         //TODO: Добавить проверку успешного добавления материала в силос, если ошибка, то ставить соотвествующий статус
         silos.setMaterial(input.getLayer(1));
         // sendToServer('Test message to server!');
-        updateSilos(silos.getNumber());
+        updateSilos(silosNumber);
     } else {
         if (materialSilos !== materialInput) {
             silos.setStatus('error');
@@ -417,36 +494,118 @@ function loadSilos() {
             input.setStatus('error');
         }
     }
+
+    // Удаляем материал из загрузочного бункера
+    setTimeout(finishLoadSilos, 20000, input, silos);
+}
+
+// Завершение загрузки силоса
+function finishLoadSilos (input, silos) {
+    input.reset();
+    silos.setStatus('off');
+    setLed(silos.getNumber(), 'off');
+}
+
+// Установка индикатора загрузки и положения тележки
+function setLed(silos, status) {
+    // Создание и отображение индикатора загрузки
+    let ledId = 'Led' + silos;
+    let led = document.getElementById(ledId);
+    // Подсветка конвейеров в процессе загрузки
+    let c1 = document.getElementById('Conveyor1'); // Первый горизонтальный конвейер
+    let c2 = document.getElementById('Conveyor2'); // Вертикальный конвейер
+    let c3 = document.getElementById('Conveyor3'); // Второй горизонтальный конвейер
+
+    let telega = document.getElementById('Conveyor4');
+
+    // Если статус 'off', то выключаем индикаор
+    if (status === 'off') {
+        led.src = 'img/arm1/led/LedGrey.png';
+        telega.src = 'img/arm1/TelegaGrey.png';
+        c1.src = 'img/arm1/Elevator2Grey.png';
+        c2.src = 'img/arm1/Elevator3Grey.png';
+        c3.src = 'img/arm1/Elevator2Grey.png';
+        return;
+    } else {
+        led.src = 'img/arm1/led/LedGreen.png';
+    }
+
+    let telegaLeft;
+    switch (silos) {
+        case 1: {
+            telegaLeft = '380px';
+            break;
+        }
+        case 2: {
+            telegaLeft = '480px';
+            break;
+        }
+        case 3: {
+            telegaLeft = '580px';
+            break;
+        }
+        case 4: {
+            telegaLeft = '350px';
+            break;
+        }
+        case 5: {
+            telegaLeft = '450px';
+            break;
+        }
+        case 6: {
+            telegaLeft = '550px';
+            break;
+        }
+        case 7: {
+            telegaLeft = '650px';
+            break;
+        }
+        case 8: {
+            telegaLeft = '750px';
+            break;
+        }
+    }
+
+    telega.style.left = telegaLeft;
+
+    telega.src = 'img/arm1/TelegaGreen.png';
+    c1.src = 'img/arm1/Elevator2Green.png';
+    c2.src = 'img/arm1/Elevator3Green.png';
+    c3.src = 'img/arm1/Elevator2Green.png';
 }
 
 // Добавить новый материал
 function addMaterial() {
-    let materialId = 0;
-    let materialName =  document.materials.material_name.value;
-    let materialNumber =  document.materials.material_no.value;
-    let materialWeight =  document.materials.material_weight.value;
+    let material = {};
+    let selected = document.materials.material_name.selectedIndex;
 
-    if (Materials.length === 0) {
-        materialId = 1
+    // Генерируем УИД для слоя материала
+    let id;
+    if (Layers.length === 0) {
+        id = 1;
     } else {
-        for (let i=0; i<Materials.length; i++) {
-            if (Materials[i].ID > materialId) {
-                materialId = Materials[i].ID;
-            }
-        }
-        materialId++;
+        id = Layers.length + 1;
     }
+    // Создаем копию материала
+    material['ID'] = id;
+    material['Number'] = Materials[selected].Number;
+    material['Name'] = Materials[selected].Name;
+    // material['PartNo'] = Materials[selected].PartNo;
+    // material['Weight'] = Materials[selected].Weight;
+    // material['Volume'] = Materials[selected].Volume;
+    material['Chemicals'] = Materials[selected].Chemicals;
 
-    Material = {};
-    Material['ID'] = materialId;
-    Material['Name'] = materialName;
-    Material['PartNo'] = materialNumber;
-    Material['Weight'] = materialWeight;
-    Materials.push(Material);
+    material.PartNo = Number(document.materials.material_no.value);
+    material.Weight = Number(document.materials.material_weight.value);
+    material.Volume = Number(document.materials.material_volume.value);
+    Layers.push(material);
 
     // Добавляем новый материал в список материалов
-    for (let i = 0; i < Materials.length; i++) {
-        document.inputs.material.options[i] = new Option(Materials[i].Name + '_' + Materials[i].PartNo, Materials[i].ID, false, false);
+    let pos = 0;
+    for (let i = 0; i < Layers.length; i++) {
+        if (Layers[i].PartNo !== 0) {
+            document.inputs.material.options[pos++] = new Option(Layers[i].Name + '_' + Layers[i].PartNo, Layers[i].ID, false, false);
+        }
     }
 }
 
@@ -476,16 +635,16 @@ function addRow(table, material) {
     let ro = tbl.insertRow (nextId);           // Вставляем новую строку снизу
 
     // Номер строки
-    let cell1 = ro.insertCell(0);             // Добавляем ячейку в начало строки
+    let cell1 = ro.insertCell(0);       // Добавляем ячейку в начало строки
     cell1.innerHTML = nextId;                 // Устанавливаем текст в ячейку
     cell1.style.textAlign = 'center';         // Устанавливаем выравнивание в ячейке
-    let cell2 = ro.insertCell(1);             // Добавляем ячейку в конец строки
+    let cell2 = ro.insertCell(1);       // Добавляем ячейку в конец строки
     cell2.innerHTML = material.Name;          // Устанавливаем текст в ячейку
     cell2.style.textAlign = 'left';           // Устанавливаем выравнивание в ячейке
-    let cell3 = ro.insertCell(2);             // Добавляем ячейку в начало строки
+    let cell3 = ro.insertCell(2);       // Добавляем ячейку в начало строки
     cell3.innerHTML = material.PartNo;        // Устанавливаем текст в ячейку
     cell3.style.textAlign = 'center';         // Устанавливаем выравнивание в ячейке
-    let cell4 = ro.insertCell(3);             // Добавляем ячейку в начало строки
+    let cell4 = ro.insertCell(3);       // Добавляем ячейку в начало строки
     cell4.innerHTML = material.Weight;        // Устанавливаем текст в ячейку
     cell4.style.textAlign = 'left';           // Устанавливаем выравнивание в ячейке
 }
@@ -511,4 +670,38 @@ function removeRow(table, rowNumber) {
 function resetInput(number) {
     let tanker = Inputs[number-1];
     tanker.reset();
+}
+
+// Вывод химического состава во всплывающем окне при щелчке на элементе
+function showChemicals(e, sender) {
+    alert(sender);
+}
+
+function show_kha() {
+    let selected = document.materials.material_name.selectedIndex;
+    let material = Materials[selected].Name;
+
+    let table = document.getElementById('mat_kha');
+    let caption = document.getElementById('mat_name');
+    caption.innerHTML = material;
+    table.style.display = 'inherit';
+
+    // Удалим имеющиеся строки
+    let rowCnt = table.rows.length;
+    for (let i = 1; i < rowCnt; i++) {
+        table.deleteRow(1);
+    }
+
+    // Заполняем таблицу значениями элементов КХА
+    let nextId = 1;
+    let kha = Materials[selected].getChemicals();
+    for (let i=0; i<kha.length; i++) {
+        let row = table.insertRow (nextId++);
+        let cell1 = row.insertCell(0);    // Добавляем ячейку в начало строки
+        cell1.innerHTML = kha[i].Element;       // Устанавливаем текст в ячейку
+        cell1.style.textAlign = 'left';         // Устанавливаем выравнивание в ячейке
+        let cell2 = row.insertCell(1);    // Добавляем ячейку в конец строки
+        cell2.innerHTML = kha[i].Volume;        // Устанавливаем текст в ячейку
+        cell2.style.textAlign = 'center';       // Устанавливаем выравнивание в ячейке
+    }
 }

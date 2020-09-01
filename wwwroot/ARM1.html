@@ -9,12 +9,28 @@
     <script src="js/objects/Silos.js"></script>
     <script src="js/objects/Weight.js"></script>
     <script src="js/objects/ArmElement.js"></script>
+    <script src="js/objects/Material.js"></script>
 </head>
 <body>
-    <img id="Conveyor1" src="img/arm1/Elevator2Grey.png" style="position: absolute; top: 504px;" alt="Горизонтальный конвейер 1" />
-    <img id="Conveyor2" src="img/arm1/Elevator3Grey.png" style="position: absolute; top: 0; left: 310px;" alt="Вертикальный конвейер 1" />
-    <img id="Conveyor3" src="img/arm1/Elevator2Grey.png" style="position: absolute; top: 0; left: 332px;" alt="Горизонтальный конвейер 2" />
-    <img id="Conveyor4" src="img/arm1/TelegaGrey.png" style="position: absolute; top: 60px; left: 450px;" alt="Конвейер на телеге" />
+
+<!--<dialog>-->
+<!--    <p>Это окно, которое сделано на html5 и javascript</p>-->
+<!--    <button id="close">Закрыть</button>-->
+<!--</dialog>-->
+<!--<button id="show">Открыть всплывающее окно!</button>-->
+
+    <img id="Conveyor1" src="img/arm1/Elevator2Grey.png" alt="Горизонтальный конвейер 1" />
+    <img id="Conveyor2" src="img/arm1/Elevator3Grey.png" alt="Вертикальный конвейер 1" />
+    <img id="Conveyor3" src="img/arm1/Elevator2Grey.png" alt="Горизонтальный конвейер 2" />
+    <img id="Conveyor4" src="img/arm1/TelegaGrey.png" alt="Конвейер на телеге" />
+    <img id="Led1" src="img/arm1/led/LedGrey.png">
+    <img id="Led2" src="img/arm1/led/LedGrey.png">
+    <img id="Led3" src="img/arm1/led/LedGrey.png">
+    <img id="Led4" src="img/arm1/led/LedGrey.png">
+    <img id="Led5" src="img/arm1/led/LedGrey.png">
+    <img id="Led6" src="img/arm1/led/LedGrey.png">
+    <img id="Led7" src="img/arm1/led/LedGrey.png">
+    <img id="Led8" src="img/arm1/led/LedGrey.png">
 
     <form id="input_tankers" name="inputs">
         <table class="forms">
@@ -57,7 +73,10 @@
         <table class="forms">
             <tr>
                 <td>Наименование:</td>
-                <td><input type="text" name="material_name" /></td>
+                <td>
+                    <select name="material_name"></select>
+                    <input type="button" name="showKHA" value="Показать КХА" onclick="show_kha()">
+                </td>
             </tr>
             <tr>
                 <td>Номер партии:</td>
@@ -65,7 +84,11 @@
             </tr>
             <tr>
                 <td>Вес:</td>
-                <td><input type="number" name="material_weight"></td>
+                <td><input type="number" name="material_weight" /></td>
+            </tr>
+            <tr>
+                <td>Объем:</td>
+                <td><input type="text" name="material_volume" /></td>
             </tr>
             <tr>
                 <td colspan="3" style="text-align: center">
@@ -147,8 +170,25 @@
             <th>Вес</th>
         </tr>
     </table>
+
+    <table class="kha" id="mat_kha">
+        <caption id="mat_name">MatName</caption>
+        <tr>
+            <th>Элемент</th>
+            <th>Содержание</th>
+        </tr>
+    </table>
     <div id="reset1"><input type="button" value="Сброс" onclick="resetInput(1);" /></div>
     <div id="reset2"><input type="button" value="Сброс" onclick="resetInput(2);" /></div>
 </body>
 </html>
 
+<script type = text/javascript>
+    // let dialog = document.querySelector('dialog');
+    // document.querySelector('#show').onclick = function() {
+    //     dialog.show();
+    // };
+    // document.querySelector('#close').onclick = function() {
+    //     dialog.close();
+    // };
+</script>

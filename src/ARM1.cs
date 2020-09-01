@@ -154,20 +154,20 @@ namespace MTSMonitoring
                 // Value - полученное значение сигнала
                 switch (Key)
                 {
-                    case 4038: LoadInput(1, Value); break;
-                    case 4039: LoadInput(2, Value); break;
-                    case 4040: UnloadInput(1, Value); break;
-                    case 4041: UnloadInput(2, Value); break;
-                    case 4014: LoadSilos(1, Value); break;
-                    case 4015: LoadSilos(2, Value); break;
-                    case 4016: LoadSilos(3, Value); break;
-                    case 4017: LoadSilos(4, Value); break;
-                    case 4018: LoadSilos(5, Value); break;
-                    case 4019: LoadSilos(6, Value); break;
-                    case 4020: LoadSilos(7, Value); break;
-                    case 4021: LoadSilos(8, Value); break;
-                    case 4042: SetMaterial(1, Value); break;
-                    case 4043: SetMaterial(2, Value); break;
+                    case 4038: LoadInput(1, Value); break;        // Сигнал на загрузку первого загрузочного бункер
+                    case 4039: LoadInput(2, Value); break;        // Сигнал на загрузку второго загрузочного бункер
+                    case 4040: UnloadInput(1, Value); break;      // Сигнал на разгрузку первого загрузочного бункер
+                    case 4041: UnloadInput(2, Value); break;      // Сигнал на разгрузку второго загрузочного бункер
+                    case 4014: LoadSilos(1, Value); break;        // Сигнал на загрузку первого силоса
+                    case 4015: LoadSilos(2, Value); break;        // Сигнал на загрузку второго силоса
+                    case 4016: LoadSilos(3, Value); break;        // Сигнал на загрузку третьего силоса
+                    case 4017: LoadSilos(4, Value); break;        // Сигнал на загрузку четвертого силоса
+                    case 4018: LoadSilos(5, Value); break;        // Сигнал на загрузку пятого силоса
+                    case 4019: LoadSilos(6, Value); break;        // Сигнал на загрузку шестого силоса
+                    case 4020: LoadSilos(7, Value); break;        // Сигнал на загрузку седьмого силоса
+                    case 4021: LoadSilos(8, Value); break;        // Сигнал на загрузку восьмого силоса
+                    case 4042: SetMaterial(1, Value); break;      // Сигнал на выбор материала для первого загрузочного бункера
+                    case 4043: SetMaterial(2, Value); break;      // Сигнал на выбор материала для второго загрузочного бункера
                 }
             }
         }
@@ -299,7 +299,6 @@ namespace MTSMonitoring
                     }
             }
         }
-
 
         private void LoadSilos(int number, double value)
         {

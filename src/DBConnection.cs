@@ -60,7 +60,7 @@ namespace MTSMonitoring
         {
             if (Connection != null)
             {
-                string query = $"CREATE TABLE IF NOT EXISTS {DBShema}.Materials (Id SERIAL PRIMARY KEY, Name varchar(10) NOT NULL, Partno smallint NOT NULL, Weight real NOT NULL, Volume real NOT NULL);";
+                string query = $"CREATE TABLE IF NOT EXISTS {DBShema}._materials (Id SERIAL PRIMARY KEY, Name varchar(10) NOT NULL, Partno smallint NOT NULL, Weight real NOT NULL, Volume real NOT NULL);";
                 SQLCommand = new NpgsqlCommand(query, Connection);
 
                 try
@@ -127,7 +127,7 @@ namespace MTSMonitoring
                 return Result;
             }
 
-            string sql = $"INSERT INTO {DBShema}.material(name) VALUES (\'{name}\') RETURNING id;";
+            string sql = $"INSERT INTO {DBShema}._material(name) VALUES (\'{name}\') RETURNING id;";
             SQLCommand = new NpgsqlCommand(sql, Connection);
 
             try
@@ -164,7 +164,7 @@ namespace MTSMonitoring
                 string v = volume.ToString();
                 v = v.Replace(',', '.');
 
-                string query = string.Format("INSERT INTO {0}.Materials (name, partno, weight, volume) VALUES ('{1}', {2}, {3}, {4});",
+                string query = string.Format("INSERT INTO {0}._materials (name, partno, weight, volume) VALUES ('{1}', {2}, {3}, {4});",
                     DBShema, name, partno, w, v);
 
                 SQLCommand = new NpgsqlCommand(query, Connection);
@@ -227,7 +227,7 @@ namespace MTSMonitoring
                 };
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(command);
                 DataSet ds = new DataSet();
-                da.Fill(ds, $"{DBShema}.Material");
+                da.Fill(ds, $"{DBShema}._materials");
 
                 // Перебор таблиц из результирующего набора
                 foreach (DataTable table in ds.Tables)
@@ -257,7 +257,7 @@ namespace MTSMonitoring
 
             if (Connection != null)
             {
-                string query = $"SELECT * FROM {DBShema}.materials WHERE name='{material}' ORDER BY id ASC;";
+                string query = $"SELECT * FROM {DBShema}._materials WHERE name='{material}' ORDER BY id ASC;";
                 var data = getData(query);
 
 

@@ -1,4 +1,5 @@
-class ArmElement { // Техузел
+// Техузел
+class ArmElement {
 
     // Свойства класса
     #_id;               // Уникальный идентификатор экземпяла класса (для элемента img)
@@ -12,7 +13,7 @@ class ArmElement { // Техузел
     #_size;             // Размер изображения (для масштабирования изображения) в %
     #_weight;           // Расчетный вес загруженного материала
 
-    #_layers = [];      // Слои материала, загруженные в техузел (отличаются номерами партий и весом)
+    // #_layers = [];      // Слои материала, загруженные в техузел (отличаются номерами партий и весом)
     #_images = {};        // Изображения для отображения статусов техузла (on, off, error)
     #_elements = {};    // Список элементов отображения (значок статуса, номер техузла, материал, номера партий)
     #_position = {};    // Координаты изображения техузла на странице
@@ -97,21 +98,22 @@ class ArmElement { // Техузел
         let cnt = this.getLayersCount();
         if (cnt > 0) {
             for (let i = 1; i <= cnt; i++) {
-                weight += Number(this.getLayer(i).Weight);
+                let layer = this.getLayer(i);
+                weight += Number(layer.Weight);
             }
         }
         this.#_weight = weight;
     }
 
     // Добавление нового слоя материала
-    addLayer(layer) {
-        let _layer = {};
-        _layer['Material'] = this.#_materials;
-        _layer['PartNo'] = layer.PartNo;
-        _layer['Weight'] = layer.Weight;
-
-        this.#_layers.push(_layer);
-    }
+    // addLayer(layer) {
+    //     let _layer = {};
+    //     _layer['Material'] = this.#_materials;
+    //     _layer['PartNo'] = layer.PartNo;
+    //     _layer['Weight'] = layer.Weight;
+    //
+    //     this.#_layers.push(_layer);
+    // }
 
     // Получить количество слоев материала в силосе
     getLayersCount() {
@@ -120,9 +122,11 @@ class ArmElement { // Техузел
 
     // Получить слой по его номеру
     getLayer(number) {
+        let layer = 0;
         if (number <= this.getLayersCount() && number >= 0) {
-            return this.#_materials[number-1];
+            layer = this.#_materials[number - 1];
         }
+        return layer;
     }
 
     // Получить изображение силоса
@@ -178,20 +182,20 @@ class ArmElement { // Техузел
         return this.#_materials[layer-1].PartNo;
     }
 
-    // Отобразить номер партии материала
-    showPartNo() {
-
-    }
-
-    // Спрятать номер партии материала
-    hidePartNo() {
-
-    }
-
-    // Установить позицию индикатора номера партии материала
-    setPartNoPosition(top, left) {
-
-    }
+    // // Отобразить номер партии материала
+    // showPartNo() {
+    //
+    // }
+    //
+    // // Спрятать номер партии материала
+    // hidePartNo() {
+    //
+    // }
+    //
+    // // Установить позицию индикатора номера партии материала
+    // setPartNoPosition(top, left) {
+    //
+    // }
 
 
     // Получить позицию силоса на странице (координаты Top и Left)
@@ -290,7 +294,7 @@ class ArmElement { // Техузел
 
     // Получить материал в силосе
     getMaterial() {
-        let material = "";
+        let material;
         if (this.getLayersCount() > 0) {
             material = this.#_materials[0].Name;
         } else {
@@ -635,7 +639,7 @@ class ArmElement { // Техузел
             this.showMaterial();
             this.showStatus();
             this.showNumber();
-            this.showPartNo();
+            // this.showPartNo();
             this.showWeight();
         }
 
@@ -656,6 +660,11 @@ class ArmElement { // Техузел
 
         // Опускаем изображение силоса на нижний z-уровень, чтобы не закрывал остальные элементы
         silos.style.zIndex = '-1';
+        let sender = this.#_name + '_' + this.getNumber();
+        silos.onmousedown = function (e) {
+            showChemicals(e, sender);
+        }
+
     }
 
     // Спрятать силос на странице
@@ -667,7 +676,7 @@ class ArmElement { // Техузел
             this.hideMaterial();
             this.hideStatus();
             this.hideNumber();
-            this.hidePartNo();
+            // this.hidePartNo();
             this.hideWeight();
         }
     }
@@ -685,7 +694,7 @@ class ArmElement { // Техузел
             this.showMaterial();
             this.showNumber();
             this.showStatus();
-            this.showPartNo();
+            // this.showPartNo();
             this.showWeight();
         }
     }

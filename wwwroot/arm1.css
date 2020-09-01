@@ -9,14 +9,14 @@
 
 #input_tankers {
     position: absolute;
-    top: 665px;
+    top: 680px;
     left: 10px;
     width: 300px;
 }
 
 #load_silos {
     position: absolute;
-    top: 750px;
+    top: 760px;
     left: 10px;
     width: 200px;
 }
@@ -50,7 +50,7 @@
     font-size: 12px;
 }
 
-caption {
+.silos_detail caption {
     caption-side: top;
     font-size: 14px;
     font-weight: bold;
@@ -107,4 +107,113 @@ th, td {
     top: 550px;
     left: 1435px;
     width: 150px;
+}
+
+#Conveyor1 {
+    position: absolute;
+    top: 504px;
+}
+
+#Conveyor2 {
+    position: absolute;
+    top: 0;
+    left: 310px;
+}
+
+#Conveyor3 {
+    position: absolute;
+    top: 0;
+    left: 332px;
+}
+
+#Conveyor4 {
+    position: absolute;
+    top: 60px;
+    left: 450px;
+}
+
+#Led1 {
+    position: absolute;
+    top: 120px;
+    left: 385px;
+}
+
+#Led2 {
+    position: absolute;
+    top: 120px;
+    left: 485px;
+}
+
+#Led3 {
+    position: absolute;
+    top: 120px;
+    left: 585px;
+}
+
+#Led4 {
+    position: absolute;
+    top: 120px;
+    left: 685px;
+}
+
+#Led5 {
+    position: absolute;
+    top: 120px;
+    left: 785px;
+}
+
+#Led6 {
+    position: absolute;
+    top: 120px;
+    left: 885px;
+}
+
+#Led7 {
+    position: absolute;
+    top: 120px;
+    left: 985px;
+}
+
+#Led8 {
+    position: absolute;
+    top: 120px;
+    left: 1085px;
+}
+
+dialog{
+    position: absolute;
+    top: 200px;
+    left: 100px;
+    border-radius: 20px;
+    background: yellow;
+    z-index: 100;
+}
+
+.kha {
+    border-collapse: collapse;
+    position: absolute;
+    left: 1300px;
+    top: 100px;
+    font-family: "Times New Roman", serif;
+    font-size: 14px;
+    display: none;
+}
+
+.kha tbody {
+    width: 220px;
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.kha th {
+    border-width: 2px;
+}
+
+.kha caption {
+    font-family: Arial, sans-serif;
+    caption-side: top;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 6px;
 }
